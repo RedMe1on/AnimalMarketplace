@@ -5,7 +5,7 @@ from .models import Categories, Owner, Product
 
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'categories_title', 'pub_date')
+    list_display = ('id', 'categories_title', 'pub_date', 'parent')
     ordering = ('id',)
 
 @admin.register(Owner)
