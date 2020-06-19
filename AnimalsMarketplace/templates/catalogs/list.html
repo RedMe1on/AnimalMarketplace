@@ -3,9 +3,9 @@
 {% block title %} WOWOWOWO {% endblock %}
 
 {% block content %}
-    {% if list_last_categories %}
-        {% for category in list_last_categories %}
-            <a href="{% url 'catalogs:detail' category.id %}">{{category.categories_title}}</a>
+    {% if list_categories %}
+        {% for category in list_categories %}
+            <a href="{% url 'catalogs:PostDetail' category.id %}">{{category.categories_title}}</a>
         {% endfor %}
     {% else %}
         Статьи не найдены =(

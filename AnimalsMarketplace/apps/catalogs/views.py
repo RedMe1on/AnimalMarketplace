@@ -1,17 +1,21 @@
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import View
+
 from .models import Owner, Categories, Product
+from .utils import ObjectDetailMixin, ObjectListMixin
 
 
-def index(request):
-    list_last_categories = Categories.objects.order_by('-pub_date')
-    return render(request, 'catalogs/list.html', {'list_last_categories': list_last_categories})
+# def index(request):
+#     list_last_categories = Categories.objects.order_by('-pub_date')
+#     return render(request, 'catalogs/list.html', {'list_last_categories': list_last_categories})
 
 
-def detail(request, categories_id: int):
-    try:
-        categories = Categories.objects.get(id=categories_id)
-    except Exception:
-        raise Http404('Нет статьи, вали отседова!')
+class ListCategories(ObjectListMixin, View):
+    model = Categories
+    template = 'catalogs/list.html'
 
-    return render(request, 'catalogs/detail.html', {'categories': categories})
+
+class PostDetail(ObjectDetailMixin, View):
+    model = Categories
+    template = 'catalogs/detail.html'
