@@ -1,20 +1,29 @@
 from django.db import models
-from datetime import datetime
+from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Categories(MPTTModel):
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True)
-    h1 = models.CharField(verbose_name='Заголовок h1', max_length=300)
+    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True)
+    h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=400)
-    text = models.TextField(verbose_name='Описание')
+    text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE,
                             verbose_name='Родительская категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.title
+
+    def save(self):
+        if self.slug == '':
+            self.slug = slugify(self.h1)
+        else:
+            self.slug = slugify(self.slug)
+        super().save()
 
     class Meta:
         verbose_name = 'Категория'
@@ -25,9 +34,11 @@ class Categories(MPTTModel):
 
 
 class Owner(models.Model):
-    name = models.CharField('Владелец', max_length=50)
-    email = models.CharField('Почта', max_length=200)
-    pub_date = models.DateTimeField('Дата создания', auto_now_add=True)
+    name = models.CharField(verbose_name='Владелец', max_length=50)
+    email = models.EmailField(verbose_name='Почта', blank=True)
+    phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)
+    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.name
@@ -39,11 +50,12 @@ class Owner(models.Model):
 
 class Product(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300)
+    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True)
-    h1 = models.CharField('Заголовок h1', max_length=200)
-    text = models.TextField('Описание')
-    pub_date = models.DateTimeField('Дата создания', auto_now_add=True)
+    h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
+    text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
+    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.h1

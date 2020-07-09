@@ -16,6 +16,6 @@ class ListCategories(ObjectListMixin, View):
     template = 'catalogs/list.html'
 
 
-class PostDetail(ObjectDetailMixin, View):
+class CategoriesDetail(ObjectDetailMixin, View):
     model = Categories
     template = 'catalogs/detail.html'
