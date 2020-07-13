@@ -1,5 +1,7 @@
 from django import forms
 from .models import Product
+from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 
 
 class ProductForm(forms.Form):
@@ -8,6 +10,13 @@ class ProductForm(forms.Form):
     h1 = forms.CharField(max_length=50)
     description = forms.CharField(max_length=300)
     text = forms.CharField(max_length=10000)
+
+    def clean_slug(self):
+        new_slug = slugify(self.cleaned_data['slug'])
+
+        if new_slug == 'categories/create/':
+            raise ValidationError('Slug may not be create')
+        return new_slug
 
     def save(self):
         new_product = Product.objects.create(title=self.cleaned_data['title'],

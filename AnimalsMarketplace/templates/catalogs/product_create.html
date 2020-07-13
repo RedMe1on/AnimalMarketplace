@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Product Create - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'catalogs:ProductCreate' %}" method="post">
+    {% csrf_token %}
+    {{form.title}}
+    {{form.slug}}
+    {{form.h1}}
+    {{form.description}}
+    {{form.text}}
+    <button type="submit" class="btn btn-primary">Create Product</button>
+</form>
+
+
+{% endblock %}
