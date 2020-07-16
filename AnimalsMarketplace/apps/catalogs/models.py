@@ -1,12 +1,16 @@
+import re
 from django.db import models
-from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 from phonenumber_field.modelfields import PhoneNumberField
+from django.shortcuts import reverse
+from pytils.translit import slugify
+from django.core.exceptions import ValidationError
 
 
 class Categories(MPTTModel):
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True)
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True,
+                            error_messages={'validators': 'Только английские символы'})
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=400)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
@@ -59,6 +63,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.h1
+
+    def get_absolute_url(self):
+        return reverse('catalogs:ProductDetail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Карточка питомца'

@@ -7,11 +7,18 @@
 {% block content %}
 <form action="{% url 'catalogs:ProductCreate' %}" method="post">
     {% csrf_token %}
-    {{form.title}}
-    {{form.slug}}
-    {{form.h1}}
-    {{form.description}}
-    {{form.text}}
+
+    {% for field in form %}
+    <div>
+        {% if field.errors %}
+        <div>
+           {{ field.errors }}
+        </div>
+        {% endif %}
+      {{  field.label }}
+        {{ field }}
+    </div>
+    {% endfor %}
     <button type="submit" class="btn btn-primary">Create Product</button>
 </form>
 
