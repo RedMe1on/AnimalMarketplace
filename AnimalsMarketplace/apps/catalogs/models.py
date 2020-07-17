@@ -9,8 +9,7 @@ from django.core.exceptions import ValidationError
 
 class Categories(MPTTModel):
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True,
-                            error_messages={'validators': 'Только английские символы'})
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=400)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
@@ -23,7 +22,7 @@ class Categories(MPTTModel):
         return self.title
 
     def save(self):
-        if self.slug == '':
+        if self.slug is None:
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
@@ -55,7 +54,7 @@ class Owner(models.Model):
 class Product(models.Model):
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True)
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -66,6 +65,13 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('catalogs:ProductDetail', kwargs={'slug': self.slug})
+
+    def save(self):
+        if self.slug is None:
+            self.slug = slugify(self.h1)
+        else:
+            self.slug = slugify(self.slug)
+        super().save()
 
     class Meta:
         verbose_name = 'Карточка питомца'

@@ -36,7 +36,8 @@ class ProductCreate(View):
     def post(self, request):
         bound_form = ProductForm(request.POST)
         if bound_form.is_valid():
-            bound_form.cleaned_data.update({'owner': Owner.objects.get(id=1)})
+            new_product = bound_form.save(commit=False)
+            new_product.owner = Owner.objects.get(id=1)
             new_product = bound_form.save()
             return redirect(new_product)
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})
