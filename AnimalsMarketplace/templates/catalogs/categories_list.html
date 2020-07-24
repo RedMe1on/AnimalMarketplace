@@ -5,7 +5,7 @@
 {% block content %}
     {% if list_categories %}
         {% for category in list_categories %}
-            <a href="{% url 'catalogs:CategoriesDetail' category.slug %}">{{category.title}}</a>
+            <a href="{% url 'catalogs:categories_detail' category.slug %}">{{category.title}}</a>
         {% endfor %}
     {% else %}
         Статьи не найдены =(

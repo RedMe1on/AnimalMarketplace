@@ -4,7 +4,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from phonenumber_field.modelfields import PhoneNumberField
 from django.shortcuts import reverse
 from pytils.translit import slugify
-from django.core.exceptions import ValidationError
 
 
 class Categories(MPTTModel):
@@ -21,12 +20,12 @@ class Categories(MPTTModel):
     def __str__(self):
         return self.title
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.slug is None:
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
-        super().save()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Категория'
@@ -64,14 +63,14 @@ class Product(models.Model):
         return self.h1
 
     def get_absolute_url(self):
-        return reverse('catalogs:ProductDetail', kwargs={'slug': self.slug})
+        return reverse('catalogs:product_detail', kwargs={'slug': self.slug})
 
-    def save(self):
-        if self.slug is None:
+    def save(self, *args, **kwargs):
+        if self.slug is None or self.slug == '':
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
-        super().save()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Карточка питомца'

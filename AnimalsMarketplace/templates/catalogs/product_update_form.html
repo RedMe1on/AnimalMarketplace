@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Product Create - {{ block.super }}
+    Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'catalogs:product_create' %}" method="post">
+<form action="{% url 'catalogs:product_update' slug=product.slug %}" method="post">
     {% csrf_token %}
 
     {% for field in form %}
@@ -20,7 +20,7 @@
 
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Create Product</button>
+    <button type="submit" class="btn btn-primary">Update Product</button>
 </form>
 
 

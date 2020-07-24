@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} WOWOWOWO {% endblock %}
+
+{% block content %}
+    {% if list_product %}
+        {% for product in list_product %}
+            <a href="{% url 'catalogs:product_detail' slug=product.slug %}">{{product.title}}</a>
+        {% endfor %}
+    {% else %}
+        Статьи не найдены =(
+    {% endif %}
+{% endblock %}

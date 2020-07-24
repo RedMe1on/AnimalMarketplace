@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+        Delete Product "{{ product.title|title }} - {{ block.super }}"
+{% endblock %}
+
+
+{% block content %}
+<form action="{% url 'catalogs:product_delete' slug=product.slug%}" method="post">
+    {% csrf_token %}
+
+    <h1>Точно удалить этот товар - <b>{{product.title|title}}</b>?</h1>
+
+    <a href="{% url 'catalogs:product_detail' slug=product.slug %}">Назад</a>
+    <button type="submit" class="btn btn-danger">Удалить</button>
+
+</form>
+{% endblock %}
