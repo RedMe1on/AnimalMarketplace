@@ -3,8 +3,8 @@
 {% block title %} WOWOWOWO {% endblock %}
 
 {% block content %}
-    {% if list_categories %}
-        {% for category in list_categories %}
+    {% if categories_list %}
+        {% for category in categories_list %}
             <a href="{% url 'catalogs:categories_detail' category.slug %}">{{category.title}}</a>
         {% endfor %}
     {% else %}

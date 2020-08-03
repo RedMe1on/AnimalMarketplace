@@ -6,12 +6,12 @@
 
 
 {% block content %}
-<form action="{% url 'catalogs:product_delete' slug=product.slug%}" method="post">
+<form action="{{ product.get_delete_url }}" method="post">
     {% csrf_token %}
 
     <h1>Точно удалить этот товар - <b>{{product.title|title}}</b>?</h1>
 
-    <a href="{% url 'catalogs:product_detail' slug=product.slug %}">Назад</a>
+    <a href="{{ product.get_absolute_url }}">Назад</a>
     <button type="submit" class="btn btn-danger">Удалить</button>
 
 </form>

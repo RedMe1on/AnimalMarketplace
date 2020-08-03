@@ -51,7 +51,7 @@ class Owner(models.Model):
 
 
 class Product(models.Model):
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE())
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
@@ -64,6 +64,12 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('catalogs:product_detail', kwargs={'slug': self.slug})
+
+    def get_update_url(self):
+        return reverse('catalogs:product_update', kwargs={'slug': self.slug})
+
+    def get_delete_url(self):
+        return reverse('catalogs:product_delete', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if self.slug is None or self.slug == '':

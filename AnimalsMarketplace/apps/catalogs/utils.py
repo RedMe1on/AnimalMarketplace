@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 
 class ObjectDetailMixin:
@@ -18,7 +18,7 @@ class ObjectListMixin:
     def get(self, request):
         list_obj = self.model.objects.order_by('-pub_date')
 
-        return render(request, self.template, context={f'list_{self.model.__name__.lower()}': list_obj})
+        return render(request, self.template, context={f'{self.model.__name__.lower()}_list': list_obj})
 
 
 class ObjectUpdateMixin:
@@ -40,5 +40,18 @@ class ObjectUpdateMixin:
         return render(request, self.template, context={'form': bound_form, self.model.__name__.lower(): obj})
 
 
+class ObjectDeleteMixin:
+    model = None
+    template = None
+    redirect_url = None
+
+    def get(self, request, slug):
+        obj = self.model.objects.get(slug__iexact=slug)
+        return render(request, self.template, context={self.model.__name__.lower(): obj})
+
+    def post(self, request, slug):
+        product = self.model.objects.get(slug__iexact=slug)
+        product.delete()
+        return redirect(reverse(self.redirect_url))
 
 

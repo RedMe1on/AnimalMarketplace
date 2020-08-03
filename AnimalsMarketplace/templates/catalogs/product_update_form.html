@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<form action="{% url 'catalogs:product_update' slug=product.slug %}" method="post">
+<form action="{{ product.get_update_url }}" method="post">
     {% csrf_token %}
 
     {% for field in form %}
