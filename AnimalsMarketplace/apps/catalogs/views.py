@@ -48,7 +48,7 @@ class ProductCreate(View):
         bound_form = ProductForm(request.POST)
         if bound_form.is_valid():
             new_product = bound_form.save(commit=False)
-            new_product.owner = Owner.objects.get(id=1)
+            new_product.owner_id = 1
             new_product = bound_form.save()
             return redirect(new_product)
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})

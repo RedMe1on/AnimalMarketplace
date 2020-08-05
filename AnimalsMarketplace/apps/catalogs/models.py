@@ -51,7 +51,7 @@ class Owner(models.Model):
 
 
 class Product(models.Model):
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE())
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
