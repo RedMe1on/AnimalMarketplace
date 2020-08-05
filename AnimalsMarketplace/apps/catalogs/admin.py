@@ -11,9 +11,23 @@ class CategoriesAdmin(admin.ModelAdmin):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('email')
+
+
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'h1', 'pub_date', 'parent', 'owner')
+    list_display_links = ('h1',)
+    list_filter = ('owner')
+    search_fields = ('h1')
+    ordering = ('id',)
+    save_on_top = True
+    save_as = True
+    list_editable = ('h1')
+    fieldsets = (
+        (None, {
+            'fields': ('h1')
+        }),
+    )
