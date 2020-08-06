@@ -1,4 +1,3 @@
-import re
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from phonenumber_field.modelfields import PhoneNumberField
@@ -7,10 +6,11 @@ from pytils.translit import slugify
 
 
 class Categories(MPTTModel):
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
+    name = models.CharField(verbose_name='Название категории', max_length=150)
+    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
-    description = models.CharField(verbose_name='Мета-тег description', max_length=400)
+    description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE,
                             verbose_name='Родительская категория')
@@ -21,7 +21,7 @@ class Categories(MPTTModel):
         return self.title
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
+        if self.slug == '':
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
@@ -37,6 +37,7 @@ class Categories(MPTTModel):
 
 class Owner(models.Model):
     name = models.CharField(verbose_name='Владелец', max_length=50)
+    image = models.ImageField(verbose_name='Изображение', upload_to='catalog/owner/img/', blank=True)
     email = models.EmailField(verbose_name='Почта', blank=True)
     phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -51,11 +52,17 @@ class Owner(models.Model):
 
 
 class Product(models.Model):
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, null=True, blank=True, allow_unicode=True)
+    name = models.CharField(verbose_name='Название товара', max_length=150)
+    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
+    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
+    description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
+
+    # image = FileField(verbose_name='Фотографии питомца', upload_to='/catalogs/product/img')
+    draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
+    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец')
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
@@ -72,7 +79,7 @@ class Product(models.Model):
         return reverse('catalogs:product_delete', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        if self.slug is None or self.slug == '':
+        if self.slug == '':
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
@@ -81,3 +88,12 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Карточка питомца'
         verbose_name_plural = 'Карточки питомца'
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Фотографии питомца', upload_to='catalogs/product/img')
+
+    class Meta:
+        verbose_name = 'Изображения питомца'
+        verbose_name_plural = 'Изображения питомца'
