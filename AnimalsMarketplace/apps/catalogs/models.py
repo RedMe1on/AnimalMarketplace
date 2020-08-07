@@ -37,7 +37,7 @@ class Categories(MPTTModel):
 
 class Owner(models.Model):
     name = models.CharField(verbose_name='Владелец', max_length=50)
-    image = models.ImageField(verbose_name='Изображение', upload_to='catalog/owner/img/', blank=True)
+    image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)
     email = models.EmailField(verbose_name='Почта', blank=True)
     phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -58,8 +58,7 @@ class Product(models.Model):
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-
-    # image = FileField(verbose_name='Фотографии питомца', upload_to='/catalogs/product/img')
+    image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец')
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория')
@@ -92,8 +91,12 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image = models.ImageField(verbose_name='Фотографии питомца', upload_to='catalogs/product/img')
+    image = models.ImageField(verbose_name='Дополнительные фотографии', upload_to='catalogs/product/img')
 
     class Meta:
-        verbose_name = 'Изображения питомца'
-        verbose_name_plural = 'Изображения питомца'
+        verbose_name = 'Дополнительные фотографии'
+        verbose_name_plural = 'Дополнительные фотографии'
+
+
+
+
