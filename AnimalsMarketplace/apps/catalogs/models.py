@@ -61,7 +61,8 @@ class Product(models.Model):
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец')
-    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Категория')
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
+                                 verbose_name='Родительская категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
@@ -96,7 +97,3 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Дополнительные фотографии'
         verbose_name_plural = 'Дополнительные фотографии'
-
-
-
-

@@ -1,19 +1,47 @@
-@media (min-width: 300px){
-.search-menu-input {
-    flex-grow: 1;
-    width: auto;
-    margin-right: 10px;
-}
+@media (min-width: 300px) {
+    .search-menu-input {
+        flex-grow: 1;
+        width: auto;
+        margin-right: 10px;
+    }
 }
 
-@media (min-width: 992px){
+@media (min-width: 992px) {
     .search-form {
-    width: 60%
-}
+        width: 60%
+    }
 }
 
+.main-menu {
+    background-color: #007bff;
+}
+
+.nav-link {
+    color: #ffffff;
+}
 
 .carousel-inner img {
     height: 100vh;
     object-fit: cover;
 }
+
+.banner {
+    background: url('../img/corova.jpg') no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.banner-content {
+    color: white;
+    padding: 150px 0;
+    text-align: center;
+}
+
+.head {
+    font-size: 2.5em;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+

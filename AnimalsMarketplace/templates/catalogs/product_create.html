@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Product Create - {{ block.super }}
+Product Create - {{ block.super }}
 {% endblock %}
 
 {% block content %}
@@ -10,13 +10,16 @@
 
     {% for field in form %}
     <div class="form-group">
-        {{  field.label }}
+        {{ field.label }}
         {{ field }}
         {% if field.errors %}
         <div class="alert alert-danger">
-           {{ field.errors }}
+            {{ field.errors }}
         </div>
         {% endif %}
+
+    </div>
+
 
     </div>
     {% endfor %}
