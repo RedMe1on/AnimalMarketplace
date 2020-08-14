@@ -45,3 +45,29 @@
     margin-bottom: 30px;
 }
 
+.card img {
+    margin-bottom: 30px;
+}
+
+.catalog-list {
+    background-color: thistle;
+}
+
+@media (min-width:992px) {
+    .catalog {
+        display: flex;
+    }
+    .left-area {
+        color:black;
+        width: 30vw;
+    }
+}
+
+.catalog-filter {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pointer {
+    cursor: pointer;
+}
