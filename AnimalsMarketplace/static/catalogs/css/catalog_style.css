@@ -1,0 +1,27 @@
+@media (min-width: 300px) {
+    .search-menu-input {
+        flex-grow: 1;
+        width: auto;
+        margin-right: 10px;
+    }
+}
+
+@media (min-width: 992px) {
+    .search-form {
+        width: 60%
+    }
+}
+
+.main-menu {
+    background-color: #007bff;
+}
+
+.nav-link-main-menu {
+    color: black;
+}
+
+.carousel-inner img {
+    height: 100vh;
+    object-fit: cover;
+}
+
