@@ -23,8 +23,8 @@
         <!--    Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark ">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src="/static/catalogs/img/logo.jpg" width="250" height="50" alt=""
-                        loading="lazy"></a>
+                <a class="navbar-brand" href="#"><img src="/static/catalogs/img/logo.jpg" class="logo" width="250"
+                        height="50" alt="" loading="lazy"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -78,7 +78,10 @@
         </div>
     </div>
     <!-- catalog list -->
-    <div class="catalog-list" id="catalog">
+    
+    {% block catalog %}  
+    {% verbatim %} 
+    <div class="catalog-list py-4" id="catalog">
         <div class="container">
             <div class="head">
                 <p>Каталог питомцев</p>
@@ -92,7 +95,9 @@
                             <hr>
                         </div>
                         <ul class="list-group">
-                            <li class="list-group-item list-group-item-action pointer">Пол</li>
+                            <li v-for="animal in animals" class="list-group-item list-group-item-action pointer">
+                                {{ animal.name }}
+                            </li>
                             <li class="list-group-item list-group-item-action pointer">Возраст</li>
                             <li class="list-group-item list-group-item-action pointer">Порода</li>
                         </ul>
@@ -249,8 +254,10 @@
             </div>
         </div>
     </div>
+    {% endverbatim %}
+    {% endblock catalog %}
     <!-- link-block -->
-    <div class="link-block">
+    <div class="link-block py-4">
         <div class="container">
             <div class="head">
                 <p>Перелинковка питомцев</p>
@@ -304,8 +311,8 @@
                 </div>
                 <div class="col-lg-6 align-self-center justify-content-end">
                     <form action="#" method="POST">
-                        <label for="callback-from"></label>
-                        <input type="email" name="EMAIL" placeholder="Enter your email here...">
+                        <label for="email-input"></label>
+                        <input type="email" name="EMAIL" placeholder="Enter your email here..." id="email-input">
                         <button type="submit" class="btn btn-primary callback-form-btn">Подписаться</button>
                     </form>
                 </div>
@@ -318,7 +325,52 @@
         {% block content %}
         {% endblock %}
     </div>
+    <footer>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 footer-info">
+                    <img src="/static/catalogs/img/logo.jpg" class="logo" alt="" width="250" height="50">
+                    <div class="adress-copyright mt-2">
+                        Объявления о животных. Возьми себе животное, будь человеком.
+                    </div>
+                    <div class="footer-phone-number">
+                        +7 (999) 999-99-99
+                    </div>
+                </div>
+                <div class="col-md-8 footer-nav">
+                    <div class="row">
+                        <nav class="footer-menu col-md-4">
+                            <div class="footer-menu-title">Информация</div>
+                            <div class="footer-menu-item">
+                                <a href="#" class="nav-link active">О нас</a>
+                                <a href="#" class="nav-link active">Главная</a>
+                                <a href="#" class="nav-link active">Блог</a>
+                                <a href="#" class="nav-link active">Регистрация</a>
+                            </div>
+                        </nav>
+                        <nav class="footer-menu col-md-4">
+                            <div class="footer-menu-title">Другие ссылки</div>
+                            <div class="footer-menu-item">
+                                <a href="#" class="nav-link active">Кошки</a>
+                                <a href="#" class="nav-link active">Собаки</a>
+                                <a href="#" class="nav-link active">Змеи</a>
+                                <a href="#" class="nav-link active">Хомяки</a>
+                            </div>
+                        </nav>
+                        <div class="footer-menu col-md-4">
+                            <div class="footer-menu-title">Мы в соцсетях:</div>
+                            <div class="footer-menu-item">
+                                <a href="" class="nav-link active" target="_blank">ВК</a>
+                                <a href="" class="nav-link active" target="_blank">Инста</a>
+                                <a href="" class="nav-link active" target="_blank">Фейсбук</a>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
