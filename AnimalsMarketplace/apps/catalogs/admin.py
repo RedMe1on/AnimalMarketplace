@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from .models import Categories, Owner, Product, ProductImage
 from django.contrib.admin.actions import delete_selected
 
+
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'h1', 'pub_date', 'parent')
@@ -32,7 +33,15 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdminForm(forms.ModelForm):
+    FEMALE = 'Девочка'
+    MALE = 'Мальчик'
+    SEX_CHOICES = (
+        (FEMALE, 'Девочка'),
+        (MALE, 'Мальчик')
+    )
     text = forms.CharField(label='Текст', widget=CKEditorUploadingWidget(), required=False)
+    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=SEX_CHOICES,
+                            label='Пол питомца')
 
     class Meta:
         model = Product
