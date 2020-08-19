@@ -19,52 +19,7 @@
 </head>
 
 <body>
-    <header class="main-menu bg-primary">
-        <!--    Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark ">
-            <div class="container">
-                <a class="navbar-brand" href="#"><img src="/static/catalogs/img/logo.jpg" class="logo" width="250"
-                        height="50" alt="" loading="lazy"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-
-                    <form class="form-inline my-2 my-lg-0 search-form">
-                        <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Регистрация</a>
-                        </li>
-                        <button type="button" class="btn btn-light">Войти</button>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <hr class="m-0">
-        <div class="container">
-            <nav class="nav nav-pills justify-content-center">
-                <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="true" aria-expanded="false">Категории</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Собаки</a>
-                    <a class="dropdown-item" href="#">Кошки</a>
-                    <a class="dropdown-item" href="#">Змеи</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Хомяки</a>
-                </div>
-                <a class="nav-link" href="#">Блог</a>
-                <a class="nav-link" href="#">О нас</a>
-            </nav>
-        </div>
-    </header>
+    {% include 'include/header.html' %}
     <!-- Banner -->
     <div class="banner">
         <div class="banner-content container">
@@ -325,52 +280,7 @@
         {% block content %}
         {% endblock %}
     </div>
-    <footer>
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-md-4 footer-info">
-                    <img src="/static/catalogs/img/logo.jpg" class="logo" alt="" width="250" height="50">
-                    <div class="adress-copyright mt-2">
-                        Объявления о животных. Возьми себе животное, будь человеком.
-                    </div>
-                    <div class="footer-phone-number">
-                        +7 (999) 999-99-99
-                    </div>
-                </div>
-                <div class="col-md-8 footer-nav">
-                    <div class="row">
-                        <nav class="footer-menu col-md-4">
-                            <div class="footer-menu-title">Информация</div>
-                            <div class="footer-menu-item">
-                                <a href="#" class="nav-link active">О нас</a>
-                                <a href="#" class="nav-link active">Главная</a>
-                                <a href="#" class="nav-link active">Блог</a>
-                                <a href="#" class="nav-link active">Регистрация</a>
-                            </div>
-                        </nav>
-                        <nav class="footer-menu col-md-4">
-                            <div class="footer-menu-title">Другие ссылки</div>
-                            <div class="footer-menu-item">
-                                <a href="#" class="nav-link active">Кошки</a>
-                                <a href="#" class="nav-link active">Собаки</a>
-                                <a href="#" class="nav-link active">Змеи</a>
-                                <a href="#" class="nav-link active">Хомяки</a>
-                            </div>
-                        </nav>
-                        <div class="footer-menu col-md-4">
-                            <div class="footer-menu-title">Мы в соцсетях:</div>
-                            <div class="footer-menu-item">
-                                <a href="" class="nav-link active" target="_blank">ВК</a>
-                                <a href="" class="nav-link active" target="_blank">Инста</a>
-                                <a href="" class="nav-link active" target="_blank">Фейсбук</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {% include 'include/footer.html' %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
