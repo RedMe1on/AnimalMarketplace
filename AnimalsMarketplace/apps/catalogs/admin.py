@@ -32,7 +32,14 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductAdminForm(forms.ModelForm):
+    FEMALE = 'Девочка'
+    MALE = 'Мальчик'
+    SEX_CHOICES = (
+        (FEMALE, 'Девочка'),
+        (MALE, 'Мальчик')
+    )
     text = forms.CharField(label='Текст', widget=CKEditorUploadingWidget(), required=False)
+    sex = forms.ChoiceField(widget=forms.RadioSelect, choices=SEX_CHOICES, label='Пол питомца')
 
     class Meta:
         model = Product
