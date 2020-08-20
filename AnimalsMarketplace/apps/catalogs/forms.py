@@ -7,7 +7,7 @@ from pytils.translit import slugify
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['title', 'h1', 'slug',  'text']
+        fields = '__all__'
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'h1': forms.TextInput(attrs={'class': 'form-control'}),

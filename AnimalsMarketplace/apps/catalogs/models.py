@@ -27,6 +27,9 @@ class Categories(MPTTModel):
             self.slug = slugify(self.slug)
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('catalogs:categories_detail', kwargs={'slug': self.slug})
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'

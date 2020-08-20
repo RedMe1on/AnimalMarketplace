@@ -1,41 +1,39 @@
-from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, redirect, reverse
-from django.views.generic import View
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
 from .forms import ProductForm
 from .models import Owner, Categories, Product
-from .utils import ObjectDetailMixin, ObjectListMixin, ObjectUpdateMixin, ObjectDeleteMixin
 
 
-class ListCategories(ObjectListMixin, View):
+class ListCategories(ListView):
     model = Categories
-    template = 'catalogs/categories_list.html'
+    queryset = Categories.objects.order_by('-pub_date')
 
 
-class ProductList(ObjectListMixin, View):
+class ProductList(ListView):
     model = Product
-    template = 'catalogs/product_list.html'
+    queryset = Product.objects.order_by('-pub_date')
 
 
-class CategoriesDetail(ObjectDetailMixin, View):
+class CategoriesDetail(DetailView):
     model = Categories
-    template = 'catalogs/categories_detail.html'
 
 
-class ProductDetail(ObjectDetailMixin, View):
+class ProductDetail(DetailView):
     model = Product
     template = 'catalogs/product_detail.html'
 
 
-class ProductUpdate(ObjectUpdateMixin, View):
+class ProductUpdate(UpdateView):
     model = Product
-    form_model = ProductForm
-    template = 'catalogs/product_update_form.html'
+    template_name_suffix = '_update_form'
+    form_class = ProductForm
 
 
-class ProductDelete(ObjectDeleteMixin, View):
+class ProductDelete(DeleteView):
     model = Product
-    template = 'catalogs/product_delete.html'
-    redirect_url = 'catalogs:product_list'
+    success_url = reverse_lazy('catalogs:product_list')
+    template_name_suffix = '_delete'
 
 
 class ProductCreate(View):

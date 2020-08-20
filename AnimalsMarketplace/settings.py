@@ -73,7 +73,6 @@ TEMPLATES = [
             ],
             'libraries': {
                 'catalog_tags': 'catalogs.template_tags.catalog_tags',
-
             }
 
         },

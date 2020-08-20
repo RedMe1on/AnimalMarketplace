@@ -1,9 +1,188 @@
 {% extends 'base.html' %}
-
+{% load catalog_tags %}
 {% block title %} {{categories.title}} {% endblock %}
 
 
 {% block content %}
+
+    <!-- catalog list -->
+    <div class="catalog-list py-4" id="catalog">
+        <div class="container">
+            <div class="head">
+                <p>{{ categories.name }}</p>
+            </div>
+            {% verbatim %}
+            <div class="catalog">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="search">Фильтр по поиску</label>
+                            <input type="text" class="form-control" id="search" placeholder="Name">
+                            <hr>
+                        </div>
+                        <ul class="list-group">
+                            <li v-for="animal in animals" class="list-group-item list-group-item-action pointer">
+                                {{ animal.name }}
+                            </li>
+                            <li class="list-group-item list-group-item-action pointer">Возраст</li>
+                            <li class="list-group-item list-group-item-action pointer">Порода</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <li>Пол: Мужской</li>
+                                        <li>Возраст: 12</li>
+                                        <li>Порода: Квока</li>
+                                        <p>+7 (962) 944-45-65</p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Специальный заголовок</h5>
+                                        <p class="card-text">With supporting text below as a natural lead-in to
+                                            additional
+                                            content.
+                                        </p>
+                                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+    </div>
+    <!-- link-block -->
+    {% get_last_product count=5 %}
     <h1>{{categories.h1}}</h1>
     <p>{{categories.text}}</p>
     <em>{{categories.pub_date}}</em>

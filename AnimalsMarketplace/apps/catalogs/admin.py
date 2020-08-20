@@ -22,6 +22,7 @@ class OwnerAdmin(admin.ModelAdmin):
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     readonly_fields = ('get_image',)
+    extra = 3
 
     def get_image(self, obj):
         if obj.image == '':
@@ -86,7 +87,7 @@ class ProductAdmin(admin.ModelAdmin):
         self.message_user(request, f'{message_bit}')
 
     def publish(self, request, queryset):
-        """Снять с публикации"""
+        """Опубликовать"""
         print(queryset)
         row_update = queryset.update(draft=False)
 
