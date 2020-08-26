@@ -1,27 +1,52 @@
+from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
+from mptt.querysets import TreeQuerySet
+
 from .forms import ProductForm
 from .models import Owner, Categories, Product
+from .utils import ProductFilterMixin
 
 
-class ListCategories(ListView):
+class MainPage(ProductFilterMixin, ListView):
+    model = Product
+    template_name = 'catalogs/main.html'
+
+
+class CategoriesList(ProductFilterMixin, ListView):
     model = Categories
     queryset = Categories.objects.order_by('-pub_date')
 
 
-class ProductList(ListView):
+class ProductList(ProductFilterMixin, ListView):
     model = Product
     queryset = Product.objects.order_by('-pub_date')
 
 
-class CategoriesDetail(DetailView):
+class CategoriesDetail(ProductFilterMixin, DetailView):
     model = Categories
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product_list'] = self.get_product_list_for_context()
+        return context
 
-class ProductDetail(DetailView):
+    def get_child_and_self_categories(self, slug: str) -> TreeQuerySet:
+        """Метод для получения дочерних категорий и самой категории"""
+        category = self.model.objects.get(slug=slug)
+        return category.get_descendants(include_self=True)
+
+    def get_product_list_for_context(self) -> QuerySet:
+        """Список товаров, которые относятся к дочерним и текущей категории"""
+        parents_categories = self.get_child_and_self_categories(self.kwargs.get('slug'))
+        list_product = Product.objects.filter(category__in=parents_categories)
+        return list_product
+
+
+class ProductDetail(ProductFilterMixin, DetailView):
     model = Product
-    template = 'catalogs/product_detail.html'
+    template_name = 'catalogs/product_detail.html'
 
 
 class ProductUpdate(UpdateView):
@@ -50,3 +75,12 @@ class ProductCreate(View):
             new_product = bound_form.save()
             return redirect(new_product)
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})
+
+
+class FilterProductViews(ProductFilterMixin, ListView):
+    """Фильтр карточек товаров"""
+    template_name = 'catalogs/product_list.html'
+
+    def get_queryset(self):
+        queryset = Product.objects.filter(sex__in=self.request.GET.getlist('sex'))
+        return queryset

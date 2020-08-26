@@ -1,0 +1,75 @@
+<div class="form-group">
+    <label for="search">Фильтр по поиску</label>
+    <input type="text" class="form-control" id="search" placeholder="Name">
+    <hr>
+</div>
+<ul class="list-group">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseSex"
+            aria-expanded="true" aria-controls="multiCollapseSex">
+        Пол
+    </button>
+    <div class="collapse show multi-collapse" id="multiCollapseSex">
+        <form action="{% url 'catalogs:filter_product' %}" method="get">
+            <div class="card card-body flex-row justify-content-center">
+                {% for product in view.get_sex %}
+                <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" type="checkbox" id="{{product.sex}}" name="sex"
+                           value="{{product.sex}}">
+                    <label class="form-check-label" for="{{product.sex}}">
+                        {{ product.sex }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary" type="submit">Показать</button>
+        </form>
+
+    </div>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseAge"
+            aria-expanded="true" aria-controls="multiCollapseAge">
+        Возраст
+    </button>
+    <div class="collapse show multi-collapse text-center" id="multiCollapseAge">
+        <div class="card card-body">
+            <div class="row">
+                {% for sex in view.get_product %}
+                <div class="form-check form-check-inline filter-item">
+                    <input class="form-check-input" type="checkbox" value="" id="{{product.birthday}}">
+                    <label class="form-check-label" for="{{product.birthday}}">
+                        {{product.birthday}}
+                    </label>
+                </div>
+                {% endfor %}
+                <div class="form-check form-check-inline filter-item">
+                    <input class="form-check-input" type="checkbox" value="" id="filterAge2">
+                    <label class="form-check-label" for="filterAge2">
+                        13
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseBreed"
+            aria-expanded="true" aria-controls="multiCollapseBreed">
+        Порода
+    </button>
+    <div class="collapse show multi-collapse text-center" id="multiCollapseBreed">
+        <div class="card card-body">
+            <div class="row">
+                <div class="form-check filter_item">
+                    <input class="form-check-input" type="checkbox" value="" id="filterBreed1">
+                    <label class="form-check-label" for="filterBreed1">
+                        Породистая
+                    </label>
+                </div>
+                <div class="form-check filter_item">
+                    <input class="form-check-input" type="checkbox" value="" id="filterBreed2">
+                    <label class="form-check-label" for="filterBreed2">
+                        Дворняга
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</ul>

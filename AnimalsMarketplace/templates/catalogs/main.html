@@ -4,6 +4,18 @@
 
 
 {% block content %}
+<!-- Banner -->
+<div class="banner">
+    <div class="banner-content container">
+        <p class="head">Возьми себе питомца</p>
+        <p>Они же такие классные, как же ты не возьмешь себе одного? Они же такие классные, как же ты не возьмешь
+            себе одного?
+            Они же такие классные, как же ты не возьмешь себе одного?
+            Они же такие классные, как же ты не возьмешь себе одного?
+        </p>
+        <button type="button" class="btn btn-success">Взять питомца</button>
+    </div>
+</div>
 <!-- catalog list -->
 <div class="catalog-list py-4" id="catalog">
     <div class="container">
@@ -43,16 +55,7 @@
             </div>
         </div>
     </div>
-</div>
-
-{% if categories_list %}
-{% for category in categories_list %}
-<a href="{% url 'catalogs:categories_detail' category.slug %}">{{category.title}}</a>
-{% endfor %}
-{% else %}
-Статьи не найдены =(
-{% endif %}
-<!-- link-block -->
+    <!-- link-block -->
 {% get_last_product count=5 %}
 <!-- callback-from -->
 <section class="callback-form">
@@ -60,7 +63,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p class="callback-form-head m-0">Подпишись на рассылку</p>
-                <p>Будь в курсе всеъ носотей данного портала</p>
+                <p>Будь в курсе всех новостей данного портала</p>
             </div>
             <div class="col-lg-6 align-self-center justify-content-end">
                 <form action="#" method="POST">

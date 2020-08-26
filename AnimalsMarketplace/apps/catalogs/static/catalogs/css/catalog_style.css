@@ -50,9 +50,6 @@
 }
 
 @media (min-width:992px) {
-    .catalog {
-        display: flex;
-    }
     .left-area {
         color: black;
         width: 30vw;
@@ -127,4 +124,8 @@ flex-direction: column;
 .footer-phone-number {
     margin-top: 0.4rem;
     font-size: 2rem;
+}
+
+.filter-item {
+    margin: .5rem;
 }
