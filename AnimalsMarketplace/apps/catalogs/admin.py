@@ -1,8 +1,8 @@
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Categories, Owner, Product, ProductImage
+
+from .forms import ProductAdminForm
+from .models import Categories, Owner, Product, ProductImage, RatingProduct
 from django.contrib.admin.actions import delete_selected
 
 
@@ -19,6 +19,11 @@ class OwnerAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(RatingProduct)
+class RatingAdmin(admin.ModelAdmin):
+    pass
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     readonly_fields = ('get_image',)
@@ -31,22 +36,6 @@ class ProductImageInline(admin.TabularInline):
             return mark_safe(f'<img src={obj.image.url} width="50", height="50"')
 
     get_image.short_description = 'Изображение'
-
-
-class ProductAdminForm(forms.ModelForm):
-    FEMALE = 'Девочка'
-    MALE = 'Мальчик'
-    SEX_CHOICES = (
-        (FEMALE, 'Девочка'),
-        (MALE, 'Мальчик')
-    )
-    text = forms.CharField(label='Текст', widget=CKEditorUploadingWidget(), required=False)
-    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=SEX_CHOICES,
-                            label='Пол питомца')
-
-    class Meta:
-        model = Product
-        fields = '__all__'
 
 
 @admin.register(Product)

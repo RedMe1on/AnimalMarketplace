@@ -1,5 +1,6 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
-from .models import Product
+from .models import Product, RatingProduct
 from django.core.exceptions import ValidationError
 from pytils.translit import slugify
 
@@ -29,3 +30,29 @@ class ProductForm(forms.ModelForm):
         if new_slug == 'product/create/':
             raise ValidationError('Slug may not be create')
         return new_slug
+
+
+class ProductAdminForm(forms.ModelForm):
+    FEMALE = 'Девочка'
+    MALE = 'Мальчик'
+    SEX_CHOICES = (
+        (FEMALE, 'Девочка'),
+        (MALE, 'Мальчик')
+    )
+    text = forms.CharField(label='Текст', widget=CKEditorUploadingWidget(), required=False)
+    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=SEX_CHOICES,
+                            label='Пол питомца')
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+class RatingForm(forms.ModelForm):
+    """Форма добавления рейтинга"""
+    rating = forms.ChoiceField(widget=forms.RadioSelect(), choices=RatingProduct.Star.choices)
+
+    class Meta:
+        model = RatingProduct
+        fields = ('rating',)
+

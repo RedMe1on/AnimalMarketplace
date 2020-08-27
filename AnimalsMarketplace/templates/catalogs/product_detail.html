@@ -4,7 +4,22 @@
 
 
 {% block content %}
-    <h1>{{ product.h1 }}</h1>
-    <p>{{ product.text|safe }}</p>
-    <em>{{ product.pub_date }}</em>
+<div class="container">
+    <form action="{% url 'catalogs:add_rating' %}" method="post" name="add-rating">
+        <b>Рейтинг:</b>
+        {% csrf_token %}
+        <input type="hidden" value="{{ product.id }}" name="product">
+        <div class="rating-area">
+            {% for k, v in rating_form.fields.rating.choices|dictsortreversed:0 %}
+            <input type="radio" name="rating" id="rating{{ v }}" value="{{ k }}">
+            <label for="rating{{ v }}"></label>
+            {% endfor %}
+        </div>
+    </form>
+
+
+<h1>{{ product.h1 }}</h1>
+<p>{{ product.text|safe }}</p>
+<em>{{ product.pub_date }}</em>
+</div>
 {% endblock %}

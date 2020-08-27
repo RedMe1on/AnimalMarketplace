@@ -1,11 +1,12 @@
 from django.db.models import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
 from mptt.querysets import TreeQuerySet
 
-from .forms import ProductForm
-from .models import Owner, Categories, Product
+from .forms import ProductForm, RatingForm
+from .models import Owner, Categories, Product, RatingProduct
 from .utils import ProductFilterMixin
 
 
@@ -30,6 +31,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['product_list'] = self.get_product_list_for_context()
+        context['rating-form'] = RatingForm()
         return context
 
     def get_child_and_self_categories(self, slug: str) -> TreeQuerySet:
@@ -47,6 +49,11 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
 class ProductDetail(ProductFilterMixin, DetailView):
     model = Product
     template_name = 'catalogs/product_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rating_form'] = RatingForm()
+        return context
 
 
 class ProductUpdate(UpdateView):
@@ -82,5 +89,29 @@ class FilterProductViews(ProductFilterMixin, ListView):
     template_name = 'catalogs/product_list.html'
 
     def get_queryset(self):
-        queryset = Product.objects.filter(sex__in=self.request.GET.getlist('sex'))
+        queryset = Product.objects.filter(sex__in=self.request.GET.getlist('sex'),
+                                          breed__in=self.request.GET.getlist('breed'))
         return queryset
+
+
+class AddRatingViews(View):
+
+    def get_client_ip(self, request):
+        x_forward_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forward_for:
+            ip = x_forward_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def post(self, request):
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            RatingProduct.objects.update_or_create(
+                ip=self.get_client_ip(request),
+                product_id=int(request.POST.get('product')),
+                defaults={'rating': int(request.POST.get('rating'))}
+            )
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=400)

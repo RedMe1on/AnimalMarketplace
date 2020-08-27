@@ -113,3 +113,25 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Дополнительные фотографии'
         verbose_name_plural = 'Дополнительные фотографии'
+
+
+class RatingProduct(models.Model):
+    """Модель для хранения рейтинга товаров"""
+    class Star(models.IntegerChoices):
+        VERY_BAD = 1
+        BAD = 2
+        NOT_BAD = 3
+        GOOD = 4
+        VERY_GOOD = 5
+
+    ip = models.CharField(verbose_name='IP', max_length=30)
+    rating = models.IntegerField(choices=Star.choices, verbose_name='Рейтинг')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Питомец')
+
+    def __str__(self):
+        return f'{self.rating} - {self.product}'
+
+    class Meta:
+        verbose_name = 'Рейтинг'
+        verbose_name_plural = 'Рейтинги'
+
