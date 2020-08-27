@@ -4,10 +4,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
 from mptt.querysets import TreeQuerySet
-
 from .forms import ProductForm, RatingForm
 from .models import Owner, Categories, Product, RatingProduct
-from .utils import ProductFilterMixin
+from .utils import ProductFilterMixin, RatingProductMixin
 
 
 class MainPage(ProductFilterMixin, ListView):
@@ -46,13 +45,16 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
         return list_product
 
 
-class ProductDetail(ProductFilterMixin, DetailView):
+class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
     model = Product
+    rating_model = RatingProduct
     template_name = 'catalogs/product_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rating_form'] = RatingForm()
+        context['avg_rating'] = self.get_avg_rating(self.kwargs.get('slug'))
+        context['user_rating'] = self.get_user_rating(self.request, self.kwargs.get('slug'))
         return context
 
 
@@ -94,15 +96,7 @@ class FilterProductViews(ProductFilterMixin, ListView):
         return queryset
 
 
-class AddRatingViews(View):
-
-    def get_client_ip(self, request):
-        x_forward_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forward_for:
-            ip = x_forward_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+class AddRatingViews(RatingProductMixin, View):
 
     def post(self, request):
         form = RatingForm(request.POST)
