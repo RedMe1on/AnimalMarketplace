@@ -86,14 +86,15 @@ class ProductCreate(View):
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})
 
 
-class FilterProductViews(ProductFilterMixin, ListView):
-    """Фильтр карточек товаров"""
-    template_name = 'catalogs/product_list.html'
+class FilterProductViews(CategoriesDetail, ProductFilterMixin):
+    """Фильтр карточек товаров на категориях"""
 
-    def get_queryset(self):
-        queryset = Product.objects.filter(sex__in=self.request.GET.getlist('sex'),
-                                          breed__in=self.request.GET.getlist('breed'))
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        filter_product_list = context.get('product_list')
+        filter_product_list = filter_product_list.filter(sex__in=self.request.GET.getlist('sex'))
+        context['product_list'] = filter_product_list
+        return context
 
 
 class AddRatingViews(RatingProductMixin, View):

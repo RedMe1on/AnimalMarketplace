@@ -9,18 +9,23 @@
         <b>Рейтинг:</b>
         {% csrf_token %}
         <input type="hidden" value="{{ product.id }}" name="product">
+        <div>
+            <b>Ваша оценка:</b>
+            {{ user_rating }}
+        </div>
         <div class="rating-area">
             {% for k, v in rating_form.fields.rating.choices|dictsortreversed:0 %}
-            <input type="radio" name="rating" id="rating{{ v }}" value="{{ k }}" 
-            {% if k < user_rating %}
-                checked
-            {% endif %}
+            <input type="radio" name="rating" id="rating{{ v }}" value="{{ k }}"
+                   {% if user_rating == k %}
+                       checked
+                   {% endif %}       
                 >
             <label for="rating{{ v }}"></label>
             {% endfor %}
         </div>
     </form>
     <div class="avg-rating">
+        <b>Общая оценка:</b>
         {{ avg_rating }}
     </div>
 

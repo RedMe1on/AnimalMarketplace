@@ -21,10 +21,8 @@ class RatingProductMixin:
 
     def get_user_rating(self, request, slug):
         ip = self.get_client_ip(request)
-        user_rating = self.rating_model.objects.values_list('rating', flat=True).filter(
-            product=self.model.objects.get(slug=slug), ip=ip)
-        print(user_rating)
-        return user_rating
+        user_rating = self.rating_model.objects.get(product=self.model.objects.get(slug=slug), ip=ip)
+        return user_rating.rating
 
     def get_avg_rating(self, slug: str) -> float:
         rating = self.rating_model.objects.filter(product=self.model.objects.get(slug=slug))
@@ -43,3 +41,4 @@ class RatingProductMixin:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+
