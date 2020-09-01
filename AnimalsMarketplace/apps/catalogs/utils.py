@@ -14,6 +14,12 @@ class ProductFilterMixin:
     def get_age(self):
         pass
 
+    def get_url(self):
+        return self.request.path
+
+    def get_filter(self):
+        print(self.request.GET)
+        return self.request.GET
 
 class RatingProductMixin:
     model = None

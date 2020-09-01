@@ -29,6 +29,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        self.get_filter()
         context['product_list'] = self.get_product_list_for_context()
         context['rating-form'] = RatingForm()
         return context
@@ -42,7 +43,22 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
         """Список товаров, которые относятся к дочерним и текущей категории"""
         parents_categories = self.get_child_and_self_categories(self.kwargs.get('slug'))
         list_product = Product.objects.filter(category__in=parents_categories)
+        print(self.request.path, self.kwargs.get('slug'))
         return list_product
+
+
+class FilterProductViews(ProductFilterMixin, DetailView):
+    """Фильтр карточек товаров на категориях"""
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.kwargs)
+        print(self.request.GET)
+
+        filter_product_list = context.get('product_list')
+        filter_product_list = filter_product_list.filter(sex__in=self.request.GET.getlist('sex'))
+        context['product_list'] = filter_product_list
+        return context
 
 
 class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
@@ -84,17 +100,6 @@ class ProductCreate(View):
             new_product = bound_form.save()
             return redirect(new_product)
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})
-
-
-class FilterProductViews(CategoriesDetail, ProductFilterMixin):
-    """Фильтр карточек товаров на категориях"""
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        filter_product_list = context.get('product_list')
-        filter_product_list = filter_product_list.filter(sex__in=self.request.GET.getlist('sex'))
-        context['product_list'] = filter_product_list
-        return context
 
 
 class AddRatingViews(RatingProductMixin, View):

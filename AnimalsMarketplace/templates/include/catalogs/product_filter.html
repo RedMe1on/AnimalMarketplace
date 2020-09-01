@@ -9,7 +9,7 @@
         Пол
     </button>
     <div class="collapse show multi-collapse" id="multiCollapseSex">
-        <form action="{% url 'catalogs:filter_product' slug=categories.slug %}" method="get">
+        <form action="{{ get_url }}" method="get">
             <div class="card card-body flex-row justify-content-center">
                 {% for product in view.get_sex %}
                 <div class="form-check form-check-inline">

@@ -13,6 +13,6 @@ urlpatterns = [
     path('product/<str:slug>/update/', ProductUpdate.as_view(), name='product_update'),
     path('product/<str:slug>/delete/', ProductDelete.as_view(), name='product_delete'),
     path('<str:slug>/', CategoriesDetail.as_view(), name='categories_detail'),
-    path('<str:slug>/filter/', FilterProductViews.as_view(), name='filter_product'),
+    path('<path:url>/', FilterProductViews.as_view(), name='filter_product'),
 
 ]
