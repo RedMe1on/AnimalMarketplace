@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import CategoriesList, CategoriesDetail, ProductCreate, ProductDetail, ProductUpdate, ProductList, \
-    ProductDelete, FilterProductViews, MainPage, AddRatingViews
+    ProductDelete, MainPage, AddRatingViews
 
 app_name = 'catalogs'
 urlpatterns = [
@@ -13,6 +13,5 @@ urlpatterns = [
     path('product/<str:slug>/update/', ProductUpdate.as_view(), name='product_update'),
     path('product/<str:slug>/delete/', ProductDelete.as_view(), name='product_delete'),
     path('<str:slug>/', CategoriesDetail.as_view(), name='categories_detail'),
-    path('<path:url>/', FilterProductViews.as_view(), name='filter_product'),
 
 ]

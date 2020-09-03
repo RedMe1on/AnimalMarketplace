@@ -15,22 +15,29 @@ class ProductFilterMixin:
         pass
 
     def get_url(self):
+        """Получение пути без домена"""
         return self.request.path
 
-    def get_filter(self):
-        print(self.request.GET)
-        return self.request.GET
+    def get_filter(self, context: dict):
+        """Фильтрация текущих товаров по выбранному фильтру"""
+        if self.request.GET:
+            product_list = context.get('product_list')
+            context['product_list'] = product_list.filter(sex__in=self.request.GET.getlist('sex'))
+        return context
+
 
 class RatingProductMixin:
     model = None
     rating_model = None
 
     def get_user_rating(self, request, slug):
+        """Плучение ранее оставленного рейтинга по ip пользователя"""
         ip = self.get_client_ip(request)
         user_rating = self.rating_model.objects.get(product=self.model.objects.get(slug=slug), ip=ip)
         return user_rating.rating
 
     def get_avg_rating(self, slug: str) -> float:
+        """Подсчет среднего рейтинга товара"""
         rating = self.rating_model.objects.filter(product=self.model.objects.get(slug=slug))
         star_list = [star.rating for star in rating]
         sum = 0
@@ -47,4 +54,3 @@ class RatingProductMixin:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
-

@@ -9,8 +9,17 @@ from .models import Owner, Categories, Product, RatingProduct
 from .utils import ProductFilterMixin, RatingProductMixin
 
 
-class MainPage(ProductFilterMixin, ListView):
+class ProductList(ProductFilterMixin, ListView):
     model = Product
+    queryset = Product.objects.order_by('-pub_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = self.get_filter(context)
+        return context
+
+
+class MainPage(ProductList):
     template_name = 'catalogs/main.html'
 
 
@@ -19,19 +28,14 @@ class CategoriesList(ProductFilterMixin, ListView):
     queryset = Categories.objects.order_by('-pub_date')
 
 
-class ProductList(ProductFilterMixin, ListView):
-    model = Product
-    queryset = Product.objects.order_by('-pub_date')
-
-
 class CategoriesDetail(ProductFilterMixin, DetailView):
     model = Categories
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.get_filter()
         context['product_list'] = self.get_product_list_for_context()
         context['rating-form'] = RatingForm()
+        context = self.get_filter(context)
         return context
 
     def get_child_and_self_categories(self, slug: str) -> TreeQuerySet:
@@ -45,20 +49,6 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
         list_product = Product.objects.filter(category__in=parents_categories)
         print(self.request.path, self.kwargs.get('slug'))
         return list_product
-
-
-class FilterProductViews(ProductFilterMixin, DetailView):
-    """Фильтр карточек товаров на категориях"""
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(self.kwargs)
-        print(self.request.GET)
-
-        filter_product_list = context.get('product_list')
-        filter_product_list = filter_product_list.filter(sex__in=self.request.GET.getlist('sex'))
-        context['product_list'] = filter_product_list
-        return context
 
 
 class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):

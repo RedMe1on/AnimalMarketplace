@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
-                        {% for product in product %}
+                        {% for product in product_list %}
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-image">
@@ -45,13 +45,6 @@
     </div>
 </div>
 
-{% if categories_list %}
-{% for category in categories_list %}
-<a href="{% url 'catalogs:categories_detail' category.slug %}">{{category.title}}</a>
-{% endfor %}
-{% else %}
-Статьи не найдены =(
-{% endif %}
 <!-- link-block -->
 {% get_last_product count=5 %}
 <!-- callback-from -->
