@@ -173,3 +173,7 @@ flex-direction: column;
 .rate-area > label:active {
 	position: relative;
 }
+
+.pagination {
+    justify-content: center;
+}
