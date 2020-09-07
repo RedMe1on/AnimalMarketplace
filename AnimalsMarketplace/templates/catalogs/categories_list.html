@@ -18,7 +18,7 @@
 </div>
 {% if categories_list %}
 {% for category in categories_list %}
-<a href="{% url 'catalogs:categories_detail' category.slug %}">{{category.title}}</a>
+<a href="{{ category.get_absolute_url }}">{{category.title}}</a>
 {% endfor %}
 {% else %}
 Статьи не найдены =(

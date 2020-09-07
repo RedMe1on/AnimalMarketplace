@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
+from django.views.generic.list import MultipleObjectMixin
 from mptt.querysets import TreeQuerySet
 from .forms import ProductForm, RatingForm
 from .models import Owner, Categories, Product, RatingProduct
@@ -12,12 +13,11 @@ from .utils import ProductFilterMixin, RatingProductMixin
 class ProductList(ProductFilterMixin, ListView):
     model = Product
     queryset = Product.objects.order_by('-pub_date')
-    paginate_by = 2
+    paginate_by = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context = self.get_filter(context)
-        return context
+    def get_queryset(self):
+        queryset = self.get_filter_product(self.queryset)
+        return queryset
 
 
 class MainPage(ProductList):
@@ -29,15 +29,15 @@ class CategoriesList(ProductFilterMixin, ListView):
     queryset = Categories.objects.order_by('-pub_date')
 
 
-class CategoriesDetail(ProductFilterMixin, DetailView):
+class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
     model = Categories
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['product_list'] = self.get_product_list_for_context()
+        object_list = self.get_filter_product(self.get_product_list_for_category())
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['product_list'] = context['object_list']
         context['rating-form'] = RatingForm()
-
-        context = self.get_filter(context)
         return context
 
     def get_child_and_self_categories(self, slug: str) -> TreeQuerySet:
@@ -45,11 +45,10 @@ class CategoriesDetail(ProductFilterMixin, DetailView):
         category = self.model.objects.get(slug=slug)
         return category.get_descendants(include_self=True)
 
-    def get_product_list_for_context(self) -> QuerySet:
+    def get_product_list_for_category(self) -> QuerySet:
         """Список товаров, которые относятся к дочерним и текущей категории"""
         parents_categories = self.get_child_and_self_categories(self.kwargs.get('slug'))
         list_product = Product.objects.filter(category__in=parents_categories)
-        print(self.request.path, self.kwargs.get('slug'))
         return list_product
 
 

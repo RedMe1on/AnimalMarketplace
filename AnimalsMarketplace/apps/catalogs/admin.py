@@ -77,7 +77,6 @@ class ProductAdmin(admin.ModelAdmin):
 
     def publish(self, request, queryset):
         """Опубликовать"""
-        print(queryset)
         row_update = queryset.update(draft=False)
 
         if row_update == 1:

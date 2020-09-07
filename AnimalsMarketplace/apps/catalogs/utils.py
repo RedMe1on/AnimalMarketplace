@@ -1,3 +1,5 @@
+from django.db.models import QuerySet
+
 from .models import Product, Categories, RatingProduct
 
 
@@ -18,12 +20,13 @@ class ProductFilterMixin:
         """Получение пути без домена"""
         return self.request.path
 
-    def get_filter(self, context: dict):
+    def get_filter_product(self, queryset: QuerySet) -> QuerySet:
         """Фильтрация текущих товаров по выбранному фильтру"""
-        if self.request.GET:
-            product_list = context.get('product_list')
-            context['product_list'] = product_list.filter(sex__in=self.request.GET.getlist('sex'))
-        return context
+        if self.request.GET.getlist('sex'):
+            queryset = queryset.filter(sex__in=self.request.GET.getlist('sex'))
+        return queryset
+
+
 
 
 class RatingProductMixin:
