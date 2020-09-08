@@ -13,7 +13,7 @@ from .utils import ProductFilterMixin, RatingProductMixin
 class ProductList(ProductFilterMixin, ListView):
     model = Product
     queryset = Product.objects.order_by('-pub_date')
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = self.get_filter_product(self.queryset)
@@ -31,7 +31,7 @@ class CategoriesList(ProductFilterMixin, ListView):
 
 class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
     model = Categories
-    paginate_by = 1
+    paginate_by = 2
 
     def get_context_data(self, **kwargs):
         object_list = self.get_filter_product(self.get_product_list_for_category())
