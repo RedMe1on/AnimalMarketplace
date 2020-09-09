@@ -2,6 +2,7 @@ from django.db.models import QuerySet, ObjectDoesNotExist
 
 from .models import Product, Categories, RatingProduct
 
+
 class ProductFilterMixin:
 
     def get_sex(self):
@@ -24,8 +25,6 @@ class ProductFilterMixin:
         if self.request.GET.getlist('sex'):
             queryset = queryset.filter(sex__in=self.request.GET.getlist('sex'))
         return queryset
-
-
 
 
 class RatingProductMixin:

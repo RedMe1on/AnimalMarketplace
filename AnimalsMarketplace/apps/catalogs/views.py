@@ -106,3 +106,17 @@ class AddRatingViews(RatingProductMixin, View):
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=400)
+
+
+class SearchView(ListView):
+    paginate_by = 1
+
+    def get_queryset(self):
+        return Product.objects.filter(title__icontains=self.request.GET.get('title'))
+
+
+
+
+
+
+
