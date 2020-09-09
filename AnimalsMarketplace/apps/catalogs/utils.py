@@ -1,6 +1,6 @@
 from django.db.models import QuerySet, ObjectDoesNotExist
 
-from .models import Product, Categories, RatingProduct
+from .models import Product
 
 
 class ProductFilterMixin:

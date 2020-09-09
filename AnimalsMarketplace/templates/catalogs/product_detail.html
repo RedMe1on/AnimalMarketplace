@@ -15,12 +15,12 @@
         </div>
         <div class="rating-area">
             {% for k, v in rating_form.fields.rating.choices|dictsortreversed:0 %}
-            <input type="radio" name="rating" id="rating{{ v }}" value="{{ k }}"
+            <input type="radio" name="rating" id="rating-{{ v }}" value="{{ k }}"
                    {% if user_rating == k %}
                        checked
                    {% endif %}       
                 >
-            <label for="rating{{ v }}"></label>
+            <label for="rating-{{ v }}"></label>
             {% endfor %}
         </div>
     </form>

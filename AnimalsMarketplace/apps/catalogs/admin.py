@@ -1,4 +1,8 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.contrib import admin
+from django.contrib.flatpages.admin import FlatPageAdmin
+from django.contrib.flatpages.models import FlatPage
+from django.db import models
 from django.utils.safestring import mark_safe
 
 from .forms import ProductAdminForm
@@ -11,6 +15,9 @@ class CategoriesAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'h1', 'pub_date', 'parent')
     list_display_links = ('h1',)
     ordering = ('id',)
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorUploadingWidget()},
+    }
 
 
 @admin.register(Owner)
@@ -52,6 +59,9 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     list_editable = ('draft',)
     actions = ['publish', 'unpublish']
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorUploadingWidget()},
+    }
 
     # fieldsets = (
     #     ('None', {
@@ -92,6 +102,17 @@ class ProductAdmin(admin.ModelAdmin):
     unpublish.allowed_premissions = ('change',)
 
     get_image.short_description = 'Изображение'
+
+
+admin.site.unregister(FlatPage)
+
+
+@admin.register(FlatPage)
+class FlatPagesAdmin(FlatPageAdmin):
+    """Интерфейс простых страниц в админке"""
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorUploadingWidget()},
+    }
 
 
 admin.site.site_title = 'AnimalsMarketplace'

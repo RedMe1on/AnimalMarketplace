@@ -3,6 +3,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from phonenumber_field.modelfields import PhoneNumberField
 from django.shortcuts import reverse
 from pytils.translit import slugify
+from django.utils.translation import gettext_lazy as _
 
 
 # class GetAbsoluteUrlMixin(models.Model):
@@ -65,6 +66,10 @@ class Owner(models.Model):
 
 
 class Product(models.Model):
+    class SexChoices(models.TextChoices):
+        BOY = 'Мальчик', _('Мальчик')
+        GIRL = 'Девочка', _('Девочка')
+
     name = models.CharField(verbose_name='Название товара', max_length=150)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
@@ -117,12 +122,13 @@ class ProductImage(models.Model):
 
 class RatingProduct(models.Model):
     """Модель для хранения рейтинга товаров"""
+
     class Star(models.IntegerChoices):
-        VERY_BAD = 1
-        BAD = 2
-        NOT_BAD = 3
-        GOOD = 4
-        VERY_GOOD = 5
+        VERY_BAD = 1, _('Очень плохо')
+        BAD = 2, _('Плохо')
+        NOT_BAD = 3, _('Неплохо')
+        GOOD = 4, _('Хорошо')
+        VERY_GOOD = 5, _('Очень хорошо')
 
     ip = models.CharField(verbose_name='IP', max_length=30)
     rating = models.IntegerField(choices=Star.choices, verbose_name='Рейтинг')

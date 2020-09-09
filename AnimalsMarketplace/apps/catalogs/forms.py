@@ -1,4 +1,3 @@
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from .models import Product, RatingProduct
 from django.core.exceptions import ValidationError
@@ -33,14 +32,8 @@ class ProductForm(forms.ModelForm):
 
 
 class ProductAdminForm(forms.ModelForm):
-    FEMALE = 'Девочка'
-    MALE = 'Мальчик'
-    SEX_CHOICES = (
-        (FEMALE, 'Девочка'),
-        (MALE, 'Мальчик')
-    )
-    text = forms.CharField(label='Текст', widget=CKEditorUploadingWidget(), required=False)
-    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=SEX_CHOICES,
+    """Форма вывода в ряд с виджетом единственного выбора в админке"""
+    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=Product.SexChoices.choices,
                             label='Пол питомца')
 
     class Meta:
