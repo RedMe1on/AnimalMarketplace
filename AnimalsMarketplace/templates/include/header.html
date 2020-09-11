@@ -13,17 +13,24 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
 
-                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get" >
+                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get">
                     <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"
                            aria-label="Search" name="title">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
 
                 <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Регистрация</a>
+                        <span>{{ user.username }}</span>
                     </li>
-                    <button type="button" class="btn btn-light">Войти</button>
+                        <a href="{% url 'account_logout' %}" class="btn btn-light">Выйти</a>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_signup' %}">Регистрация</a>
+                    </li>
+                        <a href="{% url 'account_login' %}" class="btn btn-light">Войти</a>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -35,7 +42,7 @@
                aria-haspopup="true" aria-expanded="false">Категории</a>
             <div class="dropdown-menu">
                 {% get_categories as categories %}
-                {% for category in categories  %}
+                {% for category in categories %}
                 <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
                 {% endfor %}
             </div>

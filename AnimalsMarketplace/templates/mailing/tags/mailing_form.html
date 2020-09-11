@@ -1,0 +1,19 @@
+<section class="callback-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <p class="callback-form-head m-0">Подпишись на рассылку</p>
+                <p>Будь в курсе всех новостей данного портала</p>
+            </div>
+            <div class="col-lg-6 align-self-center justify-content-end">
+                <form action="{% url 'mailings:mailing' %}" method="POST" name="mailing">
+                    {% csrf_token %}
+                    {{ mailing_form }}
+
+
+                    <button type="submit" class="btn btn-primary callback-form-btn">Подписаться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
