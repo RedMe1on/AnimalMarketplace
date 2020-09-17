@@ -1,9 +1,9 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-from phonenumber_field.modelfields import PhoneNumberField
 from django.shortcuts import reverse
 from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
+from lk.models import Profile
 
 
 # class GetAbsoluteUrlMixin(models.Model):
@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 #
 #         class Meta:
 #             abstract = True
+
 
 class Categories(MPTTModel):
     name = models.CharField(verbose_name='Название категории', max_length=150)
@@ -49,22 +50,6 @@ class Categories(MPTTModel):
         order_insertion_by = ['h1']
 
 
-class Owner(models.Model):
-    name = models.CharField(verbose_name='Владелец', max_length=50)
-    image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)
-    email = models.EmailField(verbose_name='Почта', blank=True)
-    phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)
-    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
-    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Владелец'
-        verbose_name_plural = 'Владельцы'
-
-
 class Product(models.Model):
     class SexChoices(models.TextChoices):
         BOY = 'Мальчик', _('Мальчик')
@@ -81,7 +66,7 @@ class Product(models.Model):
     breed = models.CharField(verbose_name='Порода', max_length=300, blank=True)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
-    owner = models.ForeignKey(Owner, on_delete=models.CASCADE, verbose_name='Владелец')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
                                  verbose_name='Родительская категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -140,4 +125,3 @@ class RatingProduct(models.Model):
     class Meta:
         verbose_name = 'Рейтинг'
         verbose_name_plural = 'Рейтинги'
-

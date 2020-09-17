@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'catalogs.apps.CatalogsConfig',
     'mailing.apps.MailingConfig',
+    'lk.apps.LkConfig',
     'mptt',
     'phonenumber_field',
     'ckeditor_uploader',
     'ckeditor',
     'allauth',
     'allauth.account',
+
 ]
 
 MIDDLEWARE = [
@@ -138,6 +140,16 @@ USE_L10N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
+# ACCOUNT_FORMS = {
+#     'login': 'catalogs.forms.OwnerLoginForm',
+#     'signup': 'catalogs.forms.OwnerSignupForm',
+# }
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ddjango893'
+EMAIL_HOST_PASSWORD = 'fdeR123fds'
+EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

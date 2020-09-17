@@ -6,7 +6,7 @@ from django.views.generic import View, ListView, DeleteView, DetailView, UpdateV
 from django.views.generic.list import MultipleObjectMixin
 from mptt.querysets import TreeQuerySet
 from .forms import ProductForm, RatingForm
-from .models import Owner, Categories, Product, RatingProduct
+from .models import Categories, Product, RatingProduct
 from .utils import ProductFilterMixin, RatingProductMixin
 
 
@@ -35,7 +35,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
 
     def get_context_data(self, **kwargs):
         object_list = self.get_filter_product(self.get_product_list_for_category())
-        context = super().get_context_data(object_list=object_list, **kwargs)
+        context = super().get_context_data(object_list=object_list.order_by('name'), **kwargs)
         context['product_list'] = context['object_list']
         context['rating-form'] = RatingForm()
         return context
@@ -50,6 +50,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
         parents_categories = self.get_child_and_self_categories(self.kwargs.get('slug'))
         list_product = Product.objects.filter(category__in=parents_categories)
         return list_product
+
 
 
 class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
@@ -87,7 +88,7 @@ class ProductCreate(View):
         bound_form = ProductForm(request.POST)
         if bound_form.is_valid():
             new_product = bound_form.save(commit=False)
-            new_product.owner_id = 1
+            new_product.profile_id = 1
             new_product = bound_form.save()
             return redirect(new_product)
         return render(request, 'catalogs/product_create.html', context={'form': bound_form})
@@ -113,10 +114,3 @@ class SearchView(ListView):
 
     def get_queryset(self):
         return Product.objects.filter(title__icontains=self.request.GET.get('title'))
-
-
-
-
-
-
-

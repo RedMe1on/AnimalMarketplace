@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from .forms import ProductAdminForm
-from .models import Categories, Owner, Product, ProductImage, RatingProduct
+from .models import Categories, Product, ProductImage, RatingProduct
 from django.contrib.admin.actions import delete_selected
 
 
@@ -19,11 +19,6 @@ class CategoriesAdmin(admin.ModelAdmin):
         models.TextField: {'widget': CKEditorUploadingWidget()},
     }
 
-
-@admin.register(Owner)
-class OwnerAdmin(admin.ModelAdmin):
-    # readonly_fields = ('email',)
-    pass
 
 
 @admin.register(RatingProduct)
@@ -47,10 +42,10 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'h1', 'pub_date', 'owner', 'get_image', 'draft')
+    list_display = ('id', 'h1', 'pub_date', 'profile', 'get_image', 'draft')
     readonly_fields = ('get_image',)
     list_display_links = ('h1',)
-    list_filter = ('owner',)
+    list_filter = ('profile',)
     search_fields = ('h1',)
     ordering = ('id',)
     form = ProductAdminForm

@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">{{product.name}}</h5>
-                                    <p class="card-text">{{product.text|safe}}
+                                    <p class="card-text">{{product.text|truncatechars:100|striptags}}
                                     </p>
                                     <li>{{product.sex}}</li>
                                     <li>{{product.birthday}}</li>

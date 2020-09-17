@@ -3,7 +3,7 @@
     <!--    Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark ">
         <div class="container">
-            <a class="navbar-brand" href="#"><img src="/static/catalogs/img/logo.jpg" class="logo" width="250"
+            <a class="navbar-brand" href="/"><img src="/static/catalogs/img/logo2.jpg" class="logo" width="250"
                                                   height="50" alt="" loading="lazy"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -22,10 +22,12 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <span>{{ user.username }}</span>
+                        <div class="username">{{ user.username }}</div>
                     </li>
+                    <li>
                         <a href="{% url 'account_logout' %}" class="btn btn-light">Выйти</a>
-                    {% else %}
+                    </li>
+                        {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_signup' %}">Регистрация</a>
                     </li>

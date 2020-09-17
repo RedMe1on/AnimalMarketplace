@@ -1,4 +1,7 @@
+from allauth.account.forms import SignupForm, LoginForm
 from django import forms
+from django.contrib.auth.models import Group
+
 from .models import Product, RatingProduct
 from django.core.exceptions import ValidationError
 from pytils.translit import slugify
@@ -48,4 +51,26 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = RatingProduct
         fields = ('rating',)
+
+
+# class OwnerLoginForm(LoginForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         # for fieldname, field in self.fields.items():
+#         #     field.widget.attrs.update({
+#         #         'class': 'form-control-plaintext'
+#         #     })
+#
+#
+# class OwnerSignupForm(SignupForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+        # self.fields['new'] = forms.CharField(required=True)
+        # for fieldname, field in self.fields.items():
+        #     field.widget.attrs.update({
+        #         'class': 'form-control-plaintext'
+        #     })
+
+
+
 
