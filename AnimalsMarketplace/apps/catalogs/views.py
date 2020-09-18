@@ -52,7 +52,6 @@ class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
         return list_product
 
 
-
 class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
     model = Product
     rating_model = RatingProduct
