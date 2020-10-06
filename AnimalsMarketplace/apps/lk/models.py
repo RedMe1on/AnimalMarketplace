@@ -8,6 +8,7 @@ class Profile(models.Model):
     """Профиль владельцев"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(verbose_name='Имя', max_length=50)
+    last_name = models.CharField(verbose_name='Фамилия', max_length=50, blank=True)
     image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)
     email = models.EmailField(verbose_name='Почта', blank=True)
     phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)

@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
 from mptt.querysets import TreeQuerySet
-from .forms import ProductForm, RatingForm
+from .forms import RatingForm
 from .models import Categories, Product, RatingProduct
 from .utils import ProductFilterMixin, RatingProductMixin
 
@@ -63,34 +63,6 @@ class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
         context['avg_rating'] = self.get_avg_rating(self.kwargs.get('slug'))
         context['user_rating'] = self.get_user_rating(self.request, self.kwargs.get('slug'))
         return context
-
-
-class ProductUpdate(UpdateView):
-    model = Product
-    template_name_suffix = '_update_form'
-    form_class = ProductForm
-
-
-class ProductDelete(DeleteView):
-    model = Product
-    success_url = reverse_lazy('catalogs:product_list')
-    template_name_suffix = '_delete'
-
-
-class ProductCreate(View):
-
-    def get(self, request):
-        form = ProductForm()
-        return render(request, 'catalogs/product_create.html', context={'form': form})
-
-    def post(self, request):
-        bound_form = ProductForm(request.POST)
-        if bound_form.is_valid():
-            new_product = bound_form.save(commit=False)
-            new_product.profile_id = 1
-            new_product = bound_form.save()
-            return redirect(new_product)
-        return render(request, 'catalogs/product_create.html', context={'form': bound_form})
 
 
 class AddRatingViews(RatingProductMixin, View):

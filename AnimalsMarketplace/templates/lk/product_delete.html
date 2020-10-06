@@ -1,18 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'lk/profile.html' %}
 
 {% block title %}
         Delete Product "{{ product.title|title }} - {{ block.super }}"
 {% endblock %}
 
 
-{% block content %}
-<form action="{{ product.get_delete_url }}" method="post">
+{% block profile_content %}
+<form method="post">
     {% csrf_token %}
-
     <h1>Точно удалить этот товар - <b>{{product.title|title}}</b>?</h1>
 
-    <a href="{{ product.get_absolute_url }}">Назад</a>
+    <a href="{% url 'lk:product_list' %}">Назад</a>
     <button type="submit" class="btn btn-danger">Удалить</button>
 
 </form>
-{% endblock %}
+{% endblock profile_content %}

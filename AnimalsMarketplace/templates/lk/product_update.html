@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'lk/profile.html' %}
 
 {% block title %}
     Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
-{% block content %}
+{% block profile_content %}
 <div class="container">
-<form action="{{ product.get_update_url }}" method="post">
+<form method="post">
     {% csrf_token %}
 
     {% for field in form %}
@@ -25,4 +25,4 @@
 </form>
 </div>
 
-{% endblock %}
+{% endblock profile_content%}

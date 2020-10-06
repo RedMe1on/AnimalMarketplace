@@ -79,10 +79,10 @@ class Product(models.Model):
         return reverse('catalogs:product_detail', kwargs={'slug': self.slug})
 
     def get_update_url(self):
-        return reverse('catalogs:product_update', kwargs={'slug': self.slug})
+        return reverse('lk:product_update', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
-        return reverse('catalogs:product_delete', kwargs={'slug': self.slug})
+        return reverse('lk:product_delete', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if self.slug == '':

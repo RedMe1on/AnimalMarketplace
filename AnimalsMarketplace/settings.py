@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'allauth',
     'allauth.account',
+    'crispy_forms',
 
 ]
 
@@ -153,7 +154,6 @@ EMAIL_HOST_USER = 'ddjango893'
 EMAIL_HOST_PASSWORD = 'fdeR123fds'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

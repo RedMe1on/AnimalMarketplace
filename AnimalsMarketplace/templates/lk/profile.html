@@ -1,6 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Мой профиль</h1>
-{{ profile }}
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-3 profile-nav-column">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lk:profile' %}">Мой профиль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lk:product_list' %}">Мои объявления</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+
+            {% block profile_content %}
+            <div class="row my-2">
+                <div class="col-md-8">
+                    <h1>Мой профиль</h1>
+                </div>
+                <div class="col-md-4 m-auto text-right">
+                    <a href="{% url 'lk:edit_profile' %}" class="btn btn-primary">Редактировать</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 card-item-image">
+                    {% if profile.image %}
+                    <img src="{{ profile.image.url }}" class="w-100 border ">
+                    {% else %}
+                    <img src="/media/no_image.png" class="w-100 border">
+                    {% endif %}
+                </div>
+                <p>{{ profile }}</p>
+                <p>{{ profile2 }}</p>
+                <p>{{ profile2.name }}</p>
+                <div class="col-sm-8 card-item-list m-auto">
+                    <p>Имя: {{ profile.name }}</p>
+                    <p>Фамилия: {{ profile.last_name }}</p>
+                    <p>E-mail: {{ profile.email }}</p>
+                    <p>Телефон: {{ profile.phone_number }}</p>
+                </div>
+            </div>
+
+
+            {% endblock profile_content %}
+
+        </div>
+    </div>
+
+
+</div>
 {% endblock content %}
