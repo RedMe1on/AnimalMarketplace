@@ -183,8 +183,18 @@ flex-direction: column;
     color: white;
 }
 
-.profile-nav-column {
-    background-color: rgb(37, 201, 223);
+.profile-content {
+    background-color: white;
+}
+
+.profile-nav-column-2 {
+    background-color: pink;
+   
+}
+
+.profile-nav-column-1 {
+    background-color: pink;
+    
 }
 
 .product-pub-date {
@@ -192,3 +202,8 @@ flex-direction: column;
     color: grey;
     margin: 0;
 }
+
+.auth-form {
+    max-width: 400px;
+}
+

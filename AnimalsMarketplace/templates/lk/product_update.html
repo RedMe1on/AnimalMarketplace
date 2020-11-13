@@ -1,18 +1,17 @@
 {% extends 'lk/profile.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %}
     Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
 {% block profile_content %}
 <div class="container">
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
+    {{ form.media }}
     {% for field in form %}
     <div class="form-group">
-        {{  field.label }}
-        {{ field }}
+        {{ field|as_crispy_field }}
         {% if field.errors %}
         <div class="alert alert-danger">
            {{ field.errors }}
@@ -21,7 +20,7 @@
 
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary">Update Product</button>
+    <button type="submit" class="btn btn-primary float-right my-2">Сохранить</button>
 </form>
 </div>
 

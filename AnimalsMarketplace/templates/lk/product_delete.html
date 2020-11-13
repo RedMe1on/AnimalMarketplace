@@ -8,10 +8,43 @@
 {% block profile_content %}
 <form method="post">
     {% csrf_token %}
-    <h1>Точно удалить этот товар - <b>{{product.title|title}}</b>?</h1>
+    <h1 class="my-2">Точно удалить это объявление - <b>{{product.name}}</b>?</h1>
+           <div class="card w-100">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 img-profile m-auto">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="w-100 border ">
+                {% else %}
+                <img src="/media/no_image.png" class="w-100 border">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="product-pub-date">Добавлено: {{ product.pub_date|date }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="py-2">{{ product.name }}</h5>
+                    </div>
+                </div>
 
-    <a href="{% url 'lk:product_list' %}">Назад</a>
-    <button type="submit" class="btn btn-danger">Удалить</button>
+                <span>{{product.text|striptags|safe|truncatechars:150 }}</span>
+                <ul class="list-group my-3">
+                    <li class="list-group-item">Пол: {{ product.sex }}</li>
+                    <li class="list-group-item">Порода: {{ product.breed }}</li>
+                    <li class="list-group-item">Возраст: {{ product.birthday }}</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <button type="submit" class="btn btn-danger float-right my-2">Удалить</button>
+    <a href="{% url 'lk:product_list' %}" class=" float-right m-3">Назад</a>
+
 
 </form>
 {% endblock profile_content %}

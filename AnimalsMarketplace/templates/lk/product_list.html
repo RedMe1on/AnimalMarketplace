@@ -6,7 +6,7 @@
         <h1>Мои объявления</h1>
     </div>
     <div class="col-md-4 m-auto text-right">
-        <a href="{% url 'lk:product_create' %}" class="btn btn-primary center">Добавить оборудование</a>
+        <a href="{% url 'lk:product_create' %}" class="btn btn-primary center">Добавить объявление</a>
     </div>
 </div>
 {% for product in product_list %}
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 
-                <span>{{product.text|striptags|truncatechars:150 }}</span>
+                <span>{{product.text|striptags|safe|truncatechars:150 }}</span>
                 <ul class="list-group my-3">
                     <li class="list-group-item">Пол: {{ product.sex }}</li>
                     <li class="list-group-item">Порода: {{ product.breed }}</li>

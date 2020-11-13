@@ -1,3 +1,5 @@
+from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.core.exceptions import ValidationError
 from pytils.translit import slugify
@@ -14,7 +16,7 @@ class ProfileEditForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Электронная почта'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Телефон'})
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+79999999999'})
         }
         labels = {
             'name': 'Имя',
@@ -30,17 +32,19 @@ class ProfileEditForm(forms.ModelForm):
         }
 
 
-class ProductEditForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
     """Форма редактирования объявления"""
+    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'form-check-inline m-2'}),
+                            choices=Product.SexChoices.choices,
+                            label='Пол питомца')
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('name', 'category', 'text', 'h1', 'sex', 'birthday', 'breed', 'image', 'draft')
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'h1': forms.TextInput(attrs={'class': 'form-control'}),
-            'slug': forms.TextInput(attrs={'class': 'form-control'}),
-            'text': forms.TextInput(attrs={'class': 'form-control'})
+            'birthday': forms.SelectDateWidget(attrs={'class': 'my-2 d-inline-block', 'style': 'width: 33%;'},
+                                               years=range(1940, 2021)),
+            'text': CKEditorWidget(config_name='form-editor'),
         }
         error_messages = {
             'slug': {

@@ -183,3 +183,23 @@ flex-direction: column;
     color: white;
 }
 
+.profile-content {
+    background-color: white;
+}
+
+.profile-nav-column-2 {
+    background-color: pink;
+   
+}
+
+.profile-nav-column-1 {
+    background-color: pink;
+    
+}
+
+.product-pub-date {
+    font-size: 0.8rem;
+    color: grey;
+    margin: 0;
+}
+

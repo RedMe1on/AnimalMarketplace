@@ -61,7 +61,7 @@ class Product(models.Model):
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-    sex = models.CharField(verbose_name='Пол питомца', max_length=10)
+    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
     birthday = models.DateField(verbose_name='Дата рождения')
     breed = models.CharField(verbose_name='Порода', max_length=300, blank=True)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)

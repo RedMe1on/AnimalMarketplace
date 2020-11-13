@@ -6,7 +6,7 @@
 {% block profile_content %}
 <h1>Мой профиль</h1>
 
-<form method="post" action="{% url 'lk:edit_profile' %}">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     
     {% if form.errors %}

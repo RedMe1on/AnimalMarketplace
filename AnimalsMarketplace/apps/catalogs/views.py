@@ -1,10 +1,7 @@
 from django.db.models import QuerySet
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import View, ListView, DeleteView, DetailView, UpdateView
+from django.views.generic import View, ListView, DetailView
 from django.views.generic.list import MultipleObjectMixin
-from mptt.querysets import TreeQuerySet
 from .forms import RatingForm
 from .models import Categories, Product, RatingProduct
 from .utils import ProductFilterMixin, RatingProductMixin
@@ -12,11 +9,11 @@ from .utils import ProductFilterMixin, RatingProductMixin
 
 class ProductList(ProductFilterMixin, ListView):
     model = Product
-    queryset = Product.objects.order_by('-pub_date')
     paginate_by = 10
+    ordering = ['-pub_date']
 
     def get_queryset(self):
-        queryset = self.get_filter_product(self.queryset)
+        queryset = self.get_filter_product(super().get_queryset())
         return queryset
 
 
@@ -40,14 +37,9 @@ class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
         context['rating-form'] = RatingForm()
         return context
 
-    def get_child_and_self_categories(self, slug: str) -> TreeQuerySet:
-        """Метод для получения дочерних категорий и самой категории"""
-        category = self.model.objects.get(slug=slug)
-        return category.get_descendants(include_self=True)
-
     def get_product_list_for_category(self) -> QuerySet:
         """Список товаров, которые относятся к дочерним и текущей категории"""
-        parents_categories = self.get_child_and_self_categories(self.kwargs.get('slug'))
+        parents_categories = self.object.get_descendants(include_self=True)
         list_product = Product.objects.filter(category__in=parents_categories)
         return list_product
 
