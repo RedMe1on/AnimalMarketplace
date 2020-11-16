@@ -1,6 +1,10 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
+
+
 # Create your models here.
 
 
@@ -11,7 +15,7 @@ class Profile(models.Model):
     last_name = models.CharField(verbose_name='Фамилия', max_length=50, blank=True)
     image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)
     email = models.EmailField(verbose_name='Почта', blank=True)
-    phone_number = PhoneNumberField(verbose_name='Номер телефона', unique=True, null=False)
+    phone_number = PhoneNumberField(verbose_name='Номер телефона', null=True, blank=True)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
@@ -21,3 +25,14 @@ class Profile(models.Model):
     class Meta:
         verbose_name = 'Владелец'
         verbose_name_plural = 'Владельцы'
+
+
+# Сигнал для присвоения новому User группы пользователя
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance, name=instance.username)
+        group = Group.objects.get(name='Новые')
+        instance.groups.add(group)
+    else:
+        instance.profile.save()

@@ -28,10 +28,8 @@
     </div>
         {{ form.email|as_crispy_field  }}
         {{ form.phone_number|as_crispy_field  }}
-        <div class="text-center">
         {{ form.image|as_crispy_field  }}
-        </div>
 
-    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <button type="submit" class="btn btn-primary float-right my-2">Сохранить</button>
 </form>
 {% endblock profile_content %}

@@ -19,11 +19,7 @@ class ProfileViews(LoginRequiredMixin, DetailView):
     context_object_name = 'profile'
 
     def get_object(self, queryset=None):
-        profile, created = self.model.objects.get_or_create(
-            user=self.request.user,
-            defaults={'name': self.request.user.username,
-                      'email': self.request.user.email,
-                      })
+        profile = self.model.objects.get(user=self.request.user)
         return profile
 
 

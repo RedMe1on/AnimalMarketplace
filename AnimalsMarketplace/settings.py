@@ -303,6 +303,7 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
