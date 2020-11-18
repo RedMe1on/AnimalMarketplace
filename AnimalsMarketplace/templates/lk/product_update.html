@@ -9,15 +9,14 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.media }}
+     {% if form.errors %}
+        <div class="alert alert-danger">
+           <strong>Исправьте ошибки ниже</strong>
+        </div>
+    {% endif %}
     {% for field in form %}
     <div class="form-group">
         {{ field|as_crispy_field }}
-        {% if field.errors %}
-        <div class="alert alert-danger">
-           {{ field.errors }}
-        </div>
-        {% endif %}
-
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-primary float-right my-2">Сохранить</button>

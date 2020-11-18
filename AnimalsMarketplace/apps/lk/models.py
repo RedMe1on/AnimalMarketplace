@@ -10,7 +10,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class Profile(models.Model):
     """Профиль владельцев"""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name='Пользователь')
     name = models.CharField(verbose_name='Имя', max_length=50)
     last_name = models.CharField(verbose_name='Фамилия', max_length=50, blank=True)
     image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)

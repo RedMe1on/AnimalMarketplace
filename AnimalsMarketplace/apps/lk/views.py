@@ -9,11 +9,11 @@ from .forms import ProfileEditForm, ProductForm
 from .models import Profile
 from catalogs.models import Product
 from AnimalsMarketplace import settings
+from .permissions import AuthorPermissionsMixin
 
 
 class ProfileViews(LoginRequiredMixin, DetailView):
     """Профиль"""
-    login_url = settings.LOGIN_URL
     model = Profile
     template_name = 'lk/profile.html'
     context_object_name = 'profile'
@@ -35,19 +35,11 @@ class ProfileEditViews(LoginRequiredMixin, UpdateView):
         return profile
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
     """Удалить объявление"""
     model = Product
     success_url = reverse_lazy('lk:product_list')
     template_name = 'lk/product_delete.html'
-
-    def get(self, request, *args, **kwargs):
-        obj = self.get_object(queryset=None)
-        profile = Profile.objects.get(user=self.request.user)
-        if obj.profile == profile:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponse(404)
 
 
 class ProductListView(LoginRequiredMixin, ListView):
@@ -58,25 +50,15 @@ class ProductListView(LoginRequiredMixin, ListView):
     ordering = ['-pub_date']
 
     def get_queryset(self):
-        profile = Profile.objects.get(user=self.request.user)
-        queryset = super().get_queryset().filter(profile=profile)
-        return queryset
+        return super().get_queryset().filter(user=self.request.user)
 
 
-class ProductEditView(LoginRequiredMixin, UpdateView):
+class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
     """Редактирование объявления"""
     model = Product
     template_name = 'lk/product_update.html'
     form_class = ProductForm
     success_url = reverse_lazy('lk:product_list')
-
-    def get(self, request, *args, **kwargs):
-        obj = self.get_object(queryset=None)
-        profile = Profile.objects.get(user=self.request.user)
-        if obj.profile == profile:
-            return super().get(request, *args, **kwargs)
-        else:
-            return HttpResponse(404)
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -88,6 +70,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         new_product = form.save(commit=False)
-        new_product.profile = Profile.objects.get(user=self.request.user)
+        new_product.user = self.request.user
         new_product.save()
         return redirect(self.success_url)

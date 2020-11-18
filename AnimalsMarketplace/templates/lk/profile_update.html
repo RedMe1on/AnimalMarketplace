@@ -10,13 +10,9 @@
     {% csrf_token %}
     
     {% if form.errors %}
-        {% for field in form  %}
-            {% for error in field.errors  %}
-            <div class="alert alert-danger">
-                <strong>{{ error }}</strong>
-            </div>
-            {% endfor %}
-        {% endfor %}
+        <div class="alert alert-danger">
+           <strong>Исправьте ошибки ниже</strong>
+        </div>
     {% endif %}
     <div class="row">
         <div class="col-md-6">
