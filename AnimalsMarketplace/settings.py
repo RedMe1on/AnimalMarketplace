@@ -147,12 +147,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+#settings allauth
+
 LOGIN_REDIRECT_URL = '/lk/profile/'
 LOGIN_URL = '/accounts/login/'
 # ACCOUNT_FORMS = {
 #     'login': 'catalogs.forms.OwnerLoginForm',
 #     'signup': 'catalogs.forms.OwnerSignupForm',
 # }
+
+#settings send mail
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ddjango893'
@@ -171,8 +175,8 @@ STATICFIELS_DIRS = [STATIC_ROOT]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
+#settings CKEDITOR
 CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_ROOT, 'uploads/')
-
 CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono',
@@ -304,6 +308,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+#settings crispy
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1

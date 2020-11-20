@@ -1,0 +1,46 @@
+{% load i18n account %}
+{% load static %}
+
+<form method="POST" action="/accounts/login/" class="need_auth">
+    {% csrf_token %}
+    <p class="error-li" style="color: red;"></p>
+    <p><input type="text"
+              name="login"
+              placeholder="Имя пользователя"
+              autofocus="autofocus"
+              maxlength="150"
+              required=""
+              id="id_login"
+              class="form-control">
+    </p>
+    {% if erorrs %}
+        <ul class="errorlist">
+            <li>Это поле обязательно.</li>
+        </ul>
+    {% endif %}
+    <p>
+        <input class="form-control" type="password" name="password"
+               placeholder="Пароль" required="" id="id_password">
+    </p>
+    <p><label for="id_remember">Запомнить меня:</label>
+        <input type="checkbox" name="remember" id="id_remember">
+    </p>
+    <div>
+        <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+        {#        <a href="{% url 'account_signup' %}" class="btn btn-default">{% trans "Sign Up" %}</a>#}
+        <a href="#"
+           class="btn btn-default"
+           data-toggle="modal"
+           data-target="#signupModal"
+           data-dismiss="modal">
+            {% trans "Sign Up" %}
+        </a>
+    </div>
+    <br>
+        <p>{% blocktrans %}If you have not created an account yet, then please
+            <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+    <hr>
+    <a href="{% url 'account_reset_password' %}">
+        {% trans "Forgot Password?" %}
+    </a>
+</form>
