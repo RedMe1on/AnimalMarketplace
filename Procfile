@@ -1,0 +1,1 @@
+web: gunicorn AnimalsMarketplace.wsgi:application --log-file -
