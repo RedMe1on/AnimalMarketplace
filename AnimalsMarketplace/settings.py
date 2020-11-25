@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -116,7 +117,6 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -152,7 +152,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-#settings allauth
+# settings allauth
 
 LOGIN_REDIRECT_URL = '/lk/profile/'
 LOGIN_URL = '/accounts/login/'
@@ -161,7 +161,7 @@ LOGIN_URL = '/accounts/login/'
 #     'signup': 'catalogs.forms.OwnerSignupForm',
 # }
 
-#settings send mail
+# settings send mail
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ddjango893'
@@ -176,11 +176,12 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 STATICFIELS_DIRS = [STATIC_ROOT]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
-#settings CKEDITOR
+# settings CKEDITOR
 CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_ROOT, 'uploads/')
 CKEDITOR_CONFIGS = {
     'default': {
@@ -313,7 +314,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-#settings crispy
+# settings crispy
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
