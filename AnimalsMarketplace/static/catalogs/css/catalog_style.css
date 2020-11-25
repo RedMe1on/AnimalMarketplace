@@ -203,3 +203,7 @@ flex-direction: column;
     margin: 0;
 }
 
+.auth-form {
+    max-width: 400px;
+}
+
