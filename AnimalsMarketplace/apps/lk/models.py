@@ -32,7 +32,7 @@ class Profile(models.Model):
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance, name=instance.username)
-        group = Group.objects.get_or_create(name='Новые')
+        group, create_group = Group.objects.get_or_create(name='Новые')
         instance.groups.add(group)
     else:
         instance.profile.save()
