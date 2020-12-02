@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.shortcuts import reverse
@@ -38,6 +39,11 @@ class Categories(MPTTModel):
             self.slug = slugify(self.h1)
         else:
             self.slug = slugify(self.slug)
+        # обработка неуникального slug
+        try:
+            self.validate_unique()
+        except ValidationError:
+            self.slug += '-copy'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
