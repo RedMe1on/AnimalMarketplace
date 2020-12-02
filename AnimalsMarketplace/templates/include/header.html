@@ -85,14 +85,17 @@
     <hr class="m-0">
     <div class="container">
         <nav class="nav nav-pills justify-content-center">
+            {% get_categories as categories %}
+            {% if categories %}
             <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">Категории</a>
             <div class="dropdown-menu">
-                {% get_categories as categories %}
+
                 {% for category in categories %}
                 <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
                 {% endfor %}
             </div>
+            {% endif %}
             <a class="nav-link" href="#">Блог</a>
             <a class="nav-link" href="/about/">О нас</a>
         </nav>
