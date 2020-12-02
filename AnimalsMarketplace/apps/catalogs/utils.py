@@ -31,18 +31,18 @@ class RatingProductMixin:
     model = None
     rating_model = None
 
-    def get_user_rating(self, request, slug):
+    def get_user_rating(self, request, pk):
         """Плучение ранее оставленного рейтинга по ip пользователя"""
         ip = self.get_client_ip(request)
         try:
-            user_rating = self.rating_model.objects.get(product=self.model.objects.get(slug=slug), ip=ip)
+            user_rating = self.rating_model.objects.get(product=self.model.objects.get(pk=pk), ip=ip)
             return user_rating.rating
         except ObjectDoesNotExist:
             return 0
 
-    def get_avg_rating(self, slug: str) -> float:
+    def get_avg_rating(self, pk: int) -> float:
         """Подсчет среднего рейтинга товара"""
-        rating = self.rating_model.objects.filter(product=self.model.objects.get(slug=slug))
+        rating = self.rating_model.objects.filter(product=self.model.objects.get(pk=pk))
         star_list = [star.rating for star in rating]
         if star_list:
             sum = 0

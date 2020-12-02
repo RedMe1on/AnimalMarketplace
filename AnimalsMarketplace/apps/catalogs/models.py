@@ -65,7 +65,6 @@ class Product(models.Model):
     name = models.CharField(verbose_name='Название товара', max_length=150)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
@@ -83,20 +82,13 @@ class Product(models.Model):
         return self.h1
 
     def get_absolute_url(self):
-        return reverse('catalogs:product_detail', kwargs={'slug': self.slug})
+        return reverse('catalogs:product_detail', kwargs={'pk': self.pk})
 
     def get_update_url(self):
         return reverse('lk:product_update', kwargs={'pk': self.pk})
 
     def get_delete_url(self):
         return reverse('lk:product_delete', kwargs={'pk': self.pk})
-
-    def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = slugify(self.h1)
-        else:
-            self.slug = slugify(self.slug)
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Карточка питомца'

@@ -52,8 +52,8 @@ class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['rating_form'] = RatingForm()
-        context['avg_rating'] = self.get_avg_rating(self.kwargs.get('slug'))
-        context['user_rating'] = self.get_user_rating(self.request, self.kwargs.get('slug'))
+        context['avg_rating'] = self.get_avg_rating(self.kwargs.get('pk'))
+        context['user_rating'] = self.get_user_rating(self.request, self.kwargs.get('pk'))
         return context
 
 
