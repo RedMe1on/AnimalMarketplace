@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load catalog_tags mailing_tags %}
+
+
+{% block content %}
+            <!-- start banner Area -->
+			<section class="banner-area relative" id="home">
+				<div class="container">
+					<div class="overlay overlay-bg"></div>
+					<div class="row fullscreen d-flex align-items-center justify-content-start">
+						<div class="banner-content col-lg-8 col-md-12">
+							<h1 class="text-uppercase">
+								Adopt Us. <br>
+								We need your help.
+							</h1>
+							<p class="text-white sub-head">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp
+								or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+							</p>
+							<a href="#" class="primary-btn header-btn text-uppercase">Find a pet to adopt</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End banner Area -->
+
+            <!-- Start image-carusel Area -->
+			<section class="image-carusel-area">
+				<div class="container">
+					<div class="row">
+						<div class="active-image-carusel">
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="static/img/c1.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="static/img/c2.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="static/img/c3.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="static/img/c4.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c1.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c2.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c3.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c4.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c1.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c2.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c3.jpg" alt="">
+							</div>
+							<div class="single-image-carusel">
+								<img class="img-fluid" src="img/c4.jpg" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End image-carusel Area -->
+
+            <!-- Start callto-top Area -->
+			<section class="callto-top-area section-gap">
+				<div class="container">
+					<div class="row justify-content-between callto-top-wrap pt-40 pb-40">
+						<div class="col-lg-8 callto-top-left">
+							<h1>Please select your favourite pet</h1>
+						</div>
+						<div class="col-lg-4 callto-top-right">
+							<a href="#" class="primary-btn">Fill Adoption Form</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End callto-top Area -->
+
+            <!-- Start home-about Area -->
+			<section class="home-about-area">
+				<div class="container-fluid">
+					<div class="row align-items-center">
+						<div class="col-lg-6 home-about-left no-padding">
+							<img src="static/img/about-img.jpg" alt="">
+						</div>
+						<div class="col-lg-6 home-about-right no-padding">
+							<h1>
+								Globally Connected
+								by Large Network
+							</h1>
+							<h5>We are here to listen from you deliver exellence</h5>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.
+							</p>
+							<a href="#" class="primary-btn text-uppercase">get details</a>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End home-about Area -->
+
+<!-- catalog list -->
+{% include 'include/catalog.html' %}
+    <!-- link-block -->
+{% get_last_product count=5 %}
+<!-- callback-from -->
+{% mailing_form %}
+{% endblock content %}
