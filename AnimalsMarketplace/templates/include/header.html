@@ -1,104 +1,60 @@
 {% load catalog_tags %}
-<header class="main-menu bg-primary">
-    <!--    Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-        <div class="container">
-            <a class="navbar-brand" href="/"><img src="/static/catalogs/img/logo2.jpg" class="logo" width="250"
-                                                  height="50" alt="" loading="lazy"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+{% load static %}
 
-            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-
-                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get">
-                    <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"
-                           aria-label="Search" name="title">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{% url 'lk:profile' %}">Мой профиль</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'lk:product_list' %}">Мои объявления</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'account_logout' %}">Выйти</a>
-                      </div>
+<header id="header" id="home">
+    <div class="container main-menu">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div id="logo">
+                <a href="/"><img src="{% static '/img/logo.png' %}" alt="" title=""/></a>
+            </div>
+<!--            search-->
+<!--            <div>-->
+<!--                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get">-->
+<!--                    <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"-->
+<!--                           aria-label="Search" name="title">-->
+<!--                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--                </form>-->
+<!--            </div>-->
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="menu-active"><a href="/">Home</a></li>
+                    <li><a href="/about/">О нас</a></li>
+                    <li class="menu-has-children"><a href="">Объявления</a>
+                        <ul>
+                            <li><a href="cats.html">Кошки</a></li>
+                            <li><a href="dogs.html">Собаки</a></li>
+<!--                            <li class="menu-has-children"><a href="">Level 2</a>-->
+<!--                                <ul>-->
+<!--                                    <li><a href="#">Item 1</a></li>-->
+<!--                                    <li><a href="#">Item 2</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+                        </ul>
                     </li>
-                        {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Регистрация</a>
+
+
+                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li class="menu-has-children"><a href="">Blog</a>
+                        <ul>
+                            <li><a href="blog-home.html">Blog Home</a></li>
+                            <li><a href="blog-single.html">Blog Single</a></li>
+                        </ul>
                     </li>
-                        <a href="{% url 'account_login' %}" class="btn btn-light">Войти</a>
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
-                            Вход
-                        </a>
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">
-                            Регистрация
-                        </a>
-                    {% endif %}
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="menu-has-children"><a href="">Dropdown</a>
+                        <ul>
+                            <li><a href="elements.html">Elements</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li class="menu-has-children"><a href="">Level 2</a>
+                                <ul>
+                                    <li><a href="#">Item 1</a></li>
+                                    <li><a href="#">Item 2</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-            </div>
-        </div>
-    </nav>
-    {# Login modal #}
-    <div class="modal fade" id="loginModal">
-        <div class="modal-dialog modal-dialog-centered auth-modal">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Вход</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    {% include 'account/ajax_login.html' %}
-                </div>
-            </div>
+            </nav><!-- #nav-menu-container -->
         </div>
     </div>
-    {# Signup modal #}
-    <div class="modal fade" id="signupModal">
-        <div class="modal-dialog modal-dialog-centered auth-modal">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Регистрация</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    {% include 'account/ajax_signup.html' %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr class="m-0">
-    <div class="container">
-        <nav class="nav nav-pills justify-content-center">
-            {% get_categories as categories %}
-            {% if categories %}
-            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button"
-               aria-haspopup="true" aria-expanded="false">Категории</a>
-            <div class="dropdown-menu">
-
-                {% for category in categories %}
-                <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                {% endfor %}
-            </div>
-            {% endif %}
-            <a class="nav-link" href="#">Блог</a>
-            <a class="nav-link" href="/about/">О нас</a>
-        </nav>
-    </div>
-</header>
-
+</header><!-- #header -->

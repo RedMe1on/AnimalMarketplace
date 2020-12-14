@@ -18,7 +18,7 @@ class ProductList(ProductFilterMixin, ListView):
 
 
 class MainPage(ProductList):
-    template_name = 'catalogs/main1.html'
+    template_name = 'catalogs/main.html'
 
 
 class CategoriesList(ProductFilterMixin, ListView):

@@ -17,10 +17,6 @@
     <!-- Site Title -->
     <title>{% block title %}WOW, your nice!{% endblock title %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="{% static '/catalogs/css/catalog_style.css' %}">-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="{% static '/css/linearicons.css' %}">
@@ -36,7 +32,7 @@
 </head>
 
 <body>
-    {% include 'include/header1.html' %}
+    {% include 'include/header.html' %}
 
     {% block content %}
     {% endblock content%}
@@ -64,10 +60,7 @@
     <script src="{% static 'catalogs/js/script.js' %}"></script>
 
 
-<!--    template script-->
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+    <!--   js -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
     <script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
