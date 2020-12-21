@@ -10,7 +10,7 @@
     <!-- meta character set -->
     <meta charset="utf-8">
     <!-- Required meta tags -->
-     <!-- Meta Description -->
+    <!-- Meta Description -->
     <meta name="description" content="">
     <!-- Meta Keyword -->
     <meta name="keywords" content="">
@@ -32,16 +32,16 @@
 </head>
 
 <body>
-    {% include 'include/header.html' %}
+{% include 'include/header.html' %}
 
-    {% block content %}
-    {% endblock content%}
+{% block content %}
+{% endblock content%}
 
-    {% include 'include/footer.html' %}
-    <!-- Optional JavaScript -->
+{% include 'include/footer.html' %}
+<!-- Optional JavaScript -->
 
-    <!-- jquery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<!-- jquery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 <!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"-->
@@ -53,26 +53,60 @@
 
 <!--    &lt;!&ndash; vue.js &ndash;&gt;-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<!--    modal form-->
+{# Login modal #}
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog modal-dialog-centered auth-modal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Вход</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                {% include 'account/ajax_login.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{# Signup modal #}
+<div class="modal fade" id="signupModal">
+    <div class="modal-dialog modal-dialog-centered auth-modal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Регистрация</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="margin-bottom:20px;">
+                {% include 'account/ajax_signup.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- static js -->
+<script src="{% static 'catalogs/js/filter.js' %}"></script>
+<script src="{% static 'catalogs/js/script.js' %}"></script>
 
 
-    <!-- static js -->
-    <script src="{% static 'catalogs/js/filter.js' %}"></script>
-    <script src="{% static 'catalogs/js/script.js' %}"></script>
-
-
-    <!--   js -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-    <script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
-    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/easing.min.js' %}"></script>
-    <script src="{% static 'js/hoverIntent.js' %}"></script>
-    <script src="{% static 'js/superfish.min.js' %}"></script>
-    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'js/mail-script.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+<!--   js -->
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+<script src="{% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
+<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/easing.min.js' %}"></script>
+<script src="{% static 'js/hoverIntent.js' %}"></script>
+<script src="{% static 'js/superfish.min.js' %}"></script>
+<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'js/mail-script.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>

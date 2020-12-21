@@ -5,7 +5,9 @@
 
 {% block content %}
 
-<!-- catalog list -->
+
+{% include 'include/start_banner.html' %}
+
 {% include 'include/catalog.html' %}
 <!-- link-block -->
 {% get_last_product count=5 %}

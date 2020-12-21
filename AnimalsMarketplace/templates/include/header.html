@@ -7,28 +7,28 @@
             <div id="logo">
                 <a href="/"><img src="{% static '/img/logo.png' %}" alt="" title=""/></a>
             </div>
-<!--            search-->
-<!--            <div>-->
-<!--                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get">-->
-<!--                    <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"-->
-<!--                           aria-label="Search" name="title">-->
-<!--                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-<!--                </form>-->
-<!--            </div>-->
+            <!--            search-->
+            <!--            <div>-->
+            <!--                <form action="{% url 'catalogs:search' %}" class="form-inline my-2 my-lg-0 search-form" method="get">-->
+            <!--                    <input class="form-control mr-sm-2 search-menu-input" type="search" placeholder="Search"-->
+            <!--                           aria-label="Search" name="title">-->
+            <!--                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+            <!--                </form>-->
+            <!--            </div>-->
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
-                    <li class="menu-active"><a href="/">Home</a></li>
+                    <li class="menu-active"><a href="/">Главная</a></li>
                     <li><a href="/about/">О нас</a></li>
                     <li class="menu-has-children"><a href="">Объявления</a>
                         <ul>
                             <li><a href="cats.html">Кошки</a></li>
                             <li><a href="dogs.html">Собаки</a></li>
-<!--                            <li class="menu-has-children"><a href="">Level 2</a>-->
-<!--                                <ul>-->
-<!--                                    <li><a href="#">Item 1</a></li>-->
-<!--                                    <li><a href="#">Item 2</a></li>-->
-<!--                                </ul>-->
-<!--                            </li>-->
+                            <!--                            <li class="menu-has-children"><a href="">Level 2</a>-->
+                            <!--                                <ul>-->
+                            <!--                                    <li><a href="#">Item 1</a></li>-->
+                            <!--                                    <li><a href="#">Item 2</a></li>-->
+                            <!--                                </ul>-->
+                            <!--                            </li>-->
                         </ul>
                     </li>
 
@@ -55,6 +55,44 @@
                     </li>
                 </ul>
             </nav><!-- #nav-menu-container -->
+            <ul id="lk-block">
+                {% if user.is_authenticated %}
+                <button type="button" id="mobile-dropdown-button" style="margin-right:3rem;"><i
+                        class="lnr lnr-user"></i></button>
+                <button type="button" id="lk-menu" class="genric-btn default radius dropdown-button"><i
+                        class="lnr lnr-user lnr-login"></i><span>{{ user.username }}</span>
+                </button>
+                <div class="dropdown-menu-custom">
+                    <a class="genric-btn primary" href="{% url 'lk:profile' %}">Мой профиль</a>
+                    <a class="genric-btn primary" href="{% url 'lk:product_list' %}">Мои объявления</a>
+                    <a class="genric-btn primary" href="#">Something else here</a>
+                    <a class="genric-btn danger" href="{% url 'account_logout' %}">Выйти</a>
+                </div>
+
+
+                {% else %}
+                <button type="button" id="mobile-dropdown-button" data-toggle="modal"
+                   data-target="#loginModal" style="margin-right:3rem;"><i
+                        class="lnr lnr-user"></i></button>
+                <a href="{% url 'account_login' %}" class="genric-btn default radius" id="lk-menu" data-toggle="modal"
+                   data-target="#loginModal"><i
+                        class="lnr lnr-user lnr-login"></i><span>Войти</span></a>
+
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" href="{% url 'account_signup' %}">Регистрация</a>-->
+                <!--                </li>-->
+
+                <!--                <a href="{% url 'account_login' %}" class="btn btn-light">Войти</a>-->
+                <!--                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">-->
+                <!--                    Вход-->
+                <!--                </a>-->
+                <!--                <a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">-->
+                <!--                    Регистрация-->
+                <!--                </a>-->
+                {% endif %}
+
+
+            </ul>
         </div>
     </div>
 </header><!-- #header -->

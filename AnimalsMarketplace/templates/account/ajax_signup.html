@@ -5,35 +5,55 @@
               name="username"
               placeholder="Имя пользователя"
               autofocus="autofocus"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Имя пользователя'"
               minlength="4"
               maxlength="150"
               required=""
               id="id_username"
-              class="form-control">
+              class="single-input-primary">
     </p>
     <p class="error-email" style="color: red;"></p>
     <p><input type="email"
               name="email"
               placeholder="E-mail адрес"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'E-mail адрес'"
               id="id_email"
-              class="form-control">
+              class="single-input-primary">
     </p>
     <p class="error-password1" style="color: red;"></p>
     <p><input type="password"
               name="password1"
               placeholder="Пароль"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Пароль'"
               required="" id="id_password1"
               aria-autocomplete="list"
-              class="form-control">
+              class="single-input-primary">
     </p>
     <p class="error-password2" style="color: red;"></p>
     <p><input type="password"
               name="password2"
               placeholder="Пароль (еще раз)"
+              onfocus="this.placeholder = ''"
+              onblur="this.placeholder = 'Пароль (еще раз)'"
               required=""
               id="id_password2"
-              class="form-control">
+              class="single-input-primary">
     </p>
 
-    <button class="btn btn-primary" type="submit">Регистрация</button>
+    <button class="genric-btn primary" type="submit">Зарегистрироваться</button>
+    <button class="genric-btn info-border arrow" data-toggle="modal"
+            data-target="#loginModal"
+            data-dismiss="modal" type="submit">Уже есть аккаунт? Войдите <span class="lnr lnr-arrow-right"></span>
+    </button>
+    <hr>
+    <div class="switch-wrap d-flex">
+        <div class="confirm-checkbox">
+            <input type="checkbox" id="confirm-checkbox">
+            <label for="confirm-checkbox"></label>
+        </div>
+        <p style="margin-left:10px;">Я принимаю пользовательское соглашение</p>
+    </div>
 </form>
