@@ -13,3 +13,5 @@ urlpatterns = [
     path('<str:slug>/', CategoriesDetail.as_view(), name='categories_detail'),
 
 ]
+
+

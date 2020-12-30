@@ -19,40 +19,39 @@
                 <ul class="nav-menu">
                     <li class="menu-active"><a href="/">Главная</a></li>
                     <li><a href="/about/">О нас</a></li>
-                    <li class="menu-has-children"><a href="">Объявления</a>
+
+                    <li class="menu-has-children"><a href="{% url 'catalogs:product_list' %}">Объявления</a>
                         <ul>
-                            <li><a href="cats.html">Кошки</a></li>
-                            <li><a href="dogs.html">Собаки</a></li>
-                            <!--                            <li class="menu-has-children"><a href="">Level 2</a>-->
-                            <!--                                <ul>-->
-                            <!--                                    <li><a href="#">Item 1</a></li>-->
-                            <!--                                    <li><a href="#">Item 2</a></li>-->
-                            <!--                                </ul>-->
-                            <!--                            </li>-->
+                            {% get_categories as categories %}
+                            {% if categories %}
+                            {% for category in categories %}
+                            <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                            {% endif %}
                         </ul>
                     </li>
 
 
-                    <li><a href="volunteer.html">Volunteer</a></li>
+                    <li><a href="/volunteer/">Волонтерам</a></li>
                     <li class="menu-has-children"><a href="">Blog</a>
                         <ul>
                             <li><a href="blog-home.html">Blog Home</a></li>
                             <li><a href="blog-single.html">Blog Single</a></li>
                         </ul>
                     </li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li class="menu-has-children"><a href="">Dropdown</a>
-                        <ul>
-                            <li><a href="elements.html">Elements</a></li>
-                            <li><a href="#">Item</a></li>
-                            <li class="menu-has-children"><a href="">Level 2</a>
-                                <ul>
-                                    <li><a href="#">Item 1</a></li>
-                                    <li><a href="#">Item 2</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="/contacts/">Контакты</a></li>
+<!--                    <li class="menu-has-children"><a href="">Dropdown</a>-->
+<!--                        <ul>-->
+<!--                            <li><a href="elements.html">Elements</a></li>-->
+<!--                            <li><a href="#">Item</a></li>-->
+<!--                            <li class="menu-has-children"><a href="">Level 2</a>-->
+<!--                                <ul>-->
+<!--                                    <li><a href="#">Item 1</a></li>-->
+<!--                                    <li><a href="#">Item 2</a></li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
                 </ul>
             </nav><!-- #nav-menu-container -->
             <ul id="lk-block">
@@ -72,7 +71,7 @@
 
                 {% else %}
                 <button type="button" id="mobile-dropdown-button" data-toggle="modal"
-                   data-target="#loginModal" style="margin-right:3rem;"><i
+                        data-target="#loginModal" style="margin-right:3rem;"><i
                         class="lnr lnr-user"></i></button>
                 <a href="{% url 'account_login' %}" class="genric-btn default radius" id="lk-menu" data-toggle="modal"
                    data-target="#loginModal"><i
