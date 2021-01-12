@@ -33,7 +33,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView, MultipleObjectMixin):
     def get_context_data(self, **kwargs):
         object_list = self.get_filter_product(self.get_product_list_for_category())
         context = super().get_context_data(object_list=object_list.order_by('name'), **kwargs)
-        context['product_list'] = context['object_list']
+        context['product_list'] = object_list.order_by('name')
         context['rating-form'] = RatingForm()
         return context
 

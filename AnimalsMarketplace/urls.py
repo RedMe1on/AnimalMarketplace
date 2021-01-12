@@ -26,6 +26,7 @@ urlpatterns = [
     path('pages/', include('django.contrib.flatpages.urls')),
     path('mailing/', include('mailing.urls')),
     path('lk/', include('lk.urls')),
+    path('blog/', include('blog.urls')),
     path('', include('catalogs.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
     path('silk/', include('silk.urls'), name='silk'),

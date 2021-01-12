@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'catalogs.apps.CatalogsConfig',
     'mailing.apps.MailingConfig',
     'lk.apps.LkConfig',
+    'blog.apps.BlogConfig',
+    'seo',
     'mptt',
     'phonenumber_field',
     'ckeditor_uploader',
@@ -53,8 +55,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'crispy_forms',
     'debug_toolbar',
-    'silk'
-
+    'silk',
 ]
 
 MIDDLEWARE = [
