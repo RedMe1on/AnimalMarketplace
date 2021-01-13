@@ -27,6 +27,7 @@ class ProductFilterMixin:
         return queryset
 
 
+
 class RatingProductMixin:
     model = None
     rating_model = None

@@ -70,7 +70,8 @@ class Product(models.Model):
     sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
     birthday = models.DateField(verbose_name='Дата рождения')
     breed = models.CharField(verbose_name='Порода', max_length=300, blank=True)
-    image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
+    image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True,
+                              default='/no_image.png')
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,

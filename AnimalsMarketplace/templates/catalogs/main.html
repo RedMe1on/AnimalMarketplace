@@ -29,42 +29,46 @@
 				<div class="container">
 					<div class="row">
 						<div class="active-image-carusel">
+							{% for product in product_list|slice:":3" %}
 							<div class="single-image-carusel">
-								<img class="img-fluid" src="static/img/c1.jpg" alt="">
+								<a href="{{ product.get_absolute_url }}">
+									<img class="img-fluid" src="/media/{{ product.image }}" alt="">
+								</a>
 							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="static/img/c2.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="static/img/c3.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="static/img/c4.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c1.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c2.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c3.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c4.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c1.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c2.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c3.jpg" alt="">
-							</div>
-							<div class="single-image-carusel">
-								<img class="img-fluid" src="img/c4.jpg" alt="">
-							</div>
+							{% endfor %}
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c2.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c3.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c4.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c1.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c2.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="static/img/c3.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="img/c4.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="img/c1.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="img/c2.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="img/c3.jpg" alt="">-->
+<!--							</div>-->
+<!--							<div class="single-image-carusel">-->
+<!--								<img class="img-fluid" src="img/c4.jpg" alt="">-->
+<!--							</div>-->
 						</div>
 					</div>
 				</div>

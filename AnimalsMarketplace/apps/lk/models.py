@@ -13,7 +13,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name='Пользователь')
     name = models.CharField(verbose_name='Имя', max_length=50)
     last_name = models.CharField(verbose_name='Фамилия', max_length=50, blank=True)
-    image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True)
+    image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True,
+                              default='/no_image.png')
     email = models.EmailField(verbose_name='Почта', blank=True)
     phone_number = PhoneNumberField(verbose_name='Номер телефона', null=True, blank=True)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)

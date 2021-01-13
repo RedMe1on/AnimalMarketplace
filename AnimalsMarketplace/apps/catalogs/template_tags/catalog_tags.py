@@ -20,6 +20,7 @@ def url_replace_for_pagination(context, **kwargs) -> str:
 
 
 @register.inclusion_tag('catalogs/tags/last_ads.html')
-def get_last_product(count):
+def get_last_product(count: int):
     product = Product.objects.order_by('pub_date')[:count]
     return {'get_last_product': product}
+
