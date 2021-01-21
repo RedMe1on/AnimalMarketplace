@@ -1,73 +1,53 @@
 <!-- Start cat-list Area -->
-<section class="cat-list-area section-gap">
+<section class="animal-list-area section-gap">
+    {% include 'include/filter.html' %}
+    </div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct1.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
+            <div class="col-lg-9">
+                {% for product in product_list %}
+                <div class="single-animal-list row">
+                    <div class="animal-image col-md-4">
+                        <img src="/static/img/ct1.jpg" alt="" class="img-fluid">
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct2.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
+                    <div class="card-body col-md-6">
+                        <p class="card-title">{{product.name|truncatechars:44|striptags|safe}}</p>
+                        <div class="card-date">
+                            <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
+                        </div>
+                        <div class="card-info">
+                            <p class="card-text">{{product.text|truncatechars:100|striptags|safe}}</p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p><b>Пол: </b>{{product.sex}}</p>
+                                    <p><b>Дата рождения: </b>{{product.birthday}}</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b>Порода: </b>{{product.breed}}</p>
+                                    <p><b>Адрес: </b>Адрес</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct3.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
+                    <div class="col-md-2 m-auto">
+                        <div class="card-price">
+                            <p><b>Цена: </b>200 Р</p>
+                        </div>
                     </div>
+                    <a class="overlay" href="{{ product.get_absolute_url }}">
+                        <div class="text-list-animal">Siamese Cat</div>
+                    </a>
                 </div>
+                {% endfor %}
+                {% include 'include/pagination.html' %}
             </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct4.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
-                    </div>
-                </div>
+            <div class="col-lg-3">
+                Ghbdtn
             </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct5.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct6.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct7.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="single-cat-list">
-                    <img src="img/ct8.jpg" alt="" class="img-fluid">
-                    <div class="overlay">
-                        <div class="text">Siamese Cat</div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
+
 </section>
 <!-- End cat-list Area -->
 <div class="catalog-list py-4" id="catalog">

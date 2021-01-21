@@ -1,0 +1,49 @@
+{% load crispy_forms_tags %}
+<div class="container filter-area">
+    <div class="row">
+        <div class="sex">
+            <form action="{{ get_url }}" method="get">
+            <select class="selectpicker" multiple data-style="nice-select" data-actions-box="true">
+                <option class="option" data-content='<div class="primary-checkbox">
+                <input type="checkbox" id="primary-checkbox" checked="">
+                <label for="primary-checkbox"></label>
+        </div>'>Mustard </option>
+        <option>Ketchup</option>
+        <option>Relish</option>
+        <option>Relish</option>
+        <option>Relish</option>
+        <option>Relish</option>
+        <option>Relish</option>
+
+        </select>
+                <button class="btn btn-primary" type="submit">Показать</button>
+                </form>
+            <form action="{{ get_url }}" method="get">
+                {{ form|crispy }}
+                <button class="btn btn-primary" type="submit">Показать</button>
+            </form>
+        <select class="selectpicker" multiple>
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+
+        </select>
+        <select class="selectpicker" multiple>
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+            <option>Relish</option>
+
+        </select>
+
+    </div>
+</div>
+
+</div>

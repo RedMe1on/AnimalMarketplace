@@ -10,14 +10,13 @@
 					<div class="row fullscreen d-flex align-items-center justify-content-start">
 						<div class="banner-content col-lg-8 col-md-12">
 							<h1 class="text-uppercase">
-								Adopt Us. <br>
-								We need your help.
+								Доска объялений о питомцах<br>
 							</h1>
 							<p class="text-white sub-head">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp
-								or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+								Мы постоянно обновляем и пополняем список
+								наших объявлений. Выбери питомца, который подходит именно тебе!
 							</p>
-							<a href="#" class="primary-btn header-btn text-uppercase">Find a pet to adopt</a>
+							<a href="{% url 'catalogs:product_list' %}" class="primary-btn header-btn text-uppercase">Подобрать</a>
 						</div>
 					</div>
 				</div>
@@ -29,46 +28,13 @@
 				<div class="container">
 					<div class="row">
 						<div class="active-image-carusel">
-							{% for product in product_list|slice:":3" %}
+							{% for product in product_list|slice:":15" %}
 							<div class="single-image-carusel">
 								<a href="{{ product.get_absolute_url }}">
 									<img class="img-fluid" src="/media/{{ product.image }}" alt="">
 								</a>
 							</div>
 							{% endfor %}
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c2.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c3.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c4.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c1.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c2.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="static/img/c3.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="img/c4.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="img/c1.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="img/c2.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="img/c3.jpg" alt="">-->
-<!--							</div>-->
-<!--							<div class="single-image-carusel">-->
-<!--								<img class="img-fluid" src="img/c4.jpg" alt="">-->
-<!--							</div>-->
 						</div>
 					</div>
 				</div>
@@ -80,10 +46,10 @@
 				<div class="container">
 					<div class="row justify-content-between callto-top-wrap pt-40 pb-40">
 						<div class="col-lg-8 callto-top-left">
-							<h1>Please select your favourite pet</h1>
+							<h1>Выбери себе питомца</h1>
 						</div>
 						<div class="col-lg-4 callto-top-right">
-							<a href="#" class="primary-btn">Fill Adoption Form</a>
+							<a href="#" class="primary-btn">Найти друга</a>
 						</div>
 					</div>
 				</div>
@@ -218,7 +184,7 @@
 					<div class="row">
 						<div class="active-testimonial-carusel">
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t1.png" alt="">
+								<img class="mx-auto" src="static/img/t1.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -228,7 +194,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t2.png" alt="">
+								<img class="mx-auto" src="static/img/t2.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -238,7 +204,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t3.png" alt="">
+								<img class="mx-auto" src="static/img/t3.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -248,7 +214,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t1.png" alt="">
+								<img class="mx-auto" src="static/img/t1.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -258,7 +224,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t2.png" alt="">
+								<img class="mx-auto" src="static/img/t2.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -268,7 +234,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t3.png" alt="">
+								<img class="mx-auto" src="static/img/t3.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -278,7 +244,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t1.png" alt="">
+								<img class="mx-auto" src="static/img/t1.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -288,7 +254,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t2.png" alt="">
+								<img class="mx-auto" src="static/img/t2.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>
@@ -298,7 +264,7 @@
 								</p>
 							</div>
 							<div class="single-testimonial item">
-								<img class="mx-auto" src="img/t3.png" alt="">
+								<img class="mx-auto" src="static/img/t3.png" alt="">
 								<p class="desc">
 									Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector, hardware and more. laptop accessory
 								</p>

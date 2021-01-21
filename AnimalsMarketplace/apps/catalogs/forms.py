@@ -20,20 +20,15 @@ class RatingForm(forms.ModelForm):
         model = RatingProduct
         fields = ('rating',)
 
-# class OwnerLoginForm(LoginForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         # for fieldname, field in self.fields.items():
-#         #     field.widget.attrs.update({
-#         #         'class': 'form-control-plaintext'
-#         #     })
-#
-#
-# class OwnerSignupForm(SignupForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-# self.fields['new'] = forms.CharField(required=True)
-# for fieldname, field in self.fields.items():
-#     field.widget.attrs.update({
-#         'class': 'form-control-plaintext'
-#     })
+
+class FilterForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('sex', 'breed',)
+        widgets = {
+            'sex': forms.Select(attrs={'class': 'selectpicker'}),
+            'breed': forms.SelectMultiple(attrs={'class': 'selectpicker'},
+                                          choices=[(product.breed, product.breed) for product in
+                                                   Product.objects.order_by('breed').distinct('breed')]),
+
+        }

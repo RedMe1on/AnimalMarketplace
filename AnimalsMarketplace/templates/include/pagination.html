@@ -1,57 +1,59 @@
 {% load catalog_tags %}
-<ul class="pagination">
-  {% if paginator.page_range|length > 1 %}
+<nav class="animal-pagination justify-content-center d-flex">
+    <ul class="pagination">
+        {% if paginator.page_range|length > 1 %}
 
-  {% if not page_obj.has_previous %}
-  <li class="page-item disabled">
-    <a class="page-link" href="#" aria-label="Previous">
-      <span aria-hidden="true">&laquo;</span>
-    </a>
-  </li>
-  {% else %}
-  <li class="page-item">
-    <a class="page-link" href="?{% url_replace_for_pagination page=page_obj.previous_page_number %}"
-      aria-label="Previous">
-      <span aria-hidden="true">&laquo;</span>
-    </a>
-  </li>
-  {% endif%}
+        {% if not page_obj.has_previous %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true" class="lnr lnr-chevron-left"></span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?{% url_replace_for_pagination page=page_obj.previous_page_number %}"
+               aria-label="Previous">
+                <span aria-hidden="true" class="lnr lnr-chevron-left"></span>
+            </a>
+        </li>
+        {% endif%}
 
-  {% if page_obj.number|add:'-2' > 1 %}
-  <li class="page-item"><a class="page-link" href="?{% url_replace_for_pagination page=1 %}">1</a></li>
-  {% endif %}
-  {% if page_obj.number|add:'-2' >= 3 %}
-  <li class="page-item"><a class="page-link" href="?{% url_replace_for_pagination page=page_obj.number|add:'-3' %}">
-      <span>...</span>
-    </a></li>
-  {% endif %}
-  {% for i in paginator.page_range %}
-  {% if page_obj.number == i %}
-  <li class="page-item active"><a class="page-link" href="">{{ i }}</a></li>
+        {% if page_obj.number|add:'-2' > 1 %}
+        <li class="page-item"><a class="page-link" href="?{% url_replace_for_pagination page=1 %}">1</a></li>
+        {% endif %}
+        {% if page_obj.number|add:'-2' >= 3 %}
+        <li class="page-item"><a class="page-link"
+                                 href="?{% url_replace_for_pagination page=page_obj.number|add:'-3' %}">
+            <span>...</span>
+        </a></li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active"><a class="page-link" href="">{{ i }}</a></li>
 
-  {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+        {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
 
-  <li class="page-item"><a class="page-link" href="?{% url_replace_for_pagination page=i %}">{{ i }}</a></li>
+        <li class="page-item"><a class="page-link" href="?{% url_replace_for_pagination page=i %}">{{ i }}</a></li>
 
-  {% endif %}
-  {% endfor %}
-  {% if not page_obj.has_next %}
-  <li class="page-item disabled">
-    <a class="page-link" href="#" aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
-    </a>
-  </li>
-  {% else %}
-  <li class="page-item ">
-    <a class="page-link" href="?{% url_replace_for_pagination page=page_obj.next_page_number %}" aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
-    </a>
-  </li>
+        {% endif %}
+        {% endfor %}
+        {% if not page_obj.has_next %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true" class="lnr lnr-chevron-right"></span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item ">
+            <a class="page-link" href="?{% url_replace_for_pagination page=page_obj.next_page_number %}"
+               aria-label="Next">
+                <span aria-hidden="true" class="lnr lnr-chevron-right"></span>
+            </a>
+        </li>
 
-  {% endif %}
-  {% endif %}
+        {% endif %}
+        {% endif %}
 
 
-
-
-</ul>
+    </ul>
+</nav>

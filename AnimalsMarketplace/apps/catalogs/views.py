@@ -1,21 +1,30 @@
 from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
+from django.views.generic.edit import FormView
 from django.views.generic.list import MultipleObjectMixin
-from .forms import RatingForm
+from .forms import RatingForm, FilterForm
 from .models import Categories, Product, RatingProduct
 from .utils import ProductFilterMixin, RatingProductMixin
 
 
-class ProductList(ProductFilterMixin, ListView):
+class ProductList(ProductFilterMixin, FormView, ListView):
     model = Product
-    paginate_by = 10
+    form_class = FilterForm
+    paginate_by = 2
     ordering = ['-pub_date']
 
     def get_queryset(self):
         queryset = self.get_filter_product(super().get_queryset())
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+# class FilterFormView(FormView):
+#     form_class = FilterForm
 
 class MainPage(ProductList):
     template_name = 'catalogs/main.html'
