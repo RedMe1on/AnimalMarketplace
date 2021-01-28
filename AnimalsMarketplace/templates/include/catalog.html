@@ -11,19 +11,21 @@
                         <img src="/static/img/ct1.jpg" alt="" class="img-fluid">
                     </div>
                     <div class="card-body col-md-6">
-                        <p class="card-title">{{product.name|truncatechars:44|striptags|safe}}</p>
+                        <p class="card-title">{{ product.name|truncatechars:44|striptags|safe }}</p>
                         <div class="card-date">
                             <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
                         </div>
                         <div class="card-info">
-                            <p class="card-text">{{product.text|truncatechars:100|striptags|safe}}</p>
+                            <p class="card-text">{{ product.text|truncatechars:100|striptags|safe }}</p>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <p><b>Пол: </b>{{product.sex}}</p>
-                                    <p><b>Дата рождения: </b>{{product.birthday}}</p>
+                                    <p><b>Пол: </b>{{ product.sex }}</p>
+                                    <p><b>Возраст: </b>{{ product.age }}</p>
+                                    <p><b>Возраст: </b>{{ product.age }}</p>
                                 </div>
                                 <div class="col-sm-6">
-                                    <p><b>Порода: </b>{{product.breed}}</p>
+                                    <p><b>Порода: </b>{{ product.breed }}</p>
+                                    <p><b>Вид породы: </b>{{ product.breed_type }}</p>
                                     <p><b>Адрес: </b>Адрес</p>
                                 </div>
                             </div>
@@ -31,7 +33,7 @@
                     </div>
                     <div class="col-md-2 m-auto">
                         <div class="card-price">
-                            <p><b>Цена: </b>200 Р</p>
+                            <p><b>Цена: </b>{{ product.price }} Р</p>
                         </div>
                     </div>
                     <a class="overlay" href="{{ product.get_absolute_url }}">

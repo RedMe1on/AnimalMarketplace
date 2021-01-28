@@ -4,18 +4,6 @@ from .models import Product
 
 
 class ProductFilterMixin:
-
-    def get_sex(self):
-        """Список полов животного"""
-        return Product.objects.filter(draft=False).distinct('sex')
-
-    def get_breed(self):
-        """Список пород"""
-        return Product.objects.filter(draft=False).distinct('breed')
-
-    def get_age(self):
-        pass
-
     def get_url(self):
         """Получение пути без домена"""
         return self.request.path
@@ -24,10 +12,21 @@ class ProductFilterMixin:
         """Фильтрация текущих товаров по выбранному фильтру"""
         filter_dict = {}
         for k, v in self.request.GET.lists():
-            if v and len(v) == 1:
-                filter_dict[str(k)] = str(v[0])
-            else:
-                filter_dict[str(k) + '__in'] = str(v)
+            if k != 'page':
+                if k == 'image':
+                    if v == 'on':
+                        filter_dict[str(k) + '__icontains'] = str('catalogs/product/')
+                elif k == 'price_start':
+                    if v[0] != '':
+                        filter_dict['price__gte'] = v[0]
+                elif k == 'price_end':
+                    if v[0] != '':
+                        filter_dict['price__lt'] = v[0]
+                else:
+                    if v and len(v) == 1:
+                        filter_dict[str(k)] = str(v[0])
+                    else:
+                        filter_dict[str(k) + '__in'] = str(v)
         queryset = queryset.filter(**filter_dict)
         return queryset
 
@@ -37,7 +36,7 @@ class RatingProductMixin:
     rating_model = None
 
     def get_user_rating(self, request, pk):
-        """Плучение ранее оставленного рейтинга по ip пользователя"""
+        """Получение ранее оставленного рейтинга по ip пользователя"""
         ip = self.get_client_ip(request)
         try:
             user_rating = self.rating_model.objects.get(product=self.model.objects.get(pk=pk), ip=ip)
