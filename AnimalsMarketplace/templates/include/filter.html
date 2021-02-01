@@ -4,10 +4,10 @@
         <div class="col-lg-9">
             <form action="{{ get_url }}" method="get">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         {{ form.sex|as_crispy_field }}
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-8">
                         <div class="row">
                             <div class="col-lg-6">
                                 {{ form.price_start|as_crispy_field }}
@@ -19,9 +19,7 @@
 
 
                     </div>
-                    <div class="col-lg-2">
-                        {{ form.image|as_crispy_field }}
-                    </div>
+
                     <div class="col-lg-6">
                         {{ form.breed|as_crispy_field }}
                     </div>
@@ -31,9 +29,16 @@
 
 
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.image|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        <button class="genric-btn primary float-right" type="submit">Показать</button>
+                    </div>
+                </div>
 
 
-                <button class="btn btn-primary" type="submit">Показать</button>
             </form>
         </div>
     </div>
