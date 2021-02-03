@@ -23,7 +23,7 @@ class RatingForm(forms.ModelForm):
 
 
 class FilterForm(forms.ModelForm):
-    image = forms.BooleanField(label='С фото')
+    image = forms.BooleanField()
     price_start = forms.IntegerField(label='Цена от')
     price_end = forms.IntegerField(label='Цена до')
 
@@ -35,13 +35,14 @@ class FilterForm(forms.ModelForm):
         try:
             widgets = {
                 'sex': forms.SelectMultiple(
-                    attrs={'class': 'selectpicker', 'title': 'Пол', 'data-style': 'nice-select'},
+                    attrs={'class': 'selectpicker filter-input', 'title': 'Пол', 'data-style': 'filter-input'},
                     choices=Product.SexChoices.choices),
-                'breed': forms.SelectMultiple(attrs={'class': 'selectpicker', 'title': 'Порода'},
-                                              choices=Product.BreedChoices.choices),
+                'breed': forms.SelectMultiple(
+                    attrs={'class': 'selectpicker filter-input', 'title': 'Порода', 'data-style': 'filter-input'},
+                    choices=Product.BreedChoices.choices),
                 'breed_type': forms.SelectMultiple(
-                    attrs={'class': 'selectpicker', 'title': 'Вид породы', 'data-size': '5',
-                           'data-live-search': 'true'},
+                    attrs={'class': 'selectpicker filter-input', 'title': 'Вид породы', 'data-size': '5',
+                           'data-live-search': 'true', 'data-style': 'filter-input'},
                     choices=[(product.breed_type, product.breed_type) for product in
                              Product.objects.order_by('breed_type').distinct(
                                  'breed_type')]),

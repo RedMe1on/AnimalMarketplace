@@ -44,51 +44,9 @@
                 {% include 'include/pagination.html' %}
             </div>
             <div class="col-lg-3">
-                Ghbdtn
+                Баннерная реклама
             </div>
 
         </div>
     </div>
-
 </section>
-<!-- End cat-list Area -->
-<div class="catalog-list py-4" id="catalog">
-    <div class="container">
-        <div class="head">
-            <p>Каталог питомцев</p>
-        </div>
-        <div class="catalog">
-            <div class="row">
-                <div class="col-lg-4">
-                    <!-- filter -->
-                    {% include 'include/product_filter.html' %}
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        {% for product in product_list %}
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-image">
-                                    <img src="/static/catalogs/img/logo.jpg" alt="" width="100%">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{product.name}}</h5>
-                                    <p class="card-text">{{product.text|truncatechars:100|striptags}}
-                                    </p>
-                                    <li>{{product.sex}}</li>
-                                    <li>{{product.birthday}}</li>
-                                    <li>{{product.breed}}</li>
-                                    <p>+7 (962) 944-45-65</p>
-                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Переход
-                                        куда-нибудь</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% include 'include/pagination.html' %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

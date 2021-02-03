@@ -31,7 +31,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form.image|as_crispy_field }}
+
+
+                        <div id="div_id_image" class="switch-wrap d-flex justify-content-start">
+                                <p class="mr-2 py-auto">С фото</p>
+                                <div class="primary-switch my-auto">
+                                    <input type="checkbox" name="image" id="id_image">
+                                    <label for="id_image"></label>
+                                </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <button class="genric-btn primary float-right" type="submit">Показать</button>
