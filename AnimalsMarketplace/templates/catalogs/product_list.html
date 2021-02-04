@@ -1,32 +1,13 @@
 {% extends 'base.html' %}
 {% load catalog_tags %}
-{% block title %} WOWOWOWO {% endblock %}
 
+{% block title %} Доска объявлений {% endblock %}
+
+{% block h1 %}
+Доска объявлений
+{% endblock h1 %}
 
 {% block content %}
-
-{% include 'include/start_banner.html' %}
 <!-- catalog list -->
 {% include 'include/catalog.html' %}
-
-<!--&lt;!&ndash; link-block &ndash;&gt;-->
-<!--{% get_last_product count=5 %}-->
-<!--&lt;!&ndash; callback-from &ndash;&gt;-->
-<!--<section class="callback-form">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-6">-->
-<!--                <p class="callback-form-head m-0">Подпишись на рассылку</p>-->
-<!--                <p>Будь в курсе всеъ носотей данного портала</p>-->
-<!--            </div>-->
-<!--            <div class="col-lg-6 align-self-center justify-content-end">-->
-<!--                <form action="#" method="POST">-->
-<!--                    <label for="email-input"></label>-->
-<!--                    <input type="email" name="EMAIL" placeholder="Enter your email here..." id="email-input">-->
-<!--                    <button type="submit" class="btn btn-primary callback-form-btn">Подписаться</button>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
 {% endblock content %}

@@ -2,7 +2,9 @@
 
 {% block title %} {{ product.title }} {% endblock %}
 
-
+{% block h1 %}
+{{ product.h1 }}
+{% endblock h1 %}
 {% block content %}
 <div class="container">
     <form action="{% url 'catalogs:add_rating' %}" method="post" name="add-rating">

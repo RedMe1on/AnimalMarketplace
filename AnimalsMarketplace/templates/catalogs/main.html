@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load catalog_tags mailing_tags %}
 
-
-{% block content %}
+{% block start_banner %}
             <!-- start banner Area -->
 			<section class="banner-area relative" id="home">
 				<div class="container">
@@ -22,7 +21,8 @@
 				</div>
 			</section>
 			<!-- End banner Area -->
-
+{% endblock start_banner %}
+{% block content %}
             <!-- Start image-carusel Area -->
 			<section class="image-carusel-area">
 				<div class="container">

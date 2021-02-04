@@ -2,45 +2,49 @@
 {% load catalog_tags %}
 {% block title %} WOWOWOWO {% endblock %}
 
-
+{% block h1 %}
+Список категорий
+{% endblock h1 %}
 {% block content %}
-<!-- Banner -->
-<div class="banner">
-    <div class="banner-content container">
-        <p class="head">Возьми себе питомца</p>
-        <p>Они же такие классные, как же ты не возьмешь себе одного? Они же такие классные, как же ты не возьмешь
-            себе одного?
-            Они же такие классные, как же ты не возьмешь себе одного?
-            Они же такие классные, как же ты не возьмешь себе одного?
-        </p>
-        <button type="button" class="btn btn-success">Взять питомца</button>
-    </div>
-</div>
-{% if categories_list %}
-{% for category in categories_list %}
-<a href="{{ category.get_absolute_url }}">{{category.title}}</a>
-{% endfor %}
-{% else %}
-Статьи не найдены =(
-{% endif %}
-<!-- link-block -->
-{% get_last_product count=5 %}
-<!-- callback-from -->
-<section class="callback-form">
+<!-- Start cat-list Area -->
+<section class="category-list-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6">
-                <p class="callback-form-head m-0">Подпишись на рассылку</p>
-                <p>Будь в курсе всех новостей данного портала</p>
+            {% if categories_list %}
+            {% for category in categories_list %}
+            <div class="col-lg-3 col-md-6">
+                <div class="single-category-list">
+                    <img src="{{ category.image.url }}" alt="" class="img-fluid">
+                    <a class="overlay" href="{{ category.get_absolute_url }}">
+                        <div class="text">{{ category.h1 }}</div>
+                    </a>
+                </div>
             </div>
-            <div class="col-lg-6 align-self-center justify-content-end">
-                <form action="#" method="POST">
-                    <label for="email-input"></label>
-                    <input type="email" name="EMAIL" placeholder="Enter your email here..." id="email-input">
-                    <button type="submit" class="btn btn-primary callback-form-btn">Подписаться</button>
-                </form>
+            {% endfor %}
+            {% else %}
+            <p>Категорий на сайте НЕТ (пидора ответ)</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<!-- End cat-list Area -->
+<!-- Start calltoaction Area -->
+<section class="calltoaction-area section-gap relative">
+    <div class="container">
+        <div class="overlay overlay-bg"></div>
+        <div class="row align-items-center justify-content-center">
+            <h1 class="text-white">Want to help? Become a Volunteer</h1>
+            <p class="text-white">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.
+                Ut enim ad minim. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.
+            </p>
+            <div class="buttons d-flex flex-row">
+                <a href="#" class="primary-btn text-uppercase">View pdf details</a>
+                <a href="#" class="primary-btn text-uppercase">Register now</a>
             </div>
         </div>
     </div>
 </section>
+<!-- End calltoaction Area -->
 {% endblock content %}

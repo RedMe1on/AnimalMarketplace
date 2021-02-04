@@ -5,7 +5,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.shortcuts import reverse
 from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
-from lk.models import Profile
 
 
 # class GetAbsoluteUrlMixin(models.Model):
@@ -26,6 +25,8 @@ class Categories(MPTTModel):
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
+    image = models.ImageField(upload_to='catalogs/categories/img', verbose_name='Фотография', blank=True,
+                              default='/no_image.png')
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE,
                             verbose_name='Родительская категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -68,11 +69,6 @@ class Product(models.Model):
         CROSSBRED = 'Метис', _('Метис')
         PUREBRED = 'Беспородный', _('Беспородный')
 
-    # class BreedTypeChoices(models.TextChoices):
-    #     UNKNOWN = 'Неизвество', _('Неизвество')
-    #     BOY = 'Мальчик', _('Мальчик')
-    #     GIRL = 'Девочка', _('Девочка')
-
     name = models.CharField(verbose_name='Название товара', max_length=150)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
@@ -86,7 +82,7 @@ class Product(models.Model):
     breed_type = models.CharField(verbose_name='Вид породы', max_length=200, blank=True)
     price = models.IntegerField(verbose_name='Цена', blank=True, default=0)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True,
-                              default='/no_image.png')
+                              default='/media/no_image.png')
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
