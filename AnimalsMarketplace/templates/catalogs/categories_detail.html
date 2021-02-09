@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 {% load catalog_tags %}
-{% block title %} {{categories.title}} {% endblock %}
+{% block title %} {{ categories.title }} {% endblock %}
 
 {% block h1 %}
 {{ categories.h1 }}
 {% endblock h1 %}
+
+{% block breadcrumb %}
+{% catalog_breadcrumb categories %}
+{% endblock breadcrumb %}
+
 {% block content %}
 
-
-
 {% include 'include/catalog.html' %}
-<!-- link-block -->
-{% get_last_product count=5 %}
-<h1>{{categories.h1}}</h1>
-<p>{{categories.text}}</p>
-<em>{{categories.pub_date}}</em>
+
+<section class="sample-text-area">
+    <div class="container">
+        <div class="sample-text">
+            {{ categories.text|safe }}
+        </div>
+    </div>
+</section>
 {% endblock %}

@@ -1,0 +1,7 @@
+<p class="text-white link-nav">
+    <a href="/">Главная</a><span class="lnr lnr-arrow-right"></span>
+    {% for parent in category.get_ancestors %}
+    <a href="{{ parent.get_absolute_url }}">{{ parent.name }}</a><span class="lnr lnr-arrow-right"></span>
+    {% endfor %}
+    <span>{{ category.name }}</span>
+</p>

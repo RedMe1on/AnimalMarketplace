@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import QuerySet
 
 from ..models import Categories, Product
 
@@ -8,6 +9,12 @@ register = template.Library()
 @register.simple_tag()
 def get_categories():
     return Categories.objects.all()
+
+
+@register.simple_tag()
+def get_last_product_with_img(count: int) -> QuerySet:
+    """Получить последние 15-ть товаров с изображением"""
+    return Product.objects.order_by('-pub_date').exclude(image__contains='/no_image.png')[:count]
 
 
 @register.simple_tag(takes_context=True)
@@ -24,3 +31,9 @@ def get_last_product(count: int):
     product = Product.objects.order_by('pub_date')[:count]
     return {'get_last_product': product}
 
+
+@register.inclusion_tag('catalogs/tags/breadcrumb.html')
+def catalog_breadcrumb(category: QuerySet):
+    return {
+        'category': category
+    }

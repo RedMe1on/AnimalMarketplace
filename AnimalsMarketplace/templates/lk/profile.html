@@ -1,22 +1,27 @@
 {% extends 'base.html' %}
 
+{% block h1 %}
+Личный кабинет
+{% endblock h1 %}
+
+
 {% block content %}
 <div class="profile-content">
     <div class="container">
         <div class="row">
             <div class="col-md-3 profile-nav-column-1">
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lk:profile' %}">Мой профиль</a>
+                    <li class="nav-item mt-4 mb-2">
+                        <a class="genric-btn default w-100" href="{% url 'lk:profile' %}">Мой профиль</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lk:product_list' %}">Мои объявления</a>
+                    <li class="nav-item my-2">
+                        <a class="genric-btn default w-100" href="{% url 'lk:product_list' %}">Мои объявления</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                    <li class="nav-item my-2">
+                        <a class="genric-btn default w-100" href="#">Link</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    <li class="nav-item my-2">
+                        <a class="genric-btn disable w-100" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                     </li>
                 </ul>
             </div>
@@ -28,7 +33,7 @@
                         <h1>Мой профиль</h1>
                     </div>
                     <div class="col-md-4 m-auto text-right">
-                        <a href="{% url 'lk:edit_profile' %}" class="btn btn-primary">Редактировать</a>
+                        <a href="{% url 'lk:edit_profile' %}" class="genric-btn primary">Редактировать</a>
                     </div>
                 </div>
                 <div class="row m-4">

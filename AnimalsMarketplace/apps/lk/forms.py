@@ -44,7 +44,7 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'birthday': forms.SelectDateWidget(attrs={'class': 'my-2 d-inline-block', 'style': 'width: 33%;'},
                                                years=range(1940, 2021)),
-            'text': CKEditorWidget(config_name='form-editor'),
+            'text': CKEditorUploadingWidget(config_name='form-editor'),
         }
         error_messages = {
             'slug': {

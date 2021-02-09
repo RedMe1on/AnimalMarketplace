@@ -75,17 +75,17 @@ class Product(models.Model):
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices, default='Любой')
-    birthday = models.DateField(verbose_name='Дата рождения', blank=True)
-    age = models.IntegerField(verbose_name='Возраст', blank=True)
+    birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
+    age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
     breed = models.CharField(verbose_name='Порода', max_length=12, choices=BreedChoices.choices,
                              default='Любая')
-    breed_type = models.CharField(verbose_name='Вид породы', max_length=200, blank=True)
-    price = models.IntegerField(verbose_name='Цена', blank=True, default=0)
+    breed_type = models.CharField(verbose_name='Вид породы', max_length=200, blank=True, null=True)
+    price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True,
-                              default='/media/no_image.png')
+                              default='/no_image.png')
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
-    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
                                  verbose_name='Родительская категория')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)

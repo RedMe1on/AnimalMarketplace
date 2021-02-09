@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
-
+{% load catalog_tags %}
 {% block title %} {{ product.title }} {% endblock %}
 
 {% block h1 %}
 {{ product.h1 }}
 {% endblock h1 %}
+
+{% block breadcrumb %}
+{% catalog_breadcrumb product.category %}
+{% endblock breadcrumb %}
+
 {% block content %}
 <div class="container">
     <form action="{% url 'catalogs:add_rating' %}" method="post" name="add-rating">

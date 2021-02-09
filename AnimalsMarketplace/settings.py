@@ -251,7 +251,7 @@ CKEDITOR_CONFIGS = {
         ]),
     },
     'form-editor': {
-        'skin': 'moono',
+        'skin': 'moono-lisa',
         # 'skin': 'moono-lisa',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
@@ -288,10 +288,10 @@ CKEDITOR_CONFIGS = {
         ],
         'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        # 'height': 291,
+        # 'height': 300,
         'width': '100%',
-        # 'extraAllowedContent':'*(*);*{*}',
-        'disallowedContent': 'a img button input form select textarea',
+        'allowedContent': 'p div ul li ol h1 h2 h3 blockquote',
+        # 'disallowedContent': 'a img button input form select textarea',
         # 'filebrowserWindowHeight': 725,
         # 'filebrowserWindowWidth': 940,
         # 'toolbarCanCollapse': True,

@@ -28,10 +28,15 @@
 				<div class="container">
 					<div class="row">
 						<div class="active-image-carusel">
-							{% for product in product_list|slice:":15" %}
+							{% get_last_product_with_img count=15 as last_product %}
+							{% for product in last_product %}
 							<div class="single-image-carusel">
 								<a href="{{ product.get_absolute_url }}">
-									<img class="img-fluid" src="/media/{{ product.image }}" alt="">
+									{% if product.image %}
+									<img class="img-carousel" src="{{ product.image.url }}" alt="">
+									{% else %}
+									<img class="img-carousel" src="/media/no_image.png" alt="">
+									{% endif %}
 								</a>
 							</div>
 							{% endfor %}

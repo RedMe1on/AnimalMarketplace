@@ -20,11 +20,9 @@ class ProductList(ProductFilterMixin, FormView, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(context)
         return context
 
-
-# class FilterFormView(FormView):
-#     form_class = FilterForm
 
 class MainPage(ProductList):
     template_name = 'catalogs/main.html'
