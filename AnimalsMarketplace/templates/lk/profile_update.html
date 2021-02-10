@@ -2,30 +2,33 @@
 {% load crispy_forms_tags %}
 
 
-
 {% block profile_content %}
-<h1>Мой профиль</h1>
+<div class="row my-2">
+    <div class="col-md-12">
+        <h1>Редактирование профиля</h1>
+    </div>
+</div>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="my-4">
     {% csrf_token %}
-    
+
     {% if form.errors %}
-        <div class="alert alert-danger">
-           <strong>Исправьте ошибки ниже</strong>
-        </div>
+    <div class="alert alert-danger">
+        <strong>Исправьте ошибки ниже</strong>
+    </div>
     {% endif %}
     <div class="row">
         <div class="col-md-6">
             {{ form.name|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.last_name|as_crispy_field  }}
+            {{ form.last_name|as_crispy_field }}
         </div>
     </div>
-        {{ form.email|as_crispy_field  }}
-        {{ form.phone_number|as_crispy_field  }}
-        {{ form.image|as_crispy_field  }}
+    {{ form.email|as_crispy_field }}
+    {{ form.phone_number|as_crispy_field }}
+    {{ form.image|as_crispy_field }}
 
-    <button type="submit" class="btn btn-primary float-right my-2">Сохранить</button>
+    <button type="submit" class="genric-btn success float-right my-2">Сохранить</button>
 </form>
 {% endblock profile_content %}

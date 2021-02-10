@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+
 {% block h1 %}
-About Us
+{{ flatpage.title }}
 {% endblock h1 %}
+
+{% block breadcrumb %}
+<p class="text-white link-nav">
+    <a href="/">Главная</a><span class="lnr lnr-arrow-right"></span>
+    <span>{{ flatpage.title }}</span>
+</p>
+{% endblock breadcrumb %}
 
 {% block content %}
 

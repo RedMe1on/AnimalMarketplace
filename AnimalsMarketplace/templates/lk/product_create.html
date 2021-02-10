@@ -7,7 +7,7 @@
 {% block profile_content %}
 <div class="container">
     <h1>Добавить объявление</h1>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="form-area">
     {% csrf_token %}
     {{ form.media }}
     {% if form.errors %}

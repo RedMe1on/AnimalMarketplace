@@ -1,4 +1,5 @@
 {% load catalog_tags %}
+{% if is_paginated %}
 <nav class="animal-pagination justify-content-center d-flex">
     <ul class="pagination">
         {% if paginator.page_range|length > 1 %}
@@ -57,3 +58,4 @@
 
     </ul>
 </nav>
+{% endif %}

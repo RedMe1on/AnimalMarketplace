@@ -6,48 +6,64 @@
         <h1>Мои объявления</h1>
     </div>
     <div class="col-md-4 m-auto text-right">
-        <a href="{% url 'lk:product_create' %}" class="btn btn-primary center">Добавить объявление</a>
+        <a href="{% url 'lk:product_create' %}" class="genric-btn primary center">Добавить объявление</a>
     </div>
 </div>
-{% for product in product_list %}
-<div class="card w-100">
-    <div class="card-body">
+<section class="animal-list-area mt-4">
+    {% for product in product_list %}
+    <div class="single-animal-list m-0">
+        <div class="row button-panel">
+            <div class="col-md-12 d-flex justify-content-end">
+                <a href="{{ product.get_absolute_url }}" class="genric-btn info radius m-1" data-toggle="tooltip"
+                   data-placement="top" title="Показать на сайте"><i
+                        class="lnr lnr-link format-lnr"></i></a>
+                <a href="{{ product.get_update_url }}" class="genric-btn primary radius m-1" data-toggle="tooltip"
+                   data-placement="top" title="Редактировать"><i
+                        class="lnr lnr-pencil format-lnr"></i></a>
+                <a href="{{ product.get_delete_url }}" class="genric-btn danger radius m-1" data-toggle="tooltip"
+                   data-placement="top" title="Удалить"><i
+                        class="lnr lnr-trash format-lnr"></i></a>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-md-4 img-profile m-auto">
+            <div class="animal-image col-md-4">
                 {% if product.image %}
-                <img src="{{ product.image.url }}" class="w-100 border ">
+                <img class="img-fluid" src="{{ product.image.url }}" alt="">
                 {% else %}
-                <img src="/media/no_image.png" class="w-100 border">
+                <img class="img-fluid" src="/media/no_image.png" alt="">
                 {% endif %}
             </div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="product-pub-date">Добавлено: {{ product.pub_date|date }}</p>
+            <div class="card-body col-md-6">
+                <p class="card-title">{{ product.name|truncatechars:50|striptags|safe }}</p>
+                <div class="card-date">
+                    <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
+                </div>
+                <div class="card-info">
+                    <p class="card-text">{{ product.text|truncatechars:100|striptags|safe }}</p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p><b>Пол: </b>{{ product.sex }}</p>
+                            <p><b>Возраст: </b>{{ product.age }}</p>
+                            <p><b>Возраст: </b>{{ product.age }}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p><b>Порода: </b>{{ product.breed }}</p>
+                            <p><b>Вид породы: </b>{{ product.breed_type }}</p>
+                            <p><b>Адрес: </b>Адрес</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5 class="py-2">{{ product.name }}</h5>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="{{ product.get_update_url }}" class="btn btn-primary mx-1">Редактировать</a>
-                        <a href="{{ product.get_delete_url }}" class="btn btn-danger mx-1">Удалить</a>
-                    </div>
+            </div>
+            <div class="col-md-2 m-auto">
+                <div class="card-price">
+                    <p><b>Цена: </b>{{ product.price }} Р</p>
                 </div>
-                
-                <span>{{product.text|striptags|safe|truncatechars:150 }}</span>
-                <ul class="list-group my-3">
-                    <li class="list-group-item">Пол: {{ product.sex }}</li>
-                    <li class="list-group-item">Порода: {{ product.breed }}</li>
-                    <li class="list-group-item">Возраст: {{ product.birthday }}</li>
-                </ul>
-
             </div>
         </div>
     </div>
+    {% endfor %}
+</section>
+<div class="profile-pagination mb-4">
+    {% include 'include/pagination.html' %}
 </div>
-
-{% endfor %}
-{% include 'include/pagination.html' %}
 {% endblock profile_content%}
