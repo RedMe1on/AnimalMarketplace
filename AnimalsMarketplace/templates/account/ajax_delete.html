@@ -1,0 +1,6 @@
+<form id="delete_form" method="post" class="need_auth">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите удалить этот элемент?</p>
+    <button class="genric-btn success-border" data-dismiss="modal">Отмена</button>
+    <button class="genric-btn danger" type="submit">Удалить</button>
+</form>

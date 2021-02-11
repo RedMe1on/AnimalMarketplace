@@ -69,16 +69,16 @@ class Product(models.Model):
         CROSSBRED = 'Метис', _('Метис')
         PUREBRED = 'Беспородный', _('Беспородный')
 
-    name = models.CharField(verbose_name='Название товара', max_length=150)
+    name = models.CharField(verbose_name='Заголовок объявления', max_length=150, db_index=True)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
-    h1 = models.CharField(verbose_name='Заголовок h1', max_length=200, db_index=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices, default='Любой')
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
+    age_type = models.BooleanField(verbose_name='Указать возраст в месяцах', default=False, blank=True)
     age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
     breed = models.CharField(verbose_name='Порода', max_length=12, choices=BreedChoices.choices,
-                             default='Любая')
+                             default='Неизвестно')
     breed_type = models.CharField(verbose_name='Вид породы', max_length=200, blank=True, null=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True,
@@ -91,7 +91,7 @@ class Product(models.Model):
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
-        return self.h1
+        return self.name
 
     def get_absolute_url(self):
         return reverse('catalogs:product_detail', kwargs={'pk': self.pk})

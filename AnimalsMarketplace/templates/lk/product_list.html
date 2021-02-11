@@ -13,16 +13,16 @@
     {% for product in product_list %}
     <div class="single-animal-list m-0">
         <div class="row button-panel">
-            <div class="col-md-12 d-flex justify-content-end">
-                <a href="{{ product.get_absolute_url }}" class="genric-btn info radius m-1" data-toggle="tooltip"
-                   data-placement="top" title="Показать на сайте"><i
+            <div class="col-md-12 d-flex justify-content-end mt-2">
+                <a href="{{ product.get_absolute_url }}" class="genric-btn info radius mx-1" data-toggle="tooltip"
+                   data-placement="top" title="Показать на сайте" data-trigger="hover" target="_blank" rel="noopener noreferrer"><i
                         class="lnr lnr-link format-lnr"></i></a>
-                <a href="{{ product.get_update_url }}" class="genric-btn primary radius m-1" data-toggle="tooltip"
-                   data-placement="top" title="Редактировать"><i
+                <a href="{{ product.get_update_url }}" class="genric-btn primary radius mx-1" data-toggle="tooltip"
+                   data-placement="top" title="Редактировать" data-trigger="hover"><i
                         class="lnr lnr-pencil format-lnr"></i></a>
-                <a href="{{ product.get_delete_url }}" class="genric-btn danger radius m-1" data-toggle="tooltip"
-                   data-placement="top" title="Удалить"><i
-                        class="lnr lnr-trash format-lnr"></i></a>
+                <span data-target="#deleteModal" data-toggle="modal"><button type="button" class="genric-btn danger radius ml-1 mr-2" data-toggle="tooltip"
+                   data-placement="top" title="Удалить" OnClick="getId('{{ product.get_delete_url }}')" data-trigger="hover"><i
+                        class="lnr lnr-trash format-lnr"></i></button></span>
             </div>
         </div>
         <div class="row">
@@ -66,4 +66,30 @@
 <div class="profile-pagination mb-4">
     {% include 'include/pagination.html' %}
 </div>
-{% endblock profile_content%}
+
+{# deleteModal #}
+<div class="modal fade" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered auth-modal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <button type="button" class="close modal-button-close" data-dismiss="modal">&times;</button>
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-size: 1.5rem;">Подтверждение</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="margin-bottom:20px;">
+                {% include 'account/ajax_delete.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+            function getId(url) {
+                link = url;
+                delete_form.setAttribute('action', link);
+            };
+</script>
+{% endblock profile_content %}
+

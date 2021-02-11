@@ -37,24 +37,29 @@ class ProfileEditForm(forms.ModelForm):
 
 class ProductForm(forms.ModelForm):
     """Форма редактирования объявления"""
-    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'form-check-inline m-2'}),
-                            choices=Product.SexChoices.choices,
-                            label='Пол питомца')
+    sex = forms.ChoiceField(widget=forms.Select(
+        attrs={'class': 'selectpicker select-input', 'title': 'Пол', 'data-style': 'select-input'}, ),
+        choices=Product.SexChoices.choices, label='Пол питомца')
     category = forms.ModelChoiceField(queryset=Categories.objects.all(), empty_label=None,
                                       label='Родительская категория',
                                       widget=forms.Select(
-                                          attrs={'class': 'selectpicker select-input', 'title': 'Пол',
+                                          attrs={'class': 'selectpicker select-input', 'title': 'Категория',
                                                  'data-style': 'select-input',
                                                  'data-size': '5', 'data-live-search': 'true', 'container': 'body'},
                                       ), )
 
     class Meta:
         model = Product
-        fields = ('name', 'category', 'text', 'h1', 'sex', 'birthday', 'breed', 'image', 'draft')
+        fields = ('name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'birthday', 'image')
         widgets = {
-
-            'birthday': forms.SelectDateWidget(attrs={'class': 'my-2 d-inline-block', 'style': 'width: 33%;'},
-                                               years=range(1940, 2021)),
+            'breed': forms.Select(
+                attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
+                choices=Product.BreedChoices.choices),
+            'breed_type': forms.SelectMultiple(
+                attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
+                choices=Product.BreedChoices.choices),
+            'age_type': forms.CheckboxInput(attrs={'class': 'primary-switch'}),
+            'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),
             'text': CKEditorUploadingWidget(config_name='form-editor'),
 
         }

@@ -1,28 +1,62 @@
 {% extends 'lk/profile.html' %}
 {% load crispy_forms_tags %}
 {% block title %}
-    Create Product {{ product.title|title }} - {{ block.super }}
+Create Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
 {% block profile_content %}
 <div class="container">
-    <h1>Добавить объявление</h1>
-<form method="post" enctype="multipart/form-data" class="form-area">
-    {% csrf_token %}
-    {{ form.media }}
-    {% if form.errors %}
-        <div class="alert alert-danger">
-           <strong>Исправьте ошибки ниже</strong>
+    <div class="row my-2">
+        <div class="col-md-12">
+            <h1>Добавить объявление</h1>
         </div>
-    {% endif %}
-    {% for field in form %}
-    <div class="form-group">
-        {{ field|as_crispy_field }}
-
     </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary float-right my-2">Добавить</button>
-</form>
+    <form method="post" enctype="multipart/form-data" class="form-area">
+        {% csrf_token %}
+        {{ form.media }}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Исправьте ошибки ниже</strong>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            {{ form.category|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.name|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.text|as_crispy_field }}
+        </div>
+        <div class="form-group">
+            {{ form.sex|as_crispy_field }}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.breed|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.breed_type|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.age|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.age_type|as_crispy_field }}
+            </div>
+        </div>
+         <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.birthday|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.image|as_crispy_field }}
+            </div>
+        </div>
+        <button type="submit" class="genric-btn success float-right my-2">Добавить</button>
+    </form>
 </div>
 
 {% endblock profile_content%}

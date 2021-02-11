@@ -42,11 +42,11 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'h1', 'pub_date', 'user', 'get_image', 'draft')
+    list_display = ('id', 'name', 'pub_date', 'user', 'get_image', 'draft')
     readonly_fields = ('get_image',)
-    list_display_links = ('h1',)
+    list_display_links = ('name',)
     list_filter = ('user',)
-    search_fields = ('h1',)
+    search_fields = ('name',)
     ordering = ('id',)
     form = ProductAdminForm
     save_on_top = True

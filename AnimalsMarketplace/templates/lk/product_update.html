@@ -9,7 +9,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.media }}
-     {% if form.errors %}
+    {% if form.errors %}
         <div class="alert alert-danger">
            <strong>Исправьте ошибки ниже</strong>
         </div>
