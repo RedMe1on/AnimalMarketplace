@@ -38,7 +38,26 @@ $(document).ready(function () {
     preloader: false,
     fixedContentPos: false,
   });
-
+  //image preview uploaded
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      
+      reader.onload = function(e) {
+        $('#preview').attr('src', e.target.result);
+      }
+      
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+  
+  $("#id_image").change(function() {
+    readURL(this);
+  });
+  $('#reset-img-field').click(function() {
+    $('#id_image').val('');
+    $('#preview').attr('src', '/media/no_image.png');
+});
   // Initiate superfish on nav menu
   $(".nav-menu").superfish({
     animation: {

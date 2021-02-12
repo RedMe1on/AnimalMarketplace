@@ -11,22 +11,25 @@ class ProductFilterMixin:
     def get_filter_product(self, queryset: QuerySet) -> QuerySet:
         """Фильтрация текущих товаров по выбранному фильтру"""
         filter_dict = {}
+        print('self.request.GET.lists()', self.request.GET.lists())
         for k, v in self.request.GET.lists():
-            if k != 'page':
-                if k == 'image':
-                    if v == 'on':
-                        filter_dict[str(k) + '__icontains'] = str('catalogs/product/')
-                elif k == 'price_start':
-                    if v[0] != '':
-                        filter_dict['price__gte'] = v[0]
-                elif k == 'price_end':
-                    if v[0] != '':
-                        filter_dict['price__lt'] = v[0]
-                else:
-                    if v and len(v) == 1:
-                        filter_dict[str(k)] = str(v[0])
-                    else:
-                        filter_dict[str(k) + '__in'] = str(v)
+            if k == 'page':
+                continue
+            if k == 'image':
+                filter_dict[str(k) + '__icontains'] = str('catalogs/product/')
+                continue
+            if k == 'price_start':
+                if v[0] != '':
+                    filter_dict['price__gte'] = v[0]
+                continue
+            if k == 'price_end':
+                if v[0] != '':
+                    filter_dict['price__lt'] = v[0]
+                continue
+            if v and len(v) == 1:
+                filter_dict[str(k)] = str(v[0])
+            else:
+                filter_dict[str(k) + '__in'] = str(v)
         queryset = queryset.filter(**filter_dict)
         return queryset
 

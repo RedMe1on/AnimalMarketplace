@@ -55,7 +55,7 @@ class ProductForm(forms.ModelForm):
             'breed': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
                 choices=Product.BreedChoices.choices),
-            'breed_type': forms.SelectMultiple(
+            'breed_type': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
                 choices=Product.BreedChoices.choices),
             'age_type': forms.CheckboxInput(attrs={'class': 'primary-switch'}),

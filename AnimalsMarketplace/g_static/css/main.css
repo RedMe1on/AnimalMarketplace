@@ -1519,7 +1519,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 16px;
   height: 16px;
   border-radius: 3px;
-  background: #f9f9ff;
+  background: white;
   position: relative;
   cursor: pointer;
 }
@@ -3078,6 +3078,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   max-height: 250px;
   margin: auto;
   border-radius: 0.5rem;
+  /* border: 1px solid #fab700; */
 }
 
 .animal-list-area .single-animal-list .animal-image {
@@ -4337,6 +4338,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #777;
 }
 
+
+/*
+################
+               End Blog Details  Page style
+################
+*/
+
 .format-lnr-login {
   position: relative;
   top: 2px;
@@ -4356,8 +4364,22 @@ body.mobile-nav-active #mobile-nav-toggle {
   right: 4%;
 }
 
-/*
-################
-               End Blog Details  Page style
-################
-*/
+.alert {
+  border-radius: 0;
+}
+/* datepicker style start */
+.datepicker-top-left, .datepicker-top-right {
+  border-top-color: #fab700!important;
+}
+.datepicker-top-left:before, .datepicker-top-right:before {
+  border-bottom-color: #fab700!important;
+}
+.datepicker-panel>ul>li.picked, .datepicker-panel>ul>li.picked:hover {
+  color:  #fab700!important;
+}
+/* datepicker style end */
+
+.form-area img {
+  max-width: 100%;
+  max-height: 250px;
+}

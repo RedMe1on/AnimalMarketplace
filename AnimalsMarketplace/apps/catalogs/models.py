@@ -65,6 +65,7 @@ class Product(models.Model):
         GIRL = 'Девочка', _('Девочка')
 
     class BreedChoices(models.TextChoices):
+        UNKNOWN = 'Неизвество', _('Неизвество')
         THOROUGHBRED = 'Породистый', _('Породистый')
         CROSSBRED = 'Метис', _('Метис')
         PUREBRED = 'Беспородный', _('Беспородный')
@@ -83,7 +84,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True,
                               default='/no_image.png')
-    draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте')
+    draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте', default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
                                  verbose_name='Родительская категория')

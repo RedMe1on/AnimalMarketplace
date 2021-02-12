@@ -43,16 +43,29 @@ Create Product {{ product.title|title }} - {{ block.super }}
             <div class="form-group col-md-6">
                 {{ form.age|as_crispy_field }}
             </div>
-            <div class="form-group col-md-6">
-                {{ form.age_type|as_crispy_field }}
+            <div class="form-group col-md-6 m-auto">
+                <div class="switch-wrap d-flex mb-0">
+                    <div class="primary-checkbox m-2">
+                        <input type="checkbox" id="id_age_type" checked="">
+                        <label for="id_age_type"></label>
+                    </div>
+                    <p style="padding: 6px 0">Указать возраст в месяцах</p>
+                </div>
+
             </div>
         </div>
-         <div class="form-row">
+        <div class="form-group">
+            {{ form.birthday|as_crispy_field }}
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-6">
-                {{ form.birthday|as_crispy_field }}
+                <label for="id_image" class="">Главная фотография</label>
+                <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"
+                       id="id_image">
+                <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>
             </div>
-            <div class="form-group col-md-6">
-                {{ form.image|as_crispy_field }}
+            <div class="col-md-6">
+                <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
             </div>
         </div>
         <button type="submit" class="genric-btn success float-right my-2">Добавить</button>
