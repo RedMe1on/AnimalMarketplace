@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<form method="post" enctype="multipart/form-data" class="my-4">
+<form method="post" enctype="multipart/form-data" class="form-area my-4">
     {% csrf_token %}
 
     {% if form.errors %}
@@ -27,7 +27,17 @@
     </div>
     {{ form.email|as_crispy_field }}
     {{ form.phone_number|as_crispy_field }}
-    {{ form.image|as_crispy_field }}
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="id_image" class="">Фотография профиля</label>
+            <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"
+                   id="id_image">
+            <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>
+        </div>
+        <div class="col-md-6">
+            <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
+        </div>
+    </div>
 
     <button type="submit" class="genric-btn success float-right my-2">Сохранить</button>
 </form>
