@@ -50,7 +50,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'birthday', 'image')
+        fields = ('name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'price', 'birthday', 'image')
         widgets = {
             'breed': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},

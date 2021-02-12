@@ -39,7 +39,6 @@ class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
     """Удалить объявление"""
     model = Product
     success_url = reverse_lazy('lk:product_list')
-    template_name = 'lk/product_delete.html'
 
 
 class ProductListView(LoginRequiredMixin, ListView):

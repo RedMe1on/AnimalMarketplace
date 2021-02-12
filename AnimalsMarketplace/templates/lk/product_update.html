@@ -1,76 +1,12 @@
-{% extends 'lk/profile.html' %}
-{% load crispy_forms_tags %}
+{% extends 'lk/product_create.html' %}
 {% block title %}
 Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
+{% block name_form %}
+Редактировать объявление
+{% endblock name_form %}
 
-{% block profile_content %}
-<div class="container">
-    <div class="container">
-        <div class="row my-2">
-            <div class="col-md-12">
-                <h1>Редактировать объявление</h1>
-            </div>
-        </div>
-        <form method="post" enctype="multipart/form-data" class="form-area">
-            {% csrf_token %}
-            {{ form.media }}
-            {% if form.errors %}
-            <div class="alert alert-danger">
-                <strong>Исправьте ошибки ниже</strong>
-            </div>
-            {% endif %}
-            <div class="form-group">
-                {{ form.category|as_crispy_field }}
-            </div>
-            <div class="form-group">
-                {{ form.name|as_crispy_field }}
-            </div>
-            <div class="form-group">
-                {{ form.text|as_crispy_field }}
-            </div>
-            <div class="form-group">
-                {{ form.sex|as_crispy_field }}
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    {{ form.breed|as_crispy_field }}
-                </div>
-                <div class="form-group col-md-6">
-                    {{ form.breed_type|as_crispy_field }}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    {{ form.age|as_crispy_field }}
-                </div>
-                <div class="form-group col-md-6 m-auto">
-                    <div class="switch-wrap d-flex mb-0">
-                        <div class="primary-checkbox m-2">
-                            <input type="checkbox" id="id_age_type" checked="">
-                            <label for="id_age_type"></label>
-                        </div>
-                        <p style="padding: 6px 0">Указать возраст в месяцах</p>
-                    </div>
+{% block button_text_form %}
+Сохранить
+{% endblock button_text_form %}
 
-                </div>
-            </div>
-            <div class="form-group">
-                {{ form.birthday|as_crispy_field }}
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="id_image" class="">Главная фотография</label>
-                    <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"
-                           id="id_image">
-                    <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>
-                </div>
-                <div class="col-md-6">
-                    <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
-                </div>
-            </div>
-            <button type="submit" class="genric-btn success float-right my-2">Сохранить</button>
-        </form>
-    </div>
-
-    {% endblock profile_content%}

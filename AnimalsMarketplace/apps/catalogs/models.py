@@ -117,6 +117,11 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Дополнительные фотографии'
 
 
+# class BreedType(models.Model):
+#     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, verbose_name='Категория породы')
+#     name = models.CharField(verbose_name='Название породы', max_length=200)
+
+
 class RatingProduct(models.Model):
     """Модель для хранения рейтинга товаров"""
 

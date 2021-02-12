@@ -8,7 +8,7 @@ Create Product {{ product.title|title }} - {{ block.super }}
 <div class="container">
     <div class="row my-2">
         <div class="col-md-12">
-            <h1>Добавить объявление</h1>
+            <h1>{% block name_form %}Добавить объявление{% endblock name_form %}</h1>
         </div>
     </div>
     <form method="post" enctype="multipart/form-data" class="form-area">
@@ -57,6 +57,15 @@ Create Product {{ product.title|title }} - {{ block.super }}
         <div class="form-group">
             {{ form.birthday|as_crispy_field }}
         </div>
+        <div class="form-group">
+            <div id="div_id_price" class="form-group">
+                <label for="id_price" class="">Цена</label>
+                <div class="">
+                    <input type="number" name="price" value="0" min="0" class="numberinput form-control" aria-describedby="priceHelp" id="id_price">
+                </div>
+                <small id="priceHelp" class="form-text text-muted">Оставьте 0, если хотите отдать бесплатно</small>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="id_image" class="">Главная фотография</label>
@@ -68,10 +77,12 @@ Create Product {{ product.title|title }} - {{ block.super }}
                 <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
             </div>
         </div>
-        <button type="submit" class="genric-btn success float-right my-2">Добавить</button>
+        <button type="submit" class="genric-btn success float-right my-2">{% block button_text_form %}Добавить
+            {% endblock button_text_form %}
+        </button>
     </form>
 </div>
 
-{% endblock profile_content%}
+{% endblock profile_content %}
 
     

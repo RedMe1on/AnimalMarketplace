@@ -3177,6 +3177,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 .select-input:active, .select-input.open, .select-input:focus {
   box-shadow: none;
 }
+.filter-option-inner-inner {
+color: #495057;
+}
 
 .dropdown-item.active {
   background-color: #fab700;
@@ -4382,4 +4385,15 @@ body.mobile-nav-active #mobile-nav-toggle {
 .form-area img {
   max-width: 100%;
   max-height: 250px;
+}
+
+
+.area-form-auth {
+  background: #edeef0;
+}
+
+.form-area-auth {
+  margin: auto;
+  max-width: 400px;
+  margin-bottom: 0.25rem;
 }

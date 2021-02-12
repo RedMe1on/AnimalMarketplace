@@ -59,7 +59,7 @@
                 <button type="button" id="mobile-dropdown-button" style="margin-right:3rem;"><i
                         class="lnr lnr-user"></i></button>
                 <button type="button" id="lk-menu" class="genric-btn default radius dropdown-button"><i
-                        class="lnr lnr-user format-lnr-login"></i><span>{{ user.username }}</span>
+                        class="lnr lnr-user format-lnr-login"></i><span>{{ user.username|truncatechars:12 }}</span>
                 </button>
                 <div class="dropdown-menu-custom">
                     <a class="genric-btn primary" href="{% url 'lk:profile' %}">Мой профиль</a>
