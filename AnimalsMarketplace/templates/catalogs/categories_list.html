@@ -22,7 +22,11 @@
             {% for category in categories_list %}
             <div class="col-lg-3 col-md-6">
                 <div class="single-category-list">
+                    {% if category.image %}
                     <img src="{{ category.image.url }}" alt="" class="img-fluid">
+                    {% else %}
+                    <img src="/media/no_image.png" alt="" class="img-fluid">
+                    {% endif %}
                     <a class="overlay" href="{{ category.get_absolute_url }}">
                         <div class="text">{{ category.h1 }}</div>
                     </a>

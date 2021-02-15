@@ -50,13 +50,15 @@ $(document).ready(function () {
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
-  
+  var start_preview_src = $('#preview').attr('src')
+
   $("#id_image").change(function() {
     readURL(this);
   });
   $('#reset-img-field').click(function() {
     $('#id_image').val('');
-    $('#preview').attr('src', '/media/no_image.png');
+    $('#preview').attr('src', start_preview_src);
+    
 });
   // Initiate superfish on nav menu
   $(".nav-menu").superfish({
