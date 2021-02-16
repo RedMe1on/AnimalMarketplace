@@ -1,46 +1,14 @@
 <!-- Start cat-list Area -->
 <section class="animal-list-area section-gap">
     {% include 'include/filter.html' %}
-    </div>
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
                 {% for product in product_list %}
                 <div class="single-animal-list row">
-                    <div class="animal-image col-md-4">
-                        {% if product.image %}
-                        <img class="img-fluid" src="{{ product.image.url }}" alt="">
-                        {% else %}
-                        <img class="img-fluid" src="/media/no_image.png" alt="">
-                        {% endif %}
-                    </div>
-                    <div class="card-body col-md-6">
-                        <p class="card-title">{{ product.name|truncatechars:50|striptags|safe }}</p>
-                        <div class="card-date">
-                            <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
-                        </div>
-                        <div class="card-info">
-                            <p class="card-text">{{ product.text|truncatechars:100|striptags|safe }}</p>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <p><b>Пол: </b>{{ product.sex }}</p>
-                                    <p><b>Возраст: </b>{{ product.age }}</p>
-                                    <p><b>Возраст: </b>{{ product.age }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <p><b>Порода: </b>{{ product.breed }}</p>
-                                    <p><b>Вид породы: </b>{{ product.breed_type }}</p>
-                                    <p><b>Адрес: </b>Адрес</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 m-auto">
-                        <div class="card-price">
-                            <p><b>Цена: </b>{{ product.price }} Р</p>
-                        </div>
-                    </div>
-                    <a class="overlay" href="{{ product.get_absolute_url }}">
+                    {% include 'include/single_animal_card.html' %}
+                    <a class="overlay"
+                       href="{{ product.get_absolute_url }}">
                     </a>
                 </div>
                 {% endfor %}
@@ -49,7 +17,6 @@
             <div class="col-lg-3">
                 Баннерная реклама
             </div>
-
         </div>
     </div>
 </section>

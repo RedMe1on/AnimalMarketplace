@@ -1,0 +1,20 @@
+<div class="single-sidebar-widget popular-post-widget">
+    <h4 class="popular-title">Популярное</h4>
+    <div class="popular-post-list">
+        {% for post in popular_post_list %}
+        <div class="single-post-list d-flex flex-row align-items-center">
+            <div class="thumb">
+                {% if post.image %}
+                <img class="img-fluid popular-post-img" src="{{ post.image.url }}" alt="">
+                {% else %}
+                <img class="img-fluid popular-post-img" src="/media/no_image.png" alt="">
+                {% endif %}
+            </div>
+            <div class="details">
+                <a href="blog-single.html"><h6>{{ post.name|truncatechars:15 }}</h6></a>
+                <p>{{ post.pub_date }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

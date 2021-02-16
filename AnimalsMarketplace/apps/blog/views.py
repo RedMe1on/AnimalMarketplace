@@ -28,3 +28,4 @@ class CategoriesListView(ListView):
     model = Categories
     queryset = Categories.objects.order_by('-pub_date')
     template_name = 'blog/blog_categories_list.html'
+

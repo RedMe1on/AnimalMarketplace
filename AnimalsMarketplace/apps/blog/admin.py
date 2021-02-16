@@ -13,6 +13,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display_links = ('name', )
     list_editable = ('draft', )
     search_fields = ('name',)
+    exclude = ('views',)
     ordering = ('id',)
     formfield_overrides = {
         models.TextField: {'widget':  CKEditorUploadingWidget()}

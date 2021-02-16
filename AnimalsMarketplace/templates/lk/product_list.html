@@ -11,7 +11,7 @@
 </div>
 <section class="animal-list-area mt-4">
     {% for product in product_list %}
-    <div class="single-animal-list m-0">
+    <div class="single-animal-list">
         <div class="row button-panel">
             <div class="col-md-12 d-flex justify-content-end mt-2">
                 <a href="{{ product.get_absolute_url }}" class="genric-btn info radius mx-1" data-toggle="tooltip"
@@ -26,39 +26,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="animal-image col-md-4">
-                {% if product.image %}
-                <img class="img-fluid" src="{{ product.image.url }}" alt="">
-                {% else %}
-                <img class="img-fluid" src="/media/no_image.png" alt="">
-                {% endif %}
-            </div>
-            <div class="card-body col-md-6">
-                <p class="card-title">{{ product.name|truncatechars:50|striptags|safe }}</p>
-                <div class="card-date">
-                    <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
-                </div>
-                <div class="card-info">
-                    <p class="card-text">{{ product.text|truncatechars:100|striptags|safe }}</p>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p><b>Пол: </b>{{ product.sex }}</p>
-                            <p><b>Возраст: </b>{{ product.age }}</p>
-                            <p><b>Возраст: </b>{{ product.age }}</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p><b>Порода: </b>{{ product.breed }}</p>
-                            <p><b>Вид породы: </b>{{ product.breed_type }}</p>
-                            <p><b>Адрес: </b>Адрес</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 m-auto">
-                <div class="card-price">
-                    <p><b>Цена: </b>{{ product.price }} Р</p>
-                </div>
-            </div>
+            {% include 'include/single_animal_card.html' %}
         </div>
     </div>
     {% endfor %}
