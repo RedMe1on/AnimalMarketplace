@@ -1,0 +1,30 @@
+{% load crispy_forms_tags %}
+<div class="single-sidebar-widget newsletter-widget">
+    <h4 class="newsletter-title">Подписаться на рассылку</h4>
+    <p>
+        Here, I focus on a range of items and features that we use in life without
+        giving them a second thought.
+    </p>
+    <div class="form-group d-flex flex-row">
+        <form method="post" action="{% url 'mailings:mailing' %}" class="uniForm" name="form-newsletter-widget" >
+            <div class="col-autos">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    {% csrf_token %}
+
+                    <input type="text" name="email" placeholder="Введите e-mail" maxlength="254"
+                           class="textinput textInput form-control" required="" id="id_email"
+                           onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'">
+                    <button type="submit" class="bbtns">Подписаться</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <p class="text-bottom">
+        Можно отписаться в любой момент
+    </p>
+</div>

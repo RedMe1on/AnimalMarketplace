@@ -1,5 +1,6 @@
 <div class="single-sidebar-widget popular-post-widget">
     <h4 class="popular-title">Популярное</h4>
+    {% if popular_post_list %}
     <div class="popular-post-list">
         {% for post in popular_post_list %}
         <div class="single-post-list d-flex flex-row align-items-center">
@@ -17,4 +18,7 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <p class="text-center">На данный момент нет постов</p>
+    {% endif %}
 </div>

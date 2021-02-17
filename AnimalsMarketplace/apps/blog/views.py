@@ -1,7 +1,7 @@
 from django.views.generic import DetailView
 from django.views.generic.list import MultipleObjectMixin, ListView
 
-from .models import Post, Categories
+from .models import Post, Categories, BlogTags
 
 
 class PostDetailView(DetailView):
@@ -29,3 +29,15 @@ class CategoriesListView(ListView):
     queryset = Categories.objects.order_by('-pub_date')
     template_name = 'blog/blog_categories_list.html'
 
+
+class BlogTagsView(DetailView, MultipleObjectMixin):
+    """Теги для постов блога"""
+    model = BlogTags
+    template_name = 'blog/tag_detail.html'
+    paginate_by = 2
+
+    def get_context_data(self, **kwargs):
+        post = self.object.post_set.all().order_by('-pub_date')
+        context = super().get_context_data(object_list=post, **kwargs)
+        context['post_list'] = context['object_list']
+        return context

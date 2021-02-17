@@ -1,0 +1,12 @@
+<div class="single-sidebar-widget tag-cloud-widget">
+    <h4 class="tagcloud-title">Облако тегов</h4>
+    {% if tags_list %}
+    <ul>
+        {% for tag in tags_list %}
+        <li><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-center">На данный момент нет активных тегов</p>
+    {% endif %}
+</div>

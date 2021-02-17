@@ -42,24 +42,23 @@ $(document).ready(function () {
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-      
-      reader.onload = function(e) {
-        $('#preview').attr('src', e.target.result);
-      }
-      
+
+      reader.onload = function (e) {
+        $("#preview").attr("src", e.target.result);
+      };
+
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
-  var start_preview_src = $('#preview').attr('src')
+  var start_preview_src = $("#preview").attr("src");
 
-  $("#id_image").change(function() {
+  $("#id_image").change(function () {
     readURL(this);
   });
-  $('#reset-img-field').click(function() {
-    $('#id_image').val('');
-    $('#preview').attr('src', start_preview_src);
-    
-});
+  $("#reset-img-field").click(function () {
+    $("#id_image").val("");
+    $("#preview").attr("src", start_preview_src);
+  });
   // Initiate superfish on nav menu
   $(".nav-menu").superfish({
     animation: {

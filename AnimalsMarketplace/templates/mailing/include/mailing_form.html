@@ -1,0 +1,7 @@
+{% load crispy_forms_tags %}
+
+<form action="{% url 'mailings:mailing' %}" method="post" class="form-container">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="genric-btn primary w-100">Подписаться</button>
+</form>

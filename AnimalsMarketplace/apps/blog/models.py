@@ -46,6 +46,33 @@ class Categories(SeoModel, PublicationModel):
         verbose_name_plural = 'Категории'
 
 
+class BlogTags(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Название тега')
+    slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if self.slug == '':
+            self.slug = slugify(self.name)
+        else:
+            self.slug = slugify(self.slug)
+        # обработка неуникального slug
+        try:
+            self.validate_unique()
+        except ValidationError:
+            self.slug += '-copy'
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('blog:tag_detail', kwargs={'slug': self.slug})
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+
 class Post(SeoModel, PublicationModel):
     name = models.CharField(max_length=200, verbose_name='Название публикации')
     slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
@@ -56,6 +83,7 @@ class Post(SeoModel, PublicationModel):
     category_id = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
                                     verbose_name='Родительская категория')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор')
+    tags = models.ManyToManyField(BlogTags, verbose_name='Теги', )
 
     def __str__(self):
         return self.name
@@ -94,8 +122,3 @@ class CommentPost(MPTTModel):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
-
-
-class BlogTags(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название тега')
-    post = models.ManyToManyField(Post, verbose_name='Пост')

@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% load mailing_tags %}
+{% load mailing_tags crispy_forms_tags %}
 
 {% block content %}
-{% mailing_form %}
-{% for field in form %}
-                    {% if field.errors %}
-                    <div class="alert alert-danger">
-                        {{ field.errors }}
-                    </div>
-                    {% endif %}
-                    {% endfor %}
+<section class="area-form">
+    <div class="container text-center ">
+        <h1 class="newsletter-title">Подписаться на рассылку</h1>
+        <p>
+            Будьте в курсе новых публикаций нашего портала
+        </p>
+        {% include 'mailing/include/mailing_form.html' %}
+    </div>
+</section>
 {% endblock content%}

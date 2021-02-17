@@ -1,0 +1,17 @@
+<div class="single-sidebar-widget post-category-widget">
+    <h4 class="category-title">Категории</h4>
+    {% if categories_list %}
+    <ul class="animal-list">
+        {% for category in categories_list %}
+        <li>
+            <a href="#" class="d-flex justify-content-between">
+                <p>{{ category.name }}</p>
+                <p>{{ category.post_set.count }}</p>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-center">На данный момент нет категорий</p>
+    {% endif %}
+</div>

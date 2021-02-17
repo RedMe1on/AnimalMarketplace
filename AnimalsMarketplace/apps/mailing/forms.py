@@ -9,8 +9,8 @@ class MailingForm(forms.ModelForm):
         model = Mailing
         fields = ('email',)
         widgets = {
-            "email": forms.TextInput(attrs={"placeholder": "Enter your email here...", })
+            "email": forms.EmailInput(attrs={"placeholder": "example@example.ru", })
         }
         labels = {
-            "email": ''
+            "email": 'E-mail'
         }

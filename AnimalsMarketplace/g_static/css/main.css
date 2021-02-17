@@ -3177,8 +3177,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 .select-input:active, .select-input.open, .select-input:focus {
   box-shadow: none;
 }
+
 .filter-option-inner-inner {
-color: #495057;
+  color: #495057;
 }
 
 .dropdown-item.active {
@@ -3969,6 +3970,9 @@ color: #495057;
   font-weight: 400;
   padding: 8px 20px;
   border-radius: 0;
+  border: 1px solid #fab700;
+  outline: none;
+  cursor: pointer;
 }
 
 .widget-wrap .newsletter-widget .input-group-text {
@@ -3987,14 +3991,16 @@ color: #495057;
   border-right: none !important;
   border-radius: 0px;
   font-size: 13px;
-  color: #ccc;
+  color: black;
   padding: 9px;
   padding-left: 0px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
 }
 
 .widget-wrap .newsletter-widget .form-control:focus {
   box-shadow: none;
-  border-color: #ccc;
+  border-color: #ccc!important;
 }
 
 .widget-wrap .newsletter-widget ::-webkit-input-placeholder {
@@ -4340,11 +4346,13 @@ color: #495057;
   font-size: 13px;
   color: #777;
 }
+
 @media (min-width: 1200px) {
   .content-image {
     height: 215px;
   }
 }
+
 @media (max-width: 992px) {
   .content-image {
     max-height: 420px;
@@ -4361,7 +4369,6 @@ color: #495057;
   max-width: 100px;
   max-height: 60px;
 }
-
 
 /*
 ################
@@ -4391,16 +4398,21 @@ color: #495057;
 .alert {
   border-radius: 0;
 }
+
 /* datepicker style start */
+
 .datepicker-top-left, .datepicker-top-right {
   border-top-color: #fab700!important;
 }
+
 .datepicker-top-left:before, .datepicker-top-right:before {
   border-bottom-color: #fab700!important;
 }
+
 .datepicker-panel>ul>li.picked, .datepicker-panel>ul>li.picked:hover {
-  color:  #fab700!important;
+  color: #fab700!important;
 }
+
 /* datepicker style end */
 
 .form-area img {
@@ -4408,13 +4420,13 @@ color: #495057;
   max-height: 250px;
 }
 
-
-.area-form-auth {
+.area-form {
   background: #edeef0;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
 }
 
-.form-area-auth {
+.form-container {
   margin: auto;
   max-width: 400px;
-  margin-bottom: 0.25rem;
 }
