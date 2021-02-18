@@ -17,8 +17,8 @@ class CategoriesDetailView(DetailView, MultipleObjectMixin):
     paginate_by = 2
 
     def get_context_data(self, **kwargs):
-        post = Post.objects.filter(category_id=self.object).order_by('-pub_date')
-        context = super().get_context_data(object_list=post, **kwargs)
+        object_list = Post.objects.filter(category_id=self.object).order_by('-pub_date')
+        context = super().get_context_data(object_list=object_list, **kwargs)
         context['post_list'] = context['object_list']
         return context
 
@@ -28,6 +28,12 @@ class CategoriesListView(ListView):
     model = Categories
     queryset = Categories.objects.order_by('-pub_date')
     template_name = 'blog/blog_categories_list.html'
+
+    def get_context_data(self, **kwargs):
+        post = Post.objects.all().order_by('-pub_date')
+        context = super().get_context_data(**kwargs)
+        context['post_list'] = post
+        return context
 
 
 class BlogTagsView(DetailView, MultipleObjectMixin):

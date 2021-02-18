@@ -13,7 +13,7 @@
 {% block content %}
 
 {% include 'include/catalog.html' %}
-
+{% if categories.text %}
 <section class="sample-text-area">
     <div class="container">
         <div class="sample-text">
@@ -21,4 +21,5 @@
         </div>
     </div>
 </section>
+{% endif %}
 {% endblock %}

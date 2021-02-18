@@ -1,0 +1,47 @@
+{% for post in post_list %}
+<div class="single-post row">
+    <div class="col-lg-3  col-md-3 meta-details">
+        {% if post.tags.all %}
+        <ul class="tags">
+            {% for tag in post.tags.all|slice:':4' %}
+            <li><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% elif post.category %}
+        <ul class="tags">
+            <li><a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></li>
+        </ul>
+        {% else %}
+        <ul class="tags">
+            <li><a href="{{ post.category.get_absolute_url }}">{{ post.category }}</a></li>
+        </ul>
+        {% endif %}
+        <div class="user-details row">
+            <p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{ post.author }}</a> <span
+                    class="lnr lnr-user"></span></p>
+            <p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.pub_date|date:"SHORT_DATE_FORMAT" }}</a> <span
+                    class="lnr lnr-calendar-full"></span></p>
+            <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.views }}</a> <span
+                    class="lnr lnr-eye"></span></p>
+            <p class="comments col-lg-12 col-md-12 col-6"><a href="#">{{ post.views_set.count }}
+                Comments</a> <span
+                    class="lnr lnr-bubble"></span></p>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-9 ">
+        <div class="feature-img">
+            {% if post.image %}
+            <img class="img-fluid blog-img-catalog" src="{{ post.image.url }}" alt="">
+            {% else %}
+            <img class="img-fluid blog-img-catalog" src="/media/no_image.png" alt="">
+            {% endif %}
+        </div>
+        <a class="posts-title" href="blog-single.html"><h3>{{ post.name }}</h3>
+        </a>
+        <p class="excert" style="white-space: normal">
+            {{ post.text|truncatechars:200|striptags|safe }}
+        </p>
+        <a href="{{ post.get_absolute_url }}" class="primary-btn">Читать</a>
+    </div>
+</div>
+{% endfor %}

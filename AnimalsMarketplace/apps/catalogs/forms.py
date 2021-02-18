@@ -34,9 +34,6 @@ class FilterForm(forms.ModelForm):
         # Поэтому ловим эту ошибку и пропускаем, т.к. все будет работать
         try:
             widgets = {
-                'sex': forms.SelectMultiple(
-                    attrs={'class': 'selectpicker select-input', 'title': 'Пол', 'data-style': 'select-input'},
-                    choices=Product.SexChoices.choices),
                 'breed': forms.SelectMultiple(
                     attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
                     choices=Product.BreedChoices.choices),

@@ -47,7 +47,7 @@ class Categories(SeoModel, PublicationModel):
 
 
 class BlogTags(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название тега')
+    name = models.CharField(max_length=20, verbose_name='Название тега')
     slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
 
     def __str__(self):
@@ -77,13 +77,13 @@ class Post(SeoModel, PublicationModel):
     name = models.CharField(max_length=200, verbose_name='Название публикации')
     slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-    image = models.ImageField(verbose_name='Изображение', upload_to='blog/post/img')
+    image = models.ImageField(verbose_name='Изображение', upload_to='blog/post/img', blank=True)
     views = models.PositiveIntegerField(verbose_name='Количество просмотров', default=0, blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Не отображается на сайте')
-    category_id = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True, blank=True,
-                                    verbose_name='Родительская категория')
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
+                                 verbose_name='Родительская категория')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор')
-    tags = models.ManyToManyField(BlogTags, verbose_name='Теги', )
+    tags = models.ManyToManyField(BlogTags, verbose_name='Теги', blank=True)
 
     def __str__(self):
         return self.name

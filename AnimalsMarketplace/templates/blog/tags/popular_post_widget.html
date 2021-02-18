@@ -4,17 +4,19 @@
     <div class="popular-post-list">
         {% for post in popular_post_list %}
         <div class="single-post-list d-flex flex-row align-items-center">
-            <div class="thumb">
+            <div class="thumb col-md-5 text-center">
                 {% if post.image %}
                 <img class="img-fluid popular-post-img" src="{{ post.image.url }}" alt="">
                 {% else %}
                 <img class="img-fluid popular-post-img" src="/media/no_image.png" alt="">
                 {% endif %}
             </div>
-            <div class="details">
-                <a href="blog-single.html"><h6>{{ post.name|truncatechars:15 }}</h6></a>
+            <div class="details col-md-7">
+                <a href="{{ post.get_absolute_url }}"><h6 class="popular-post-widget-post-name">{{ post.name }}</h6></a>
                 <p>{{ post.pub_date }}</p>
             </div>
+<!--            <div class="overlay">-->
+<!--            </div>-->
         </div>
         {% endfor %}
     </div>

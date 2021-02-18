@@ -1,11 +1,24 @@
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags catalog_tags %}
 <div class="container filter-area">
     <div class="row">
         <div class="col-lg-9">
             <form action="{{ view.get_url }}" method="get" class="filter-form">
                 <div class="row">
                     <div class="col-lg-4">
-                        {{ form.sex|as_crispy_field }}
+                        {% get_sex_select as sex_choices %}
+
+                        <div id="div_id_sex" class="form-group">
+                            <label for="id_sex" class="">
+                                Пол питомца
+                            </label>
+                            <select name="sex" class="selectpicker select-input selectmultiple form-control" title="Пол"
+                                    data-style="select-input" id="id_sex" multiple="" tabindex="-98"
+                                    {% if not sex_choices %} disabled {% endif %}>
+                                {% for sex in sex_choices %}
+                                <option value="{{ sex }}">{{ sex }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="col-lg-8">
                         <div class="row">
@@ -34,16 +47,19 @@
 
 
                         <div id="div_id_image" class="switch-wrap d-flex justify-content-start">
-                                <p class="mr-2 py-auto">С фото</p>
-                                <div class="primary-switch my-auto">
-                                    <input type="checkbox" name="image" id="id_image">
-                                    <label for="id_image"></label>
-                                </div>
+                            <p class="mr-2 py-auto">С фото</p>
+                            <div class="primary-switch my-auto">
+                                <input type="checkbox" name="image" id="id_image">
+                                <label for="id_image"></label>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <button class="genric-btn primary float-right " type="submit">Показать</button>
-                        <button id="reset-filter" class="genric-btn default-border m-1 medium float-right" type="reset">Сбросить фильтр</button>
+                        <button id="reset-filter" class="genric-btn default-border m-1 medium float-right"
+                                type="reset">
+                            Сбросить фильтр
+                        </button>
 
                     </div>
                 </div>

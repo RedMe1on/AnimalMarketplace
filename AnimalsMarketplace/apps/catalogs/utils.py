@@ -4,6 +4,7 @@ from .models import Product
 
 
 class ProductFilterMixin:
+
     def get_url(self):
         """Получение пути без домена"""
         return self.request.path
@@ -11,7 +12,6 @@ class ProductFilterMixin:
     def get_filter_product(self, queryset: QuerySet) -> QuerySet:
         """Фильтрация текущих товаров по выбранному фильтру"""
         filter_dict = {}
-        print('self.request.GET.lists()', self.request.GET.lists())
         for k, v in self.request.GET.lists():
             if k == 'page':
                 continue
@@ -29,7 +29,7 @@ class ProductFilterMixin:
             if v and len(v) == 1:
                 filter_dict[str(k)] = str(v[0])
             else:
-                filter_dict[str(k) + '__in'] = str(v)
+                filter_dict[str(k) + '__in'] = v
         queryset = queryset.filter(**filter_dict)
         return queryset
 

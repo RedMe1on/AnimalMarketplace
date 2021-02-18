@@ -28,7 +28,7 @@ class MainPage(ProductList):
     template_name = 'catalogs/main.html'
 
 
-class CategoriesList(ProductFilterMixin, ListView):
+class CategoriesList(ListView):
     model = Categories
     queryset = Categories.objects.order_by('-pub_date')
 
@@ -54,7 +54,7 @@ class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectM
         return list_product
 
 
-class ProductDetail(RatingProductMixin, ProductFilterMixin, DetailView):
+class ProductDetail(RatingProductMixin, DetailView):
     model = Product
     rating_model = RatingProduct
     template_name = 'catalogs/product_detail.html'

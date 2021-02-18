@@ -37,3 +37,13 @@ def catalog_breadcrumb(category: QuerySet):
     return {
         'category': category
     }
+
+
+@register.simple_tag(takes_context=True)
+def get_sex_select(context: dict) -> list:
+    """Получить пол из каталога страницы для динамического фильтра"""
+    query = context['object_list']
+    sex_select = set()
+    for product in query:
+        sex_select.add(product.sex)
+    return list(sex_select)
