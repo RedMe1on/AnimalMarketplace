@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load catalog_tags %}
 
-</body>
-</html>
+
+{% block h1 %}
+{{ categories.name }}
+{% endblock h1 %}
+
+{% block breadcrumb %}
+{% catalog_breadcrumb categories %}
+{% endblock breadcrumb %}
+
+{% block categories_list %}
+{% endblock categories_list %}
+{% block content %}
+<section class="blog-page">
+    {% include 'blog/include/post_content_area.html' %}
+</section>
+{% endblock content %}

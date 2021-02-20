@@ -33,9 +33,9 @@ def get_last_product(count: int):
 
 
 @register.inclusion_tag('catalogs/tags/breadcrumb.html')
-def catalog_breadcrumb(category: QuerySet):
+def catalog_breadcrumb(objects: QuerySet):
     return {
-        'category': category
+        'objects': objects
     }
 
 

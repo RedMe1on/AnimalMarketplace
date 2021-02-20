@@ -1,7 +1,7 @@
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.db import models
 from django.contrib import admin
-from .models import Post, Categories, BlogTags
+from .models import Post, Categories, BlogTags, CommentPost
 
 
 @admin.register(Post)
@@ -31,6 +31,14 @@ class CategoriesAdmin(admin.ModelAdmin):
 @admin.register(BlogTags)
 class TagsAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
+    list_display_links = ('name',)
+    search_fields = ('name',)
+    ordering = ('id',)
+
+
+@admin.register(CommentPost)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'post')
     list_display_links = ('name',)
     search_fields = ('name',)
     ordering = ('id',)

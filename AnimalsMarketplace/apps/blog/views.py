@@ -14,7 +14,7 @@ class CategoriesDetailView(DetailView, MultipleObjectMixin):
     """Детальная категория"""
     model = Categories
     template_name = 'blog/blog_categories.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         object_list = Post.objects.filter(category_id=self.object).order_by('-pub_date')
@@ -26,8 +26,8 @@ class CategoriesDetailView(DetailView, MultipleObjectMixin):
 class CategoriesListView(ListView):
     """Список категорий - для главной блога: /blog/"""
     model = Categories
-    queryset = Categories.objects.order_by('-pub_date')
-    template_name = 'blog/blog_categories_list.html'
+    queryset = Categories.objects.order_by('-priority')[:3]
+    template_name = 'blog/blog_main.html'
 
     def get_context_data(self, **kwargs):
         post = Post.objects.all().order_by('-pub_date')

@@ -64,7 +64,7 @@ $(document).ready(function () {
     animation: {
       opacity: "show",
     },
-    speed: 400,
+    speed: "fast",
   });
 
   // datepicker start

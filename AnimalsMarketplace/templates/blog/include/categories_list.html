@@ -1,0 +1,34 @@
+<!-- Start top-category-widget Area -->
+<section class="top-category-widget-area pt-90">
+    <div class="container">
+        <div class="row">
+            {% for category in categories_list %}
+            <div class="col-lg-4">
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="{{ category.get_absolute_url }}" target="_blank" rel="noopener noreferrer">
+                            <div class="thumb">
+                                {% if category.image %}
+                                <img class="content-image img-fluid d-block mx-auto mb-4"
+                                     src="{{ category.image.url }}"
+                                     alt="">
+                                {% else %}
+                                <img class="content-image img-fluid d-block mx-auto mb-4" src="/media/no_image.png"
+                                     alt="">
+                                {% endif %}
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title mx-auto text-uppercase">{{ category.name }}</h4>
+                                <span></span>
+                                <p>{{ category.short_text }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- End top-category-widget Area -->

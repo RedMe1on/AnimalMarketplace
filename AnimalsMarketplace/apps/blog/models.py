@@ -22,6 +22,9 @@ class Categories(SeoModel, PublicationModel):
     image = models.ImageField(upload_to='blog/categories/img', blank=True, verbose_name='Изображение')
     short_text = models.CharField(max_length=40, verbose_name='Короткое описание', blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
+    priority = models.IntegerField(verbose_name='Приоритет',
+                                   help_text='Приоритет на вывод в топ категорий на главной блога (больше - лучше)',
+                                   blank=True, null=True, default=0)
 
     def __str__(self):
         return self.name
