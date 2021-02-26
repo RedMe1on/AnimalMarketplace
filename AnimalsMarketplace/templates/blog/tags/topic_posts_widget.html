@@ -1,0 +1,23 @@
+<!-- Start image-carusel Area -->
+<section class="image-carusel-area">
+    <div class="container">
+        <div class="row">
+            <span class="topic-posts-header">Еще по теме:</span>
+            <div class="active-topic-post-carusel">
+                {% for post in topic_posts %}
+                <div class="single-image-carusel">
+                    <a href="{{ post.get_absolute_url }}">
+                        {% if post.image %}
+                        <img class="img-carousel" src="{{ post.image.url }}" alt="">
+                        {% else %}
+                        <img class="img-carousel" src="/media/no_image.png" alt="">
+                        {% endif %}
+                    </a>
+                    <div class="topic-posts-item-header text-center">{{ post.name }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End image-carusel Area -->

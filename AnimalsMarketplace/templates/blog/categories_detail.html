@@ -10,10 +10,8 @@
 {% catalog_breadcrumb categories %}
 {% endblock breadcrumb %}
 
-{% block categories_list %}
-{% endblock categories_list %}
 {% block content %}
 <section class="blog-page">
-    {% include 'blog/include/post_content_area.html' %}
+    {% include 'blog/include/categories_content_area.html' %}
 </section>
 {% endblock content %}

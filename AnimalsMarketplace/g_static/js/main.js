@@ -303,6 +303,29 @@ $(document).ready(function () {
     },
   });
 
+  $(".active-topic-post-carusel").owlCarousel({
+    items: 3,
+    loop: true,
+    dots: true,
+    autoplay: true,
+    autoplayHoverPause: true,
+    margin: 10,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      480: {
+        items: 1,
+      },
+      768: {
+        items: 2,
+      },
+      900: {
+        items: 3,
+      },
+    },
+  });
+
   //  Start Google map
 
   // When the window has finished loading create our google map below

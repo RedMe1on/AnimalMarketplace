@@ -1,19 +1,22 @@
-from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import DetailView, CreateView
 from django.views.generic.list import MultipleObjectMixin, ListView
-
 from .models import Post, Categories, BlogTags
 
 
 class PostDetailView(DetailView):
     """Детальная публикация"""
     model = Post
-    template_name = 'blog/blog_detail.html'
+    template_name = 'blog/post_detail.html'
 
 
 class CategoriesDetailView(DetailView, MultipleObjectMixin):
     """Детальная категория"""
     model = Categories
-    template_name = 'blog/blog_categories.html'
+    template_name = 'blog/categories_detail.html'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):

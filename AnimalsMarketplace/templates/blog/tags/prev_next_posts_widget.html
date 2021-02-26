@@ -1,0 +1,39 @@
+<div class="navigation-area">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+            <a href="{{ prev_post.get_absolute_url }}" class="prev-next-link"></a>
+            <div class="thumb">
+                    {% if prev_post.image %}
+                    <img class="img-fluid prev-next-posts-widget-image" src="{{ prev_post.image.url }}" alt="">
+                    {% else %}
+                    <img class="img-fluid prev-next-posts-widget-image" src="/media/no_image.png" alt="">
+                    {% endif %}
+            </div>
+            <div class="arrow">
+                <span class="lnr text-white lnr-arrow-left"></span>
+            </div>
+            <div class="detials">
+                <p>Prev Post</p>
+                <span class="prev-next-title">{{ prev_post.name }}</span>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+            <a href="{{ next_post.get_absolute_url }}" class="prev-next-link"></a>
+                <div class="detials">
+                    <p>Next Post</p>
+                    <span class="prev-next-title">{{ next_post.name }}</span>
+                </div>
+                
+                <div class="arrow">
+                    <span class="lnr text-white lnr-arrow-right"></span>
+                </div>
+                <div class="thumb">
+                    {% if next_post.image %}
+                    <img class="img-fluid prev-next-posts-widget-image" src="{{ next_post.image.url }}" alt="">
+                    {% else %}
+                    <img class="img-fluid prev-next-posts-widget-image" src="/media/no_image.png" alt="">
+                    {% endif %}
+                </div>
+        </div>
+    </div>
+</div>

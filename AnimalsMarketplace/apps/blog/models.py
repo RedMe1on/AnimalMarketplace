@@ -111,17 +111,3 @@ class Post(SeoModel, PublicationModel):
         verbose_name_plural = 'Публикации'
 
 
-class CommentPost(MPTTModel):
-    name = models.CharField(max_length=100, verbose_name='Имя')
-    email = models.EmailField(verbose_name='Электронная почта', blank=True)
-    text = models.TextField(verbose_name='Комментарий', max_length=2000)
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE,
-                            verbose_name='Родитель')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Пост, к которому комментарий')
-
-    def __str__(self):
-        return f'{self.name} - {self.post}'
-
-    class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'

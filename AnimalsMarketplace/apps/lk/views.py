@@ -1,14 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, TemplateView, ListView, UpdateView, DeleteView, CreateView
-from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic.base import View
+from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView
+from django.shortcuts import get_object_or_404, redirect
 
 from .forms import ProfileEditForm, ProductForm
 from .models import Profile
 from catalogs.models import Product
-from AnimalsMarketplace import settings
 from .permissions import AuthorPermissionsMixin
 
 

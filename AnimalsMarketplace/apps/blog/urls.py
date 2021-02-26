@@ -8,5 +8,5 @@ urlpatterns = [
     path('', CategoriesListView.as_view(), name='categories_list'),
     path('<str:slug>/', CategoriesDetailView.as_view(), name='categories_detail'),
     path('post/<str:slug>/', PostDetailView.as_view(), name='post_detail'),
-    path('tag/<str:slug>/', BlogTagsView.as_view(), name='tag_detail')
+    path('tag/<str:slug>/', BlogTagsView.as_view(), name='tag_detail'),
 ]
