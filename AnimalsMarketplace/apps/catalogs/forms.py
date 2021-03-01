@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, RatingProduct
+from .models import Product
 from django.db.utils import ProgrammingError as AvoidDataMigrationError
 
 
@@ -11,15 +11,6 @@ class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
-
-
-class RatingForm(forms.ModelForm):
-    """Форма добавления рейтинга"""
-    rating = forms.ChoiceField(widget=forms.RadioSelect(), choices=RatingProduct.Star.choices)
-
-    class Meta:
-        model = RatingProduct
-        fields = ('rating',)
 
 
 class FilterForm(forms.ModelForm):

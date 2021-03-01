@@ -11,34 +11,33 @@
 {% endblock breadcrumb %}
 
 {% block content %}
-<div class="container">
-    <form action="{% url 'catalogs:add_rating' %}" method="post" name="add-rating">
-        <b>Рейтинг:</b>
-        {% csrf_token %}
-        <input type="hidden" value="{{ product.id }}" name="product">
-        <div>
-            <b>Ваша оценка:</b>
-            {{ user_rating }}
+<section class="ad-detail">
+    <div class="container">
+        <div class="row gallery-item mt-4">
+            <div class="col-md-6 text-center">
+                {% if product.image %}
+                <a href="{{ product.image.url }}" class="img-pop-up">
+                    <img src="{{ product.image.url }}" class="detail-img">
+                </a>
+                {% else %}
+                <a href="/media/no_image.png" class="img-pop-up">
+                    <div class="single-gallery-image" style="background: url(media/no_image.png);"></div>
+                </a>
+                {% endif %}
+                <div class="row">
+                    {% for additional_img in product.additional_img.all %}
+                    <div class="col-2 my-auto">
+                        <a href="{{ additional_img.image.url }}" class="img-pop-up">
+                            <img src="{{ additional_img.image.url }}" class="additional-detail-img">
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <h1>{{ product.h1 }}</h1>
+            <p>{{ product.text|safe }}</p>
+            <em>{{ product.pub_date }}</em>
         </div>
-        <div class="rating-area">
-            {% for k, v in rating_form.fields.rating.choices|dictsortreversed:0 %}
-            <input type="radio" name="rating" id="rating-{{ v }}" value="{{ k }}"
-                   {% if user_rating == k %}
-                       checked
-                   {% endif %}       
-                >
-            <label for="rating-{{ v }}"></label>
-            {% endfor %}
-        </div>
-    </form>
-    <div class="avg-rating">
-        <b>Общая оценка:</b>
-        {{ avg_rating }}
-    </div>
+</section>
 
-
-<h1>{{ product.h1 }}</h1>
-<p>{{ product.text|safe }}</p>
-<em>{{ product.pub_date }}</em>
-</div>
 {% endblock %}

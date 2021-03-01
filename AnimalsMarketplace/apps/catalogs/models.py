@@ -107,7 +107,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_img')
     image = models.ImageField(verbose_name='Дополнительные фотографии', upload_to='catalogs/product/img')
 
     class Meta:
@@ -119,24 +119,3 @@ class ProductImage(models.Model):
 #     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, verbose_name='Категория породы')
 #     name = models.CharField(verbose_name='Название породы', max_length=200)
 
-
-class RatingProduct(models.Model):
-    """Модель для хранения рейтинга товаров"""
-
-    class Star(models.IntegerChoices):
-        VERY_BAD = 1, _('Очень плохо')
-        BAD = 2, _('Плохо')
-        NOT_BAD = 3, _('Неплохо')
-        GOOD = 4, _('Хорошо')
-        VERY_GOOD = 5, _('Очень хорошо')
-
-    ip = models.CharField(verbose_name='IP', max_length=30)
-    rating = models.IntegerField(choices=Star.choices, verbose_name='Рейтинг')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Питомец')
-
-    def __str__(self):
-        return f'{self.rating} - {self.product}'
-
-    class Meta:
-        verbose_name = 'Рейтинг'
-        verbose_name_plural = 'Рейтинги'

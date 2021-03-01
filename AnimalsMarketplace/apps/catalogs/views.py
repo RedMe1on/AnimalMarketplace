@@ -1,11 +1,10 @@
 from django.db.models import QuerySet
-from django.http import HttpResponse
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import MultipleObjectMixin
-from .forms import RatingForm, FilterForm
-from .models import Categories, Product, RatingProduct
-from .utils import ProductFilterMixin, RatingProductMixin
+from .forms import FilterForm
+from .models import Categories, Product
+from .utils import ProductFilterMixin
 
 
 class ProductList(ProductFilterMixin, FormView, ListView):
@@ -34,7 +33,6 @@ class CategoriesList(ListView):
 
 
 class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectMixin):
-
     model = Categories
     form_class = FilterForm
     paginate_by = 10
@@ -44,7 +42,6 @@ class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectM
         object_list = self.get_filter_product(self.get_product_list_for_category())
         context = super().get_context_data(object_list=object_list.order_by('name'), **kwargs)
         context['product_list'] = object_list.order_by('name')
-        context['rating-form'] = RatingForm()
         return context
 
     def get_product_list_for_category(self) -> QuerySet:
@@ -54,32 +51,9 @@ class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectM
         return list_product
 
 
-class ProductDetail(RatingProductMixin, DetailView):
+class ProductDetail(DetailView):
     model = Product
-    rating_model = RatingProduct
     template_name = 'catalogs/product_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['rating_form'] = RatingForm()
-        context['avg_rating'] = self.get_avg_rating(self.kwargs.get('pk'))
-        context['user_rating'] = self.get_user_rating(self.request, self.kwargs.get('pk'))
-        return context
-
-
-class AddRatingViews(RatingProductMixin, View):
-
-    def post(self, request):
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            RatingProduct.objects.update_or_create(
-                ip=self.get_client_ip(request),
-                product_id=int(request.POST.get('product')),
-                defaults={'rating': int(request.POST.get('rating'))}
-            )
-            return HttpResponse(status=201)
-        else:
-            return HttpResponse(status=400)
 
 
 class SearchView(ListView):

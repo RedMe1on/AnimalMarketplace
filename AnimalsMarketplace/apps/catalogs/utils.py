@@ -34,37 +34,3 @@ class ProductFilterMixin:
         return queryset
 
 
-class RatingProductMixin:
-    model = None
-    rating_model = None
-
-    def get_user_rating(self, request, pk):
-        """Получение ранее оставленного рейтинга по ip пользователя"""
-        ip = self.get_client_ip(request)
-        try:
-            user_rating = self.rating_model.objects.get(product=self.model.objects.get(pk=pk), ip=ip)
-            return user_rating.rating
-        except ObjectDoesNotExist:
-            return 0
-
-    def get_avg_rating(self, pk: int) -> float:
-        """Подсчет среднего рейтинга товара"""
-        rating = self.rating_model.objects.filter(product=self.model.objects.get(pk=pk))
-        star_list = [star.rating for star in rating]
-        if star_list:
-            sum = 0
-            for star in star_list:
-                sum += star
-            return round(sum / len(star_list), 1)
-        else:
-            return 0
-
-    @staticmethod
-    def get_client_ip(request):
-        """Получение ip адреса того, кто оставил рейтинг"""
-        x_forward_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forward_for:
-            ip = x_forward_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
