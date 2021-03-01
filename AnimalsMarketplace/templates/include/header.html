@@ -27,16 +27,24 @@
                             {% for category in categories %}
                             <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
                             {% endfor %}
+                            {% else %}
+                            <li>Нет категорий</li>
                             {% endif %}
                         </ul>
                     </li>
 
 
                     <li><a href="/volunteer/">Волонтерам</a></li>
-                    <li class="menu-has-children"><a href="">Blog</a>
+                    <li class="menu-has-children"><a href="/blog/">Блог</a>
                         <ul>
-                            <li><a href="blog-home.html">Blog Home</a></li>
-                            <li><a href="blog-single.html">Blog Single</a></li>
+                            {% get_categories_blog as categories_blog %}
+                            {% if categories_blog %}
+                            {% for category in categories_blog %}
+                            <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                            {% else %}
+                            <li>Нет категорий</li>
+                            {% endif %}
                         </ul>
                     </li>
                     <li><a href="/contacts/">Контакты</a></li>

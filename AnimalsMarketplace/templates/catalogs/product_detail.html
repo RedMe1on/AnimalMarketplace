@@ -11,33 +11,73 @@
 {% endblock breadcrumb %}
 
 {% block content %}
-<section class="ad-detail">
+<section class="ad-detail-area">
     <div class="container">
-        <div class="row gallery-item mt-4">
-            <div class="col-md-6 text-center">
-                {% if product.image %}
+        <div class="col-md-8">
+            {% if product.additional_img.count == 0 %}
+            {% if product.image %}
+            <div class="image-area-detail-ad">
                 <a href="{{ product.image.url }}" class="img-pop-up">
-                    <img src="{{ product.image.url }}" class="detail-img">
+                    <img class="w-100 detail-img" src="{{ product.image.url }}">
                 </a>
-                {% else %}
+            </div>
+            {% else %}
+            <div class="image-area-detail-ad">
                 <a href="/media/no_image.png" class="img-pop-up">
-                    <div class="single-gallery-image" style="background: url(media/no_image.png);"></div>
+                    <img class="w-100 detail-img" src="/media/no_image.png">
                 </a>
-                {% endif %}
-                <div class="row">
-                    {% for additional_img in product.additional_img.all %}
-                    <div class="col-2 my-auto">
-                        <a href="{{ additional_img.image.url }}" class="img-pop-up">
-                            <img src="{{ additional_img.image.url }}" class="additional-detail-img">
-                        </a>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="carousel-container">
+                <div id="carouselDetailAd" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <a href="{{ product.image.url }}" class="img-pop-up">
+                                <img class="w-100 detail-img" src="{{ product.image.url }}" alt="First slide"
+                                     number="0">
+                            </a>
+                        </div>
+                        {% for additional_img in product.additional_img.all %}
+                        <div class="carousel-item">
+                            <a href="{{ additional_img.image.url }}" class="img-pop-up">
+                                <img class="detail-img w-100" src="{{ additional_img.image.url }}" alt="Second slide"
+                                     number="{{ forloop.counter }}">
+                            </a>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <a class="carousel-control-prev" href="#carouselDetailAd" role="button" data-slide="prev">
+                        <span class="lnr lnr-arrow-left" style="color:black;"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselDetailAd" role="button" data-slide="next">
+                        <span class="lnr lnr-arrow-right" style="color:black;"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="gallery-item mt-4">
+                    <div class="row ">
+                        <div class="col-2 my-auto">
+                            <img src="{{ product.image.url }}" class="additional-detail-img"
+                                 style="border: 2px solid #fab700;" number="0">
+                        </div>
+                        {% for additional_img in product.additional_img.all %}
+                        <div class="col-2 my-auto">
+                            <img src="{{ additional_img.image.url }}" class="additional-detail-img"
+                                 number="{{ forloop.counter }}">
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <h1>{{ product.h1 }}</h1>
-            <p>{{ product.text|safe }}</p>
+            {% endif %}
+            <div class="text-content">
+                {{ product.text|safe }}
+            </div>
             <em>{{ product.pub_date }}</em>
         </div>
+    </div>
 </section>
 
 {% endblock %}

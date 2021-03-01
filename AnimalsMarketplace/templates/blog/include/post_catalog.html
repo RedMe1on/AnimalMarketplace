@@ -1,3 +1,4 @@
+{% if post_list %}
 {% for post in post_list %}
 <div class="single-post row">
     <div class="col-lg-3  col-md-3 meta-details">
@@ -40,4 +41,7 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+<div class="text-center">В данной категории еще нет публикаций</div>
+{% endif %}
 {% include 'include/pagination.html' %}

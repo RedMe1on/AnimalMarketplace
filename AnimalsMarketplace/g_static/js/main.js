@@ -66,7 +66,20 @@ $(document).ready(function () {
     },
     speed: "fast",
   });
+  // slider change slide for number addinational img
+  $(".additional-detail-img").click(function () {
+    let slide_number = $(this).attr("number");
+    $('.additional-detail-img').removeAttr('style')
+    $(this).attr('style', 'border: 2px solid #fab700;');
+    $("#carouselDetailAd").carousel(Number(slide_number));
+  });
 
+  $('#carouselDetailAd').on('slid.bs.carousel', function () {
+    let p = $('.carousel-item.active a .detail-img').attr('number')
+    console.log(p)
+    $('.additional-detail-img').removeAttr('style')
+    $(`.additional-detail-img[number=${p}]`).attr('style', 'border: 2px solid #fab700;')
+  })
   // datepicker start
   $(".dateinput").datepicker({
     format: "dd.mm.yyyy",

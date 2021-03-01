@@ -2,6 +2,7 @@ from django import template
 from django.db.models import QuerySet
 
 from ..models import Categories, Product
+from blog.models import Categories as Categories_blog
 
 register = template.Library()
 
@@ -9,6 +10,11 @@ register = template.Library()
 @register.simple_tag()
 def get_categories():
     return Categories.objects.all()
+
+
+@register.simple_tag()
+def get_categories_blog():
+    return Categories_blog.objects.all()
 
 
 @register.simple_tag()

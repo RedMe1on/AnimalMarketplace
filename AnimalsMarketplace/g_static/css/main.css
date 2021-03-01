@@ -1198,6 +1198,8 @@ h1, h2, h3, h4, h5, h6 {
   height: 200px;
 }
 
+
+
 .list-style {
   width: 14px;
   height: 14px;
@@ -3732,7 +3734,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin: 20px 0px;
 }
 
-.single-post-area .text-content {
+.text-content {
   word-wrap: break-word;
 }
 
@@ -4542,3 +4544,34 @@ body.mobile-nav-active #mobile-nav-toggle {
   height: 68vh;
   background-color: #edeef0;
 }
+/* ad detail area style start */
+.ad-detail-area {
+  background-color: #edeef0;
+  padding-top: 20px;
+}
+
+.ad-detail-area .gallery-item {
+
+}
+
+.carousel-container {
+
+}
+
+.ad-detail-area .detail-img {
+  height: 300px;
+  object-fit: contain;
+}
+
+.ad-detail-area .additional-detail-img:hover {
+  border: 2px solid #fab700;
+}
+
+.ad-detail-area .additional-detail-img {
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+/* ad detail area style end */
