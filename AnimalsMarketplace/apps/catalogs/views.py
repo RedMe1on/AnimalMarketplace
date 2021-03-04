@@ -5,6 +5,7 @@ from django.views.generic.list import MultipleObjectMixin
 from .forms import FilterForm
 from .models import Categories, Product
 from .utils import ProductFilterMixin
+from lk.models import Profile
 
 
 class ProductList(ProductFilterMixin, FormView, ListView):
@@ -16,11 +17,6 @@ class ProductList(ProductFilterMixin, FormView, ListView):
     def get_queryset(self):
         queryset = self.get_filter_product(super().get_queryset())
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print(context)
-        return context
 
 
 class MainPage(ProductList):
@@ -54,6 +50,11 @@ class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectM
 class ProductDetail(DetailView):
     model = Product
     template_name = 'catalogs/product_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(user=self.object.user)
+        return context
 
 
 class SearchView(ListView):

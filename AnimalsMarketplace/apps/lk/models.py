@@ -16,7 +16,9 @@ class Profile(models.Model):
     image = models.ImageField(verbose_name='Изображение', upload_to='catalogs/owner/img/', blank=True,
                               default='/no_image.png')
     email = models.EmailField(verbose_name='Почта', blank=True)
-    phone_number = PhoneNumberField(verbose_name='Номер телефона', null=True, blank=True)
+    phone_number = PhoneNumberField(verbose_name='Номер телефона для связи', null=True, blank=True)
+    phone_number_ads = PhoneNumberField(verbose_name='Номер телефона для обявлений',
+                                        help_text='Этот номер телефона будет отображаться на ваших объявлениях')
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 

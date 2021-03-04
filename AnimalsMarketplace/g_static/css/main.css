@@ -149,6 +149,15 @@ h1, .h1 {
   margin: 16px 0px;
 }
 
+.heading {
+  font-family: "Poppins", sans-serif;
+  color: #222222;
+  line-height: 1.2em !important;
+  font-weight: 600;
+  font-size: 36px;
+  word-wrap: break-word;
+  margin: 16px 0px;
+}
 h2, .h2 {
   font-size: 30px;
 }
@@ -3735,7 +3744,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .text-content {
-  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .single-post-area .text-content ul {
@@ -4565,6 +4574,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .ad-detail-area .additional-detail-img:hover {
   border: 2px solid #fab700;
+}
+
+.padding-l-r-0 {
+padding-left: 0%!important;
+padding-right: 0%!important;
 }
 
 .ad-detail-area .additional-detail-img {

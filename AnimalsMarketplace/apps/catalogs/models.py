@@ -7,17 +7,6 @@ from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
 
 
-# class GetAbsoluteUrlMixin(models.Model):
-#     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
-#     url_name = None
-#
-#     def get_absolute_url(self):
-#         return reverse(self.url_name, kwargs={'slug': self.slug})
-#
-#         class Meta:
-#             abstract = True
-
-
 class Categories(MPTTModel):
     name = models.CharField(verbose_name='Название категории', max_length=150)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
