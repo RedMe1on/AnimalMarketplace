@@ -4,7 +4,7 @@
     <ul class="animal-list">
         {% for category in categories_list %}
         <li>
-            <a href="#" class="d-flex justify-content-between">
+            <a href="{{ category.get_absolute_url }}" class="d-flex justify-content-between">
                 <p>{{ category.name }}</p>
                 <p>{{ category.post_set.count }}</p>
             </a>

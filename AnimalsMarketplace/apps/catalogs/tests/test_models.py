@@ -1,14 +1,9 @@
 from django.contrib.auth.models import User
-from django.db.models import QuerySet
 from django.test import TestCase
-
-# Create your tests here.
 from pytils.translit import slugify
-
 from catalogs.models import Categories, Product
 
 
-# Test models
 class CategoriesModelTestCase(TestCase):
     """Test model Categories"""
 
@@ -66,30 +61,3 @@ class ProductModelTestCase(TestCase):
 
     def test_get_delete_url(self):
         self.assertEqual(self.product.get_delete_url(), f'/lk/product/{self.product.pk}/delete/')
-
-# Test forms
-
-class FilterFormTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        pass
-# class CategoriesDetailTestCase(TestCase):
-#     @classmethod
-#     def setUpTestData(cls):
-#
-#
-#
-#     def setUp(self) -> None:
-#         parent = Categories.objects.create(name='Родитель', h1='Родитель')
-#         child_1 = Categories.objects.create(name='Ребенок Родителя', h1='Ребенок Родителя', parent=parent)
-#         child_child_1 = Categories.objects.create(name='Ребенок Ребенка Родителя', h1='Ребенок Ребенка Родителя',
-#                                                   parent=child_1)
-#
-#     def test_get_child_and_self_categories(self):
-#         parent = Categories.objects.get(name='Родитель')
-#         child_1 = Categories.objects.get(name='Ребенок Родителя')
-#         child_child_1 = Categories.objects.get(name='Ребенок Ребенка Родителя')
-#
-#         self.assertEqual(parent.get_child_and_self_categories(parent.slug), QuerySet([parent]))
-#         self.assertEqual(parent.get_child_and_self_categories(child_1.slug), QuerySet([parent, child_1]))
-#         self.assertEqual(parent.get_child_and_self_categories(child_child_1.slug), QuerySet([parent, child_1, child_child_1]))
