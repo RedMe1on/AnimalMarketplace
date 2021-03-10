@@ -82,11 +82,11 @@
             </div>
             <div class="col-md-4 mx-auto">
                 <div class="profile-info">
-                    {% get_phone_number as phone_number %}
+                    {% get_phone_number profile.phone_number_ads as phone_number_ads %}
                     <span class="genric-btn primary w-100 mb-4"
-                          onclick="$(this).html('<span>{{ phone_number }}</span>');">
+                          onclick="$(this).html('<span>{{ phone_number_ads }}</span>');">
                             <span>Показать телефон</span><br>
-                            {{ phone_number|slice:'13'}}XX-XX
+                            {{ phone_number_ads|slice:'13'}}XX-XX
                         </span>
                     <div class="ml-2 h4">
                         <span class="lnr lnr-user"></span>

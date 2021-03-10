@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load catalog_tags %}
 {% block h1 %}
 Личный кабинет
 {% endblock h1 %}
@@ -48,7 +48,10 @@
                         <p>Имя: {{ profile.name }}</p>
                         <p>Фамилия: {{ profile.last_name }}</p>
                         <p>E-mail: {{ profile.email }}</p>
-                        <p>Телефон: {{ profile.phone_number }}</p>
+                        {% get_phone_number profile.phone_number as phone_number %}
+                        <p id="phone_number">Телефон: {{ phone_number }}</p>
+                        {% get_phone_number profile.phone_number_ads as phone_number_ads %}
+                        <p id="phone_number_ads">Телефон для объявлений: {{ phone_number_ads }}</p>
                     </div>
                 </div>
 

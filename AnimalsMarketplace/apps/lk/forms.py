@@ -16,17 +16,22 @@ class ProfileEditForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'Имя'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Фамилия'}),
             'email': forms.EmailInput(attrs={'placeholder': 'example@example.ru'}),
-            'phone_number': forms.TextInput(attrs={'placeholder': '+7 (XXX) XXX-XX-XX'})
+            'phone_number': forms.TextInput(attrs={'placeholder': '+7 (XXX) XXX-XX-XX'}),
+            'phone_number_ads': forms.TextInput(attrs={'placeholder': '+7 (XXX) XXX-XX-XX'}),
         }
         labels = {
             'name': 'Имя',
             'last_name': 'Фамилия',
             'email': 'Электронная почта',
             'phone_number': 'Телефон',
+            'phone_number_ads': 'Телефон для объявлений'
         }
         exclude = ('user',)
         error_messages = {
             'phone_number': {
+                'invalid': "Введите телефон в формате +7 (XXX) XXX-XX-XX",
+            },
+            'phone_number_ads': {
                 'invalid': "Введите телефон в формате +7 (XXX) XXX-XX-XX",
             },
             'email': {

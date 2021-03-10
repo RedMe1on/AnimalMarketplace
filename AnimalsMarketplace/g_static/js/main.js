@@ -85,6 +85,7 @@ $(document).ready(function () {
   });
   //mask for input field with maskedinput
   $("#id_phone_number").mask("+7 (000) 000-00-00");
+  $('#id_phone_number_ads').mask("+7 (000) 000-00-00");
   $(".dateinput").mask("00.00.0000");
 
   //animation button for auth

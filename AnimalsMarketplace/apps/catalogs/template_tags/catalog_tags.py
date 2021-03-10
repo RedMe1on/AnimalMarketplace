@@ -17,9 +17,9 @@ def get_categories_blog():
     return Categories_blog.objects.all()
 
 
-@register.simple_tag(takes_context=True)
-def get_phone_number(context: QuerySet) -> str:
-    phone_number_str = str(context['profile'].phone_number_ads)
+@register.simple_tag()
+def get_phone_number(phone_number) -> str:
+    phone_number_str = str(phone_number)
     return f'+7 ({phone_number_str[2:5]}) {phone_number_str[5:8]}-{phone_number_str[8:10]}-{phone_number_str[10:12]}'
 
 
