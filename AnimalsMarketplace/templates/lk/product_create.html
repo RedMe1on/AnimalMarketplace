@@ -46,8 +46,13 @@ Create Product {{ product.title|title }} - {{ block.super }}
             <div class="form-group col-md-6 m-auto">
                 <div class="switch-wrap d-flex mb-0">
                     <div class="primary-checkbox m-2">
-                        <input type="checkbox" id="id_age_type" checked="">
+                        {% if product.age_type %}
+                        <input type="checkbox" name="age_type" id="id_age_type" checked >
                         <label for="id_age_type"></label>
+                        {% else %}
+                        <input type="checkbox" name="age_type" id="id_age_type" >
+                        <label for="id_age_type"></label>
+                        {% endif %}
                     </div>
                     <p style="padding: 6px 0">Указать возраст в месяцах</p>
                 </div>

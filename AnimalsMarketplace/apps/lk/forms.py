@@ -63,23 +63,7 @@ class ProductForm(forms.ModelForm):
             'breed_type': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
                 choices=Product.BreedChoices.choices),
-            'age_type': forms.CheckboxInput(attrs={'class': 'primary-switch'}),
             'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),
             'text': CKEditorUploadingWidget(config_name='form-editor'),
 
         }
-        error_messages = {
-            'slug': {
-                'invalid': "Не должен содержать пробелы или буквы разных алфавитов",
-            }
-        }
-
-    def clean_slug(self):
-        new_slug = self.cleaned_data.get('slug')
-        if new_slug is None or new_slug == '':
-            new_slug = slugify(self.cleaned_data.get('h1'))
-        else:
-            new_slug = slugify(new_slug)
-        if new_slug == 'product/create/':
-            raise ValidationError('Slug may not be create')
-        return new_slug
