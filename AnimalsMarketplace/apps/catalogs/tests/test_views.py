@@ -94,7 +94,7 @@ class ProductListTestCase(TestCase):
         resp = self.client.get(reverse('catalogs:product_list') + '?price_end=15')
         self.assertEqual(resp.status_code, 200)
         for product in resp.context['product_list']:
-            self.assertTrue(product.price)
+            self.assertTrue(product.price < 15)
 
     def test_filter_product_all_fields_at_the_same_time(self):
         string = '?sex=Мальчик&price_start=10&price_end=14&breed=Породистый&breed=Метис&breed_type=Породистый'

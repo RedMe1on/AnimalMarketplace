@@ -65,5 +65,4 @@ class ProductForm(forms.ModelForm):
                 choices=Product.BreedChoices.choices),
             'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),
             'text': CKEditorUploadingWidget(config_name='form-editor'),
-
         }

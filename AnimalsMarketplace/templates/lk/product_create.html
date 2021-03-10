@@ -79,26 +79,7 @@ Create Product {{ product.title|title }} - {{ block.super }}
                        id="id_image">
                 <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>
             </div>
-
-            {% if form.instance.image %}
-            <div class="col-md-6">
-                <img id="preview" src="{{ form.instance.image.url }}" alt="your image" class="float-right"/>
-                <div class="form-group m-auto float-right">
-                    <div class="switch-wrap d-flex mb-0">
-                        <div class="primary-checkbox m-2">
-                            <input type="checkbox" name="image-clear" id="image-clear_id">
-                            <label for="image-clear_id"></label>
-                        </div>
-                        <p style="padding: 6px 0">Удалить фотографию</p>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="col-md-6">
-                <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
-            </div>
-            {% endif %}
-
+            {% include 'lk/include/input_form_preview_with_delete_checkbox.html' %}
         </div>
         <button type="submit" class="genric-btn success float-right my-2">{% block button_text_form %}Добавить
             {% endblock button_text_form %}

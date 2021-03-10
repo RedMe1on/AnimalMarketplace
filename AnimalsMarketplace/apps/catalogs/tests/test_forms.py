@@ -3,6 +3,7 @@ from catalogs.forms import FilterForm
 
 
 class FilterFormTestCase(SimpleTestCase):
+    """Test case for Filter form"""
 
     def test_unrequired_fields(self):
         form_data = {}

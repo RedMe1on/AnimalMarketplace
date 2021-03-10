@@ -61,3 +61,7 @@ class ProductModelTestCase(TestCase):
 
     def test_get_delete_url(self):
         self.assertEqual(self.product.get_delete_url(), f'/lk/product/{self.product.pk}/delete/')
+
+    def test_str_method(self):
+        expected_object_name = self.product.name
+        self.assertEqual(str(self.product), expected_object_name)
