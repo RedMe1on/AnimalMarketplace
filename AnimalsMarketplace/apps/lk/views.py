@@ -32,12 +32,6 @@ class ProfileEditViews(LoginRequiredMixin, UpdateView):
         return profile
 
 
-class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
-    """Удалить объявление"""
-    model = Product
-    success_url = reverse_lazy('lk:product_list')
-
-
 class ProductListView(LoginRequiredMixin, ListView):
     """Список объявлений профиля"""
     model = Product
@@ -47,6 +41,13 @@ class ProductListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+
+
+class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
+    """Удалить объявление"""
+    model = Product
+    success_url = reverse_lazy('lk:product_list')
+    template_name = 'lk/product_delete.html'
 
 
 class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
