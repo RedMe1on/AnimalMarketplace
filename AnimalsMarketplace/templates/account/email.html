@@ -5,6 +5,8 @@
 {% block head_title %}{% trans "E-mail Addresses" %}{% endblock %}
 
 {% block content %}
+<section class="area-form">
+    <div class="container text-center">
     <h1>{% trans "E-mail Addresses" %}</h1>
 {% if user.emailaddress_set.all %}
 <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
@@ -52,7 +54,8 @@
         {{ form.as_p }}
         <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
     </form>
-
+</div>
+</section>
 {% endblock %}
 
 
@@ -70,4 +73,5 @@
   }
 })();
 </script>
+
 {% endblock %}
