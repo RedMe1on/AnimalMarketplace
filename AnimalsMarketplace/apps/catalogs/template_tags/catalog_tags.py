@@ -25,7 +25,7 @@ def get_phone_number(phone_number) -> str:
 
 @register.simple_tag()
 def get_last_product_with_img(count: int) -> QuerySet:
-    """Получить последние 15-ть товаров с изображением"""
+    """Получить последние n товаров с изображением"""
     return Product.objects.order_by('-pub_date').exclude(image__contains='/no_image.png')[:count]
 
 

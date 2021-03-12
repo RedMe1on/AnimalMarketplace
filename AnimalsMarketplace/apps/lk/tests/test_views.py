@@ -123,11 +123,13 @@ class ProductListViewTestCase(TestCase):
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
-        for product in range(number_product):
-            if product < 15:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_1, category=self.category)
+        for product_number in range(number_product):
+            if product_number < 15:
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                       category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_2, category=self.category)
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                       category=self.category)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
@@ -151,7 +153,7 @@ class ProductListViewTestCase(TestCase):
         resp = self.client.get(reverse('lk:product_list'))
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 10)
 
     def test_lists_all_product(self):
@@ -159,7 +161,7 @@ class ProductListViewTestCase(TestCase):
         resp = self.client.get(reverse('lk:product_list') + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 5)
 
     def test_all_product_belong_user(self):
@@ -179,11 +181,13 @@ class ProductDeleteViewTestCase(TestCase):
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
-        for product in range(number_product):
-            if product < 15:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_1, category=self.category)
+        for product_number in range(number_product):
+            if product_number < 15:
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                       category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_2, category=self.category)
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                       category=self.category)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
@@ -236,11 +240,13 @@ class ProductUpdateViewTestCase(TestCase):
         self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
-        for product in range(number_product):
-            if product < 15:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_1, category=self.category)
+        for product_number in range(number_product):
+            if product_number < 15:
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                       category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product}', user=self.test_user_2, category=self.category)
+                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                       category=self.category)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')

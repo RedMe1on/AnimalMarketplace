@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-from mptt.fields import TreeForeignKey
-from mptt.models import MPTTModel
 from pytils.translit import slugify
 from seo.models import SeoModel
 
@@ -35,10 +33,12 @@ class Categories(SeoModel, PublicationModel):
         else:
             self.slug = slugify(self.slug)
         # обработка неуникального slug
-        try:
-            self.validate_unique()
-        except ValidationError:
-            self.slug += '-copy'
+        while True:
+            try:
+                self.validate_unique()
+                break
+            except ValidationError:
+                self.slug += '-copy'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -62,10 +62,12 @@ class BlogTags(models.Model):
         else:
             self.slug = slugify(self.slug)
         # обработка неуникального slug
-        try:
-            self.validate_unique()
-        except ValidationError:
-            self.slug += '-copy'
+        while True:
+            try:
+                self.validate_unique()
+                break
+            except ValidationError:
+                self.slug += '-copy'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -82,7 +84,7 @@ class Post(SeoModel, PublicationModel):
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     image = models.ImageField(verbose_name='Изображение', upload_to='blog/post/img', blank=True)
     views = models.PositiveIntegerField(verbose_name='Количество просмотров', default=0, blank=True)
-    draft = models.BooleanField(verbose_name='Черновик', help_text='Не отображается на сайте')
+    draft = models.BooleanField(verbose_name='Черновик', help_text='Не отображается на сайте', default=False)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
                                  verbose_name='Родительская категория')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор')
@@ -97,10 +99,12 @@ class Post(SeoModel, PublicationModel):
         else:
             self.slug = slugify(self.slug)
         # обработка неуникального slug
-        try:
-            self.validate_unique()
-        except ValidationError:
-            self.slug += '-copy'
+        while True:
+            try:
+                self.validate_unique()
+                break
+            except ValidationError:
+                self.slug += '-copy'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

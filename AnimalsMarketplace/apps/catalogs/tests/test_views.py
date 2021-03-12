@@ -39,14 +39,14 @@ class ProductListTestCase(TestCase):
         resp = self.client.get(reverse('catalogs:product_list'))
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 10)
 
     def test_lists_all_product(self):
         resp = self.client.get(reverse('catalogs:product_list') + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 5)
 
     def test_filter_product_sex_field(self):
@@ -155,14 +155,14 @@ class CategoriesDetailTestCase(TestCase):
         resp = self.client.get(f'/{self.category.slug}/')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 10)
 
     def test_lists_all_product(self):
         resp = self.client.get(f'/{self.category.slug}/' + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
-        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['product_list']) == 5)
 
     def test_product_list_for_category(self):
@@ -171,9 +171,9 @@ class CategoriesDetailTestCase(TestCase):
         Product.objects.create(name=f'Product parent', user=self.user, category=parent_category)
 
         amount_of_children = 3
-        for child in range(amount_of_children):
-            category = Categories.objects.create(name=f'Child {child}', h1=f'Child {child}', parent=parent_category)
-            Product.objects.create(name=f'Product {child}', user=self.user, category=category)
+        for child_number in range(amount_of_children):
+            category = Categories.objects.create(name=f'Child {child_number}', h1=f'Child {child_number}', parent=parent_category)
+            Product.objects.create(name=f'Product {child_number}', user=self.user, category=category)
 
         resp = self.client.get(f'/{parent_category.slug}/')
         self.assertEqual(resp.status_code, 200)

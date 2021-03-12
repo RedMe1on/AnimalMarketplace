@@ -1,8 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView
 from django.views.generic.list import MultipleObjectMixin, ListView
 from .models import Post, Categories, BlogTags
 
@@ -26,24 +22,25 @@ class CategoriesDetailView(DetailView, MultipleObjectMixin):
         return context
 
 
-class CategoriesListView(ListView):
+class CategoriesListView(ListView, MultipleObjectMixin):
     """Список категорий - для главной блога: /blog/"""
-    model = Categories
-    queryset = Categories.objects.order_by('-priority')[:3]
+    model = Post
+    queryset = Post.objects.all().order_by('-pub_date')
     template_name = 'blog/blog_main.html'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        post = Post.objects.all().order_by('-pub_date')
+        top_categories = Categories.objects.order_by('-priority')[:3]
         context = super().get_context_data(**kwargs)
-        context['post_list'] = post
+        context['categories_list'] = top_categories
         return context
 
 
-class BlogTagsView(DetailView, MultipleObjectMixin):
+class BlogTagsDetailView(DetailView, MultipleObjectMixin):
     """Теги для постов блога"""
     model = BlogTags
     template_name = 'blog/tag_detail.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         post = self.object.post_set.all().order_by('-pub_date')

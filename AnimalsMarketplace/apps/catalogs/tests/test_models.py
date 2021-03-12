@@ -30,10 +30,18 @@ class CategoriesModelTestCase(TestCase):
     def test_save_with_none_unique_slug(self):
         category_1 = Categories(name='Category 2', h1='Category 2', slug='Unique')
         category_2 = Categories(name='Category 2', h1='Category 2', slug='Unique')
+        category_3 = Categories(name='Category 2', h1='Category 2', slug='Unique')
+        category_4 = Categories(name='Category 2', h1='Category 2', slug='Unique')
         start_slug_category_2 = category_2.slug
+        start_slug_category_3 = category_3.slug
+        start_slug_category_4 = category_4.slug
         category_1.save()
         category_2.save()
+        category_3.save()
+        category_4.save()
         self.assertEqual(category_2.slug, slugify(start_slug_category_2) + '-copy')
+        self.assertEqual(category_3.slug, slugify(start_slug_category_3) + '-copy-copy')
+        self.assertEqual(category_4.slug, slugify(start_slug_category_4) + '-copy-copy-copy')
 
     def test_str_method(self):
         category = Categories.objects.get(id=1)

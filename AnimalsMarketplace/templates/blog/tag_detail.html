@@ -1,1 +1,12 @@
-{% extends 'blog_categories' %}
+{% extends 'blog/categories_detail.html' %}
+{% load catalog_tags %}
+
+
+{% block h1 %}
+{{ blogtags.name }}
+{% endblock h1 %}
+
+
+{% block breadcrumb %}
+{% catalog_breadcrumb blogtags %}
+{% endblock breadcrumb %}

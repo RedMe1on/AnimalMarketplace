@@ -29,10 +29,12 @@ class Categories(MPTTModel):
         else:
             self.slug = slugify(self.slug)
         # обработка неуникального slug
-        try:
-            self.validate_unique()
-        except ValidationError:
-            self.slug += '-copy'
+        while True:
+            try:
+                self.validate_unique()
+                break
+            except ValidationError:
+                self.slug += '-copy'
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
