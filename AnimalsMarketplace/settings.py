@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'lk.apps.LkConfig',
     'blog.apps.BlogConfig',
     'seo',
+    'rest_framework',
+    'django_filters',
     'mptt',
     'phonenumber_field',
     'ckeditor_uploader',
@@ -185,6 +187,12 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+
+}
 # settings CKEDITOR
 CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_ROOT, 'uploads/')
 CKEDITOR_CONFIGS = {

@@ -34,10 +34,36 @@
                     </div>
 
                     <div class="col-lg-6">
-                        {{ form.breed|as_crispy_field }}
+                        <div id="div_id_breed" class="form-group">
+                            {% get_breed_select as breed_choices %}
+                            <label for="id_breed" class="">
+                                Порода
+                            </label>
+
+                            <select name="breed" class="selectpicker select-input form-control"
+                                    title="Порода" data-style="select-input" id="id_breed" multiple="" tabindex="-98"
+                                    {% if not breed_choices %} disabled {% endif %}>
+                                {% for breed in breed_choices %}
+                                <option value="{{ breed }}">{{ breed }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="col-lg-6">
-                        {{ form.breed_type|as_crispy_field }}
+                        {% get_breed_type_select as breed_type_choices %}
+                        <div id="div_id_breed_type" class="form-group">
+                            <label for="id_breed_type" class="">
+                                Вид породы
+                            </label>
+                            <select name="breed_type" class="selectpicker select-input selectmultiple form-control"
+                                    title="Вид породы"
+                                    data-style="select-input" id="id_breed_type" multiple="" tabindex="-98"
+                                    {% if not breed_type_choices %} disabled {% endif %}>
+                                {% for breed_type in breed_type_choices %}
+                                <option value="{{ breed_type.id }}">{{ breed_type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
 
 
@@ -46,7 +72,7 @@
                     <div class="col-md-6">
 
 
-                        <div id="div_id_image" class="switch-wrap d-flex justify-content-start">
+                        <div id="div_id_image" class="switch-wrap d-flex justify-content-start disabled">
                             <p class="mr-2 py-auto">С фото</p>
                             <div class="primary-switch my-auto">
                                 <input type="checkbox" name="image" id="id_image">

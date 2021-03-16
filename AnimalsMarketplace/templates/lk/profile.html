@@ -48,10 +48,14 @@
                         <p>Имя: {{ profile.name }}</p>
                         <p>Фамилия: {{ profile.last_name }}</p>
                         <p>E-mail: {{ profile.email }}</p>
+                        {% if profile.phone_number %}
                         {% get_phone_number profile.phone_number as phone_number %}
                         <p id="phone_number">Телефон: {{ phone_number }}</p>
+                        {% endif %}
+                        {% if profile.phone_number_ads %}
                         {% get_phone_number profile.phone_number_ads as phone_number_ads %}
                         <p id="phone_number_ads">Телефон для объявлений: {{ phone_number_ads }}</p>
+                        {% endif %}
                     </div>
                 </div>
                 {% endblock profile_content %}

@@ -69,23 +69,26 @@ $(document).ready(function () {
   // slider change slide for number addinational img
   $(".additional-detail-img").click(function () {
     let slide_number = $(this).attr("number");
-    $('.additional-detail-img').removeAttr('style')
-    $(this).attr('style', 'border: 2px solid #fab700;');
+    $(".additional-detail-img").removeAttr("style");
+    $(this).attr("style", "border: 2px solid #fab700;");
     $("#carouselDetailAd").carousel(Number(slide_number));
   });
 
-  $('#carouselDetailAd').on('slid.bs.carousel', function () {
-    let p = $('.carousel-item.active a .detail-img').attr('number')
-    $('.additional-detail-img').removeAttr('style')
-    $(`.additional-detail-img[number=${p}]`).attr('style', 'border: 2px solid #fab700;')
-  })
+  $("#carouselDetailAd").on("slid.bs.carousel", function () {
+    let p = $(".carousel-item.active a .detail-img").attr("number");
+    $(".additional-detail-img").removeAttr("style");
+    $(`.additional-detail-img[number=${p}]`).attr(
+      "style",
+      "border: 2px solid #fab700;"
+    );
+  });
   // datepicker start
   $(".dateinput").datepicker({
     format: "dd.mm.yyyy",
   });
   //mask for input field with maskedinput
   $("#id_phone_number").mask("+7 (000) 000-00-00");
-  $('#id_phone_number_ads').mask("+7 (000) 000-00-00");
+  $("#id_phone_number_ads").mask("+7 (000) 000-00-00");
   $(".dateinput").mask("00.00.0000");
 
   //animation button for auth
@@ -93,6 +96,7 @@ $(document).ready(function () {
     $(".dropdown-menu-custom").toggle("600");
   });
 
+  
   //animation for dropdown bootstrap
   // $('.dropdown').on('show.bs.dropdown', function() {
   // $(this).find('.dropdown-menu').first().stop(true, true).toggle('600');

@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-
-from catalogs.models import Product, Categories
+from rest_framework.test import APIClient
+from catalogs.models import Product, Categories, BreedType
 from django.urls import reverse
+from rest_framework import reverse as reverse_drf
 
 
 class ProductListTestCase(TestCase):
@@ -12,19 +13,25 @@ class ProductListTestCase(TestCase):
     def setUpTestData(cls):
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
+        breed_type_1 = BreedType.objects.create(id=1, name='Породистый 1', category=category)
+        breed_type_2 = BreedType.objects.create(id=2, name='Породистый 2', category=category)
         # create 15 product for pagination test
         number_of_product = 15
         for product_number in range(number_of_product):
             if product_number >= 10:
                 breed = 'Метис'
                 sex = 'Девочка'
-                breed_type = ''
+                breed_type = breed_type_1
             else:
                 breed = 'Породистый'
                 sex = 'Мальчик'
-                breed_type = 'Породистый'
+                breed_type = breed_type_2
             Product.objects.create(name=f'Product {product_number}', user=user, category=category, sex=sex,
                                    price=f'{product_number}', breed=breed, breed_type=breed_type)
+
+    def setUp(self) -> None:
+        self.breed_type = BreedType.objects.get(id=1)
+        self.breed_type_2 = BreedType.objects.get(id=2)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/product/')
@@ -68,16 +75,16 @@ class ProductListTestCase(TestCase):
             self.assertTrue(product.breed == 'Породистый' or product.breed == 'Метис')
 
     def test_filter_product_breed_type_field(self):
-        resp = self.client.get(reverse('catalogs:product_list') + '?breed_type=Породистый')
+        resp = self.client.get(reverse('catalogs:product_list') + '?breed_type=1')
         self.assertEqual(resp.status_code, 200)
         for product in resp.context['product_list']:
-            self.assertTrue(product.breed == 'Породистый')
+            self.assertTrue(product.breed_type == self.breed_type)
 
     def test_filter_product_breed_type_field_multiply(self):
-        resp = self.client.get(reverse('catalogs:product_list') + '?breed_type=Породистый&breed_type=')
+        resp = self.client.get(reverse('catalogs:product_list') + '?breed_type=1&breed_type=2')
         self.assertEqual(resp.status_code, 200)
         for product in resp.context['product_list']:
-            self.assertTrue(product.breed_type == 'Породистый' or product.breed_type == '')
+            self.assertTrue(product.breed_type == self.breed_type or product.breed_type == self.breed_type_2)
 
     def test_filter_product_image_type_field(self):
         resp = self.client.get(reverse('catalogs:product_list') + '?image=on')
@@ -97,14 +104,14 @@ class ProductListTestCase(TestCase):
             self.assertTrue(product.price < 15)
 
     def test_filter_product_all_fields_at_the_same_time(self):
-        string = '?sex=Мальчик&price_start=10&price_end=14&breed=Породистый&breed=Метис&breed_type=Породистый'
+        string = '?sex=Мальчик&price_start=10&price_end=14&breed=Породистый&breed=Метис&breed_type=1&breed_type=2'
         resp = self.client.get(reverse('catalogs:product_list') + string)
         self.assertEqual(resp.status_code, 200)
         for product in resp.context['product_list']:
             self.assertTrue(10 <= product.price < 15)
             self.assertTrue(product.sex == 'Мальчик')
             self.assertTrue(product.breed == 'Породистый' or product.breed == 'Метис')
-            self.assertTrue(product.breed_type == 'Породистый' or product.breed_type == '')
+            self.assertTrue(product.breed_type == self.breed_type or product.breed_type == self.breed_type_2)
 
 
 class CategoriesListTestCase(TestCase):
@@ -172,7 +179,8 @@ class CategoriesDetailTestCase(TestCase):
 
         amount_of_children = 3
         for child_number in range(amount_of_children):
-            category = Categories.objects.create(name=f'Child {child_number}', h1=f'Child {child_number}', parent=parent_category)
+            category = Categories.objects.create(name=f'Child {child_number}', h1=f'Child {child_number}',
+                                                 parent=parent_category)
             Product.objects.create(name=f'Product {child_number}', user=self.user, category=category)
 
         resp = self.client.get(f'/{parent_category.slug}/')
@@ -200,3 +208,40 @@ class ProductDetailTestCase(TestCase):
         self.assertTemplateUsed(resp, 'catalogs/product_detail.html')
 
 
+class BreedTypeListAPIViewTestCase(TestCase):
+    """Test case for BreedTypeAPI view"""
+
+    @classmethod
+    def setUpTestData(cls):
+        category = Categories.objects.create(id=1, name='Category 1', h1='Category 1', )
+        category_2 = Categories.objects.create(id=2, name='Category 2', h1='Category 1', )
+        number_breed_type = 5
+        for number in range(number_breed_type):
+            if number < 3:
+                BreedType.objects.create(name=f'BreedType {number}', category=category)
+            else:
+                BreedType.objects.create(name=f'BreedType {number}', category=category_2)
+
+    def setUp(self) -> None:
+        self.client_api = APIClient()
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get(f'/api/v1/breedtype')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_data(self):
+        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype')
+        self.assertEqual(resp.status_code, 200)
+        for json_dict in resp.json():
+            self.assertTrue(BreedType.objects.get(id=json_dict.get('id'), name=json_dict.get('name'),
+                                                  category=json_dict.get('category')))
+
+    def test_get_data_with_filter_by_category(self):
+        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype?category=1')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(len(resp.json()) == 3)
+
+        for json_dict in resp.json():
+            self.assertTrue(BreedType.objects.get(id=json_dict.get('id'), name=json_dict.get('name'),
+                                                  category=json_dict.get('category')))
+            self.assertTrue(json_dict['category'] == 1)

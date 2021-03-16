@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from pytils.translit import slugify
-from catalogs.models import Categories, Product
+from catalogs.models import Categories, Product, BreedType
+
 
 
 class CategoriesModelTestCase(TestCase):
@@ -73,3 +74,19 @@ class ProductModelTestCase(TestCase):
     def test_str_method(self):
         expected_object_name = self.product.name
         self.assertEqual(str(self.product), expected_object_name)
+
+
+class BreedTypeModelTestCase(TestCase):
+    """Test model BreedType"""
+
+    @classmethod
+    def setUpTestData(cls):
+        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        BreedType.objects.create(id=1, name='BreedType 1', category=category)
+
+    def setUp(self) -> None:
+        self.breed_type = BreedType.objects.get(id=1)
+
+    def test_str_method(self):
+        expected_object_name = self.breed_type.name
+        self.assertEqual(str(self.breed_type), expected_object_name)

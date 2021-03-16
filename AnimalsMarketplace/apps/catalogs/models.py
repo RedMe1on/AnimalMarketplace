@@ -48,6 +48,19 @@ class Categories(MPTTModel):
         order_insertion_by = ['h1']
 
 
+class BreedType(models.Model):
+    name = models.CharField(verbose_name='Название породы', max_length=200)
+    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, verbose_name='Вид животного', null=True,
+                                 related_name='breed_types')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Вид породы'
+        verbose_name_plural = 'Виды пород'
+
+
 class Product(models.Model):
     class SexChoices(models.TextChoices):
         UNKNOWN = 'Неизвество', _('Неизвество')
@@ -64,13 +77,14 @@ class Product(models.Model):
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices, default='Любой')
+    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     age_type = models.BooleanField(verbose_name='Указать возраст в месяцах', default=False, blank=True)
     age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
     breed = models.CharField(verbose_name='Порода', max_length=12, choices=BreedChoices.choices,
-                             default='Неизвестно')
-    breed_type = models.CharField(verbose_name='Вид породы', max_length=200, blank=True, null=True)
+                             default=BreedChoices.UNKNOWN, blank=True)
+    breed_type = models.ForeignKey(BreedType, on_delete=models.SET_NULL, null=True, verbose_name='Вид породы',
+                                   blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
     image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте', default=False)
@@ -104,9 +118,3 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Дополнительные фотографии'
         verbose_name_plural = 'Дополнительные фотографии'
-
-
-# class BreedType(models.Model):
-#     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, verbose_name='Категория породы')
-#     name = models.CharField(verbose_name='Название породы', max_length=200)
-

@@ -54,8 +54,40 @@ def catalog_breadcrumb(objects: QuerySet):
 @register.simple_tag(takes_context=True)
 def get_sex_select(context: dict) -> list:
     """Получить пол из каталога страницы для динамического фильтра"""
-    query = context['object_list']
-    sex_select = set()
-    for product in query:
-        sex_select.add(product.sex)
-    return list(sex_select)
+    try:
+        sex_select = [product.sex for product in
+                      Product.objects.filter(category=context['categories']).order_by('sex').distinct(
+                          'sex')]
+    except KeyError:
+        sex_select = [product.sex for product in Product.objects.all().order_by('sex').distinct(
+            'sex')]
+    return sex_select
+
+
+@register.simple_tag(takes_context=True)
+def get_breed_type_select(context: dict) -> list:
+    """Получить тип породы из каталога страницы для динамического фильтра"""
+    try:
+        breed_type_select = [product.breed_type for product in
+                             Product.objects.filter(category=context['categories']).select_related(
+                                 'breed_type').order_by('breed_type').distinct(
+                                 'breed_type')]
+    except KeyError:
+        breed_type_select = [product.breed_type for product in
+                             Product.objects.all().select_related('breed_type').order_by('breed_type').distinct(
+                                 'breed_type')]
+    return breed_type_select
+
+
+@register.simple_tag(takes_context=True)
+def get_breed_select(context: dict) -> list:
+    """Получить породы из каталога страницы для динамического фильтра"""
+    try:
+        breed_select = [product.breed for product in
+                        Product.objects.filter(category=context['categories']).order_by('breed').distinct(
+                            'breed')]
+    except KeyError:
+        breed_select = [product.breed for product in
+                        Product.objects.all().order_by('breed').distinct(
+                            'breed')]
+    return breed_select

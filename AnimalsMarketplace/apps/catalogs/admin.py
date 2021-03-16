@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from .forms import ProductAdminForm
-from .models import Categories, Product, ProductImage
+from .models import Categories, Product, ProductImage, BreedType
 from django.contrib.admin.actions import delete_selected
 
 
@@ -19,6 +19,12 @@ class CategoriesAdmin(admin.ModelAdmin):
         models.TextField: {'widget': CKEditorUploadingWidget()},
     }
 
+
+@admin.register(BreedType)
+class BreedTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'category')
+    list_display_links = ('name',)
+    ordering = ('id',)
 
 
 class ProductImageInline(admin.TabularInline):

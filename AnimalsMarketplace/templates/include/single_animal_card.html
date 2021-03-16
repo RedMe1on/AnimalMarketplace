@@ -14,13 +14,25 @@
         <p class="card-text">{{ product.text|truncatechars:100|striptags|safe }}</p>
         <div class="row">
             <div class="col-sm-6">
+                {% if product.sex %}
                 <p><b>Пол: </b>{{ product.sex }}</p>
-                <p><b>Возраст: </b>{{ product.age }}</p>
+                {% endif %}
+                {% if product.age %}
+                {% if product.age_type %}
+                    <p><b>Возраст: </b>{{ product.age }} месяцев</p>
+                {% else %}
+                    <p><b>Возраст: </b>{{ product.age }} лет</p>
+                {% endif %}
+                {% endif %}
                 <p><b>Возраст: </b>{{ product.age }}</p>
             </div>
             <div class="col-sm-6">
+                {% if product.breed %}
                 <p><b>Порода: </b>{{ product.breed }}</p>
+                {% endif %}
+                {% if product.breed %}
                 <p><b>Вид породы: </b>{{ product.breed_type }}</p>
+                {% endif %}
                 <p><b>Адрес: </b>Адрес</p>
             </div>
         </div>

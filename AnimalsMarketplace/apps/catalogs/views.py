@@ -2,10 +2,15 @@ from django.db.models import QuerySet
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import MultipleObjectMixin
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .forms import FilterForm
-from .models import Categories, Product
+from .models import Categories, Product, BreedType
+from .service import BreedTypeFilter
 from .utils import ProductFilterMixin
 from lk.models import Profile
+from rest_framework.generics import ListAPIView
+from .serializers import BreedTypeSerializers
 
 
 class ProductList(ProductFilterMixin, FormView, ListView):
@@ -56,3 +61,9 @@ class ProductDetail(DetailView):
         context['profile'] = Profile.objects.get(user=self.object.user)
         return context
 
+
+class BreedTypeListAPIView(ListAPIView):
+    queryset = BreedType.objects.all()
+    serializer_class = BreedTypeSerializers
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = BreedTypeFilter

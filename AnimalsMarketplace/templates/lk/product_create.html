@@ -5,6 +5,26 @@ Create Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
 {% block profile_content %}
+<script>
+ function change_field_breed_type_with_category_id() {
+    let category = $("#id_category").val();
+    resp = fetch(`/api/v1/breedtype?category=${category}`);
+    resp = fetch(`/api/v1/breedtype?category=${category}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        $("#id_breed_type").children("option:not(:first)").remove();
+        for (let i = 0; i < data.length; i++) {
+          $("#id_breed_type").append(
+            `<option value="${data[i]["id"]}">${data[i]["name"]}</option>`
+          );
+        }
+        $("#id_breed_type").selectpicker("refresh");
+      });
+  }
+
+</script>
 <div class="container">
     <div class="row my-2">
         <div class="col-md-12">
@@ -47,10 +67,10 @@ Create Product {{ product.title|title }} - {{ block.super }}
                 <div class="switch-wrap d-flex mb-0">
                     <div class="primary-checkbox m-2">
                         {% if product.age_type %}
-                        <input type="checkbox" name="age_type" id="id_age_type" checked >
+                        <input type="checkbox" name="age_type" id="id_age_type" checked>
                         <label for="id_age_type"></label>
                         {% else %}
-                        <input type="checkbox" name="age_type" id="id_age_type" >
+                        <input type="checkbox" name="age_type" id="id_age_type">
                         <label for="id_age_type"></label>
                         {% endif %}
                     </div>
@@ -86,6 +106,7 @@ Create Product {{ product.title|title }} - {{ block.super }}
         </button>
     </form>
 </div>
+
 
 {% endblock profile_content %}
 

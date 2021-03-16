@@ -4,7 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from pytils.translit import slugify
 from .models import Profile
-from catalogs.models import Product, Categories
+from catalogs.models import Product, Categories, BreedType
 
 
 class ProfileEditForm(forms.ModelForm):
@@ -50,17 +50,22 @@ class ProductForm(forms.ModelForm):
                                       widget=forms.Select(
                                           attrs={'class': 'selectpicker select-input', 'title': 'Категория',
                                                  'data-style': 'select-input',
-                                                 'data-size': '5', 'data-live-search': 'true', 'container': 'body'},
+                                                 'data-size': '5', 'data-live-search': 'true', 'container': 'body',
+                                                 'onChange': 'change_field_breed_type_with_category_id();'},
                                       ), )
+    breed_type = forms.ModelChoiceField(queryset=BreedType.objects.all(), empty_label=None, required=False,
+                                        label='Вид породы',
+                                        widget=forms.Select(
+                                            attrs={'class': 'selectpicker select-input', 'title': 'Вид породы',
+                                                   'data-style': 'select-input', }, ),
+                                        )
 
     class Meta:
         model = Product
-        fields = ('name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'price', 'birthday', 'image')
+        fields = (
+            'name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'price', 'birthday', 'image')
         widgets = {
             'breed': forms.Select(
-                attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
-                choices=Product.BreedChoices.choices),
-            'breed_type': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
                 choices=Product.BreedChoices.choices),
             'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),

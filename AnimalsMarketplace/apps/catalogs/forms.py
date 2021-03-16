@@ -21,23 +21,6 @@ class FilterForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('sex', 'breed', 'breed_type',)
-        # При миграциях возникает ошибка из-за того, что идет вызов из базы данных из файла form, а не view
-        # Поэтому ловим эту ошибку и пропускаем, т.к. все будет работать
-        try:
-            widgets = {
-                'breed': forms.SelectMultiple(
-                    attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
-                    choices=Product.BreedChoices.choices),
-                'breed_type': forms.SelectMultiple(
-                    attrs={'class': 'selectpicker select-input', 'title': 'Вид породы', 'data-size': '5',
-                           'data-live-search': 'true', 'data-style': 'select-input'},
-                    choices=[(product.breed_type, product.breed_type) for product in
-                             Product.objects.order_by('breed_type').distinct(
-                                 'breed_type')]),
-
-            }
-        except AvoidDataMigrationError:
-            pass
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
