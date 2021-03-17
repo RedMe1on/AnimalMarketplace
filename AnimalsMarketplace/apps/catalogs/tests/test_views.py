@@ -226,18 +226,18 @@ class BreedTypeListAPIViewTestCase(TestCase):
         self.client_api = APIClient()
 
     def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get(f'/api/v1/breedtype')
+        resp = self.client.get(f'/api/v1/breedtype/')
         self.assertEqual(resp.status_code, 200)
 
     def test_get_data(self):
-        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype')
+        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype/')
         self.assertEqual(resp.status_code, 200)
         for json_dict in resp.json():
             self.assertTrue(BreedType.objects.get(id=json_dict.get('id'), name=json_dict.get('name'),
                                                   category=json_dict.get('category')))
 
     def test_get_data_with_filter_by_category(self):
-        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype?category=1')
+        resp = self.client_api.get('http://127.0.0.1:8000/api/v1/breedtype/?category=1')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(len(resp.json()) == 3)
 

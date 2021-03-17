@@ -4,13 +4,12 @@ from pytils.translit import slugify
 from catalogs.models import Categories, Product, BreedType
 
 
-
 class CategoriesModelTestCase(TestCase):
     """Test model Categories"""
 
     @classmethod
     def setUpTestData(cls):
-        Categories.objects.create(name='Category 1', h1='Category 1', )
+        Categories.objects.create(id=1, name='Category 1', h1='Category 1', )
 
     def test_get_absolute_url(self):
         category = Categories.objects.get(id=1)
