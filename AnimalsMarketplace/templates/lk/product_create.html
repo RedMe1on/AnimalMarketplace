@@ -15,6 +15,9 @@ Create Product {{ product.title|title }} - {{ block.super }}
       })
       .then((data) => {
         $("#id_breed_type").children("option:not(:first)").remove();
+        if (data.length == 0) {
+        $('#id_breed_type').prop('disabled', true);
+        }
         for (let i = 0; i < data.length; i++) {
           $("#id_breed_type").append(
             `<option value="${data[i]["id"]}">${data[i]["name"]}</option>`
