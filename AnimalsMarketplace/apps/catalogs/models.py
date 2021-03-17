@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Categories(MPTTModel):
+    """Модель для хранения категорий"""
     name = models.CharField(verbose_name='Название категории', max_length=150)
     title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
     slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
@@ -49,6 +50,7 @@ class Categories(MPTTModel):
 
 
 class BreedType(models.Model):
+    """Модель для хранения типов пород"""
     name = models.CharField(verbose_name='Название породы', max_length=200)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, verbose_name='Вид животного', null=True,
                                  related_name='breed_types')
@@ -62,6 +64,8 @@ class BreedType(models.Model):
 
 
 class Product(models.Model):
+    """Модель для хранения объявлений"""
+
     class SexChoices(models.TextChoices):
         UNKNOWN = 'Неизвество', _('Неизвество')
         BOY = 'Мальчик', _('Мальчик')
@@ -118,3 +122,21 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Дополнительные фотографии'
         verbose_name_plural = 'Дополнительные фотографии'
+
+
+class ReportModel(models.Model):
+    """Модель для хранения жалоб"""
+
+    class CauseChoices(models.TextChoices):
+        STRANGER = 'Указан чужой номер телефона', _('Указан чужой номер телефона')
+        DISABLED = 'Номер отключен', _('Номер отключен')
+        NOT_RELEVANT = 'Неактуально', _('Неактуально')
+        OTHER = 'Другая причина (укажите в комментарии)', _('Другая причина (укажите в комментарии)')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Объявление')
+    comment = models.CharField(max_length=300, verbose_name='Комментарий', blank=True)
+    cause = models.CharField(max_length=100, verbose_name='Причина', choices=CauseChoices.choices)
+
+    class Meta:
+        verbose_name = 'Жалоба'
+        verbose_name_plural = 'Жалобы'

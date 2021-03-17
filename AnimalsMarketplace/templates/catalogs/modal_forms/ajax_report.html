@@ -1,0 +1,11 @@
+{% load catalog_tags crispy_forms_tags %}
+
+
+<form method="POST" class="form-container form-area" action="{% url 'catalogs:report' pk=product.pk %}">
+    {% csrf_token %}
+
+    {{ form|crispy }}
+
+    <button class="genric-btn success-border" data-dismiss="modal">Отмена</button>
+    <button type="submit" class="genric-btn primary">Отправить</button>
+</form>

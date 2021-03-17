@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="area-form">
+    <div class="container text-center ">
+        <h1>Отправить жалобу на объявление</h1>
+        <form method="POST" class="form-container form-area">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="genric-btn primary">Отправить</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

@@ -12,3 +12,6 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'Адрес для рассылки'
         verbose_name_plural = 'Адреса для рассылки'
+
+
+

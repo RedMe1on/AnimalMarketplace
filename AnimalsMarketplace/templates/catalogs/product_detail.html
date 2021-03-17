@@ -88,6 +88,9 @@
                             <span>Показать телефон</span><br>
                             {{ phone_number_ads|slice:'13'}}XX-XX
                         </span>
+                    <button class="genric-btn default radius" id="report_id" data-toggle="modal"
+                   data-target="#reportModal"><i
+                        class="lnr lnr-warning format-lnr-login"></i><span>Пожаловаться</span></button>
                     <div class="ml-2 h4">
                         <span class="lnr lnr-user"></span>
                         {{ profile.name }}
@@ -122,4 +125,21 @@
     </div>
 </section>
 
+{# Report modal #}
+<div class="modal fade" id="reportModal">
+    <div class="modal-dialog modal-dialog-centered auth-modal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <button type="button" class="close modal-button-close" data-dismiss="modal">&times;</button>
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-size: 1.5rem;">Пожаловаться</h4>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                {% include 'catalogs/modal_forms/ajax_report.html' %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

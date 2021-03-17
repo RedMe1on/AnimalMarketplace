@@ -1,6 +1,5 @@
 from django import template
 from django.db.models import QuerySet
-
 from ..models import Categories, Product
 from blog.models import Categories as Categories_blog
 
@@ -91,3 +90,4 @@ def get_breed_select(context: dict) -> list:
                         Product.objects.all().order_by('breed').distinct(
                             'breed')]
     return breed_select
+

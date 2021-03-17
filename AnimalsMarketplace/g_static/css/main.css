@@ -2249,6 +2249,8 @@ h1, h2, h3, h4, h5, h6 {
   outline: 0 !important;
 }
 
+
+
 /* profile style end */
 
 /* Mobile Nav Styling */
@@ -3212,6 +3214,19 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: white;
 }
 
+.dropdown-item:hover {
+  color: #fab700;
+}
+
+.dropdown-item:focus {
+  color: white;
+  background-color: #fab700;
+}
+@media (max-width:400px) {
+  .dropdown-item.active, .dropdown-item:active {
+    background-color: #fab700;
+  }
+}
 /* select and select multiply style end */
 
 /* animal filter style */
@@ -3246,14 +3261,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   border-radius: 0;
 }
 
-.dropdown-item:hover {
-  color: #fab700;
-}
 
-.dropdown-item:focus {
-  color: white;
-  background-color: #fab700;
-}
 
 .label-checkbox {
   cursor: pointer;

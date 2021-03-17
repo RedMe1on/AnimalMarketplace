@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from .forms import ProductAdminForm
-from .models import Categories, Product, ProductImage, BreedType
+from .models import Categories, Product, ProductImage, BreedType, ReportModel
 from django.contrib.admin.actions import delete_selected
 
 
@@ -18,6 +18,13 @@ class CategoriesAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': CKEditorUploadingWidget()},
     }
+
+
+@admin.register(ReportModel)
+class ReportModelAdmin(admin.ModelAdmin):
+    list_display = ('cause', 'comment', 'product',)
+    list_display_links = ('comment',)
+    ordering = ('id',)
 
 
 @admin.register(BreedType)

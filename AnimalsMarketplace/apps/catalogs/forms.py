@@ -1,6 +1,5 @@
 from django import forms
-from .models import Product
-from django.db.utils import ProgrammingError as AvoidDataMigrationError
+from .models import Product, ReportModel
 
 
 class ProductAdminForm(forms.ModelForm):
@@ -26,3 +25,13 @@ class FilterForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].required = False
+
+
+class ReportForm(forms.ModelForm):
+    cause = forms.ChoiceField(widget=forms.Select(
+        attrs={'class': 'selectpicker select-input', 'title': 'Причина жалобы', 'data-style': 'select-input'}, ),
+        choices=ReportModel.CauseChoices.choices, label='Причина жалобы')
+    """Form for report"""
+    class Meta:
+        model = ReportModel
+        fields = ('cause', 'comment')
