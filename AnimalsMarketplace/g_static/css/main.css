@@ -4596,4 +4596,11 @@ padding-right: 0%!important;
   object-fit: cover;
 }
 
+.report-panel {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 /* ad detail area style end */
+
+

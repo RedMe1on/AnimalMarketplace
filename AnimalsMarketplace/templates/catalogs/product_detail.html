@@ -12,12 +12,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-        <h1>{{ product.name }}</h1>
-                </div>
+                <h1>{{ product.name }}</h1>
+            </div>
             <div class="col-md-4 h1 m-auto">
                 {{ product.price }} P
             </div>
-            </div>
+        </div>
         <div class="row">
             <div class="col-md-8 mb-2">
                 {% if product.additional_img.count == 0 %}
@@ -88,9 +88,11 @@
                             <span>Показать телефон</span><br>
                             {{ phone_number_ads|slice:'13'}}XX-XX
                         </span>
-                    <button class="genric-btn default radius" id="report_id" data-toggle="modal"
-                   data-target="#reportModal"><i
-                        class="lnr lnr-warning format-lnr-login"></i><span>Пожаловаться</span></button>
+                    <div class="row report-panel justify-content-end mb-4">
+                            <button class="genric-btn default radius" id="report_id" data-toggle="modal"
+                                    data-target="#reportModal"><i
+                                    class="lnr lnr-warning format-lnr-login"></i><span>Пожаловаться</span></button>
+                    </div>
                     <div class="ml-2 h4">
                         <span class="lnr lnr-user"></span>
                         {{ profile.name }}
@@ -109,15 +111,15 @@
                 <div class="text-content mt-2">
                     <span class="heading mb-4">Описание</span>
                     <div class="row">
-                    <div class="col-sm-6">
-                        <p><b>Пол: </b>{{ product.sex }}</p>
-                        <p><b>Возраст: </b>{{ product.age }}</p>
+                        <div class="col-sm-6">
+                            <p><b>Пол: </b>{{ product.sex }}</p>
+                            <p><b>Возраст: </b>{{ product.age }}</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p><b>Порода: </b>{{ product.breed }}</p>
+                            <p><b>Вид породы: </b>{{ product.breed_type }}</p>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        <p><b>Порода: </b>{{ product.breed }}</p>
-                        <p><b>Вид породы: </b>{{ product.breed_type }}</p>
-                    </div>
-                </div>
                     {{ product.text|safe }}
                 </div>
             </div>

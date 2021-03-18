@@ -13,6 +13,7 @@ class ProductAdminForm(forms.ModelForm):
 
 
 class FilterForm(forms.ModelForm):
+    """Form for filter in catalog"""
     image = forms.BooleanField()
     price_start = forms.IntegerField(label='Цена от', min_value=0)
     price_end = forms.IntegerField(label='Цена до', min_value=0)
@@ -28,10 +29,11 @@ class FilterForm(forms.ModelForm):
 
 
 class ReportForm(forms.ModelForm):
+    """Form for report"""
     cause = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'selectpicker select-input', 'title': 'Причина жалобы', 'data-style': 'select-input'}, ),
         choices=ReportModel.CauseChoices.choices, label='Причина жалобы')
-    """Form for report"""
+
     class Meta:
         model = ReportModel
         fields = ('cause', 'comment')

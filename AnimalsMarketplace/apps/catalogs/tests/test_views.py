@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
 from rest_framework.test import APIClient
-from catalogs.models import Product, Categories, BreedType
+from catalogs.models import Product, Categories, BreedType, ReportModel
 from django.urls import reverse
-from rest_framework import reverse as reverse_drf
 
 
 class ProductListTestCase(TestCase):
@@ -245,3 +244,53 @@ class BreedTypeListAPIViewTestCase(TestCase):
             self.assertTrue(BreedType.objects.get(id=json_dict.get('id'), name=json_dict.get('name'),
                                                   category=json_dict.get('category')))
             self.assertTrue(json_dict['category'] == 1)
+
+
+class SuccessReportViewTestCase(TestCase):
+    """Test case for view SuccessReport"""
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get(f'/report/success/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_and_accessible_by_name(self):
+        resp = self.client.get(reverse('catalogs:report_success'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'catalogs/report_success.html')
+
+
+class ReportViewTestCase(TestCase):
+    """Test case for view Report"""
+
+    def setUp(self) -> None:
+        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
+        self.product = Product.objects.create(id=1, name=f'Product Test', user=user, category=category)
+        self.form_data = {
+            'cause': 'Указан чужой номер телефона',
+        }
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get(f'/report/{self.product.pk}/')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_uses_correct_template_and_accessible_by_name(self):
+        resp = self.client.get(reverse('catalogs:report', kwargs={'pk': self.product.pk}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'catalogs/report.html')
+
+    def test_success_url_form_valid_renewal_profile(self):
+        form_data = self.form_data
+        form_data['comment'] = 'Test comment'
+        resp = self.client.post(reverse('catalogs:report', kwargs={'pk': self.product.pk}), form_data)
+        self.assertRedirects(resp, reverse('catalogs:report_success'))
+
+    def test_optional_field_comment(self):
+        resp = self.client.post(reverse('catalogs:report', kwargs={'pk': self.product.pk}), self.form_data)
+        self.assertRedirects(resp, reverse('catalogs:report_success'))
+
+    def test_write_in_product_field_in_form(self):
+        self.client.post(reverse('catalogs:report', kwargs={'pk': self.product.pk}), self.form_data)
+        reports = ReportModel.objects.all()
+        for report in reports:
+            self.assertEqual(report.product, self.product)
