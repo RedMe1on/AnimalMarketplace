@@ -117,7 +117,8 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_img')
-    image = models.ImageField(verbose_name='Дополнительные фотографии', upload_to='catalogs/product/img')
+    additional_image = models.ImageField(verbose_name='Дополнительная фотография', upload_to='catalogs/product/img',
+                                         blank=True, null=True)
 
     class Meta:
         verbose_name = 'Дополнительные фотографии'

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase
 from rest_framework.test import APIClient
 from catalogs.models import Product, Categories, BreedType, ReportModel
 from django.urls import reverse

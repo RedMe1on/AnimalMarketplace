@@ -23,7 +23,6 @@ $(document).ready(function () {
       enabled: true,
     },
   });
-
   $(".img-pop-up").magnificPopup({
     type: "image",
     gallery: {
@@ -39,7 +38,7 @@ $(document).ready(function () {
     fixedContentPos: false,
   });
   //image preview uploaded
-  function readURL(input) {
+  function readURL_main(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
 
@@ -50,15 +49,18 @@ $(document).ready(function () {
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
+
   var start_preview_src = $("#preview").attr("src");
 
   $("#id_image").change(function () {
-    readURL(this);
+    readURL_main(this);
   });
+
   $("#reset-img-field").click(function () {
     $("#id_image").val("");
     $("#preview").attr("src", start_preview_src);
   });
+
   // Initiate superfish on nav menu
   $(".nav-menu").superfish({
     animation: {
@@ -96,7 +98,6 @@ $(document).ready(function () {
     $(".dropdown-menu-custom").toggle("600");
   });
 
-  
   //animation for dropdown bootstrap
   // $('.dropdown').on('show.bs.dropdown', function() {
   // $(this).find('.dropdown-menu').first().stop(true, true).toggle('600');
@@ -559,4 +560,44 @@ $(document).ready(function () {
   $(document).ready(function () {
     $("#mc_embed_signup").find("form").ajaxChimp();
   });
+});
+
+function readURL(input, max_image) {
+  if (input.files && input.files[0]) {
+    let number_img = $('.file-upload-content').find('.preview-image').length
+    let available_img = max_image - number_img
+    if (available_img > 0) {
+      for (let i = 0; i < input.files.length; i++) {
+        if (i < available_img) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $(".image-upload-wrap").hide();
+            $(".file-upload-content").show();
+            $(".file-upload-content").append(`<div class="col-md-4 preview-image">
+            <img class="file-upload-image" src="${e.target.result}" alt="your image"/>
+            <div class="image-title-wrap">    
+                <span class="image-title">${input.files[i].name}</span></div></div>`);
+          };
+          reader.readAsDataURL(input.files[i]);
+        }
+      }
+    }
+    else {
+      alert('Превышено допустимое значение загрузки изображений')
+    }
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $(".file-upload-input").val("");
+  $(".file-upload-content").empty();
+  $(".image-upload-wrap").show();
+}
+$(".image-upload-wrap").bind("dragover", function () {
+  $(".image-upload-wrap").addClass("image-dropping");
+});
+$(".image-upload-wrap").bind("dragleave", function () {
+  $(".image-upload-wrap").removeClass("image-dropping");
 });

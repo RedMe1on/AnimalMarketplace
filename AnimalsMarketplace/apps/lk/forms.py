@@ -2,9 +2,10 @@ from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory
 from pytils.translit import slugify
 from .models import Profile
-from catalogs.models import Product, Categories, BreedType
+from catalogs.models import Product, Categories, BreedType, ProductImage
 
 
 class ProfileEditForm(forms.ModelForm):
@@ -71,3 +72,17 @@ class ProductForm(forms.ModelForm):
             'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),
             'text': CKEditorUploadingWidget(config_name='form-editor'),
         }
+
+
+class AdditionalImagesProductForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ('additional_image',)
+        widgets = {
+            'additional_image': forms.FileInput(attrs={'multiple': 'multiple'})
+        }
+
+
+ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalImagesProductForm, extra=5,
+                                       can_delete=False,
+                                       can_order=False)

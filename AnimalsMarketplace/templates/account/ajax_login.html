@@ -13,7 +13,7 @@
               maxlength="150"
               required
               id="id_login"
-              class="single-input-primary">
+              class="form-control">
     </p>
     {% if erorrs %}
     <ul class="errorlist">
@@ -21,7 +21,7 @@
     </ul>
     {% endif %}
     <p>
-        <input class="single-input-primary" type="password" name="password"
+        <input class="form-control" type="password" name="password"
                placeholder="Пароль" onfocus="this.placeholder = ''"
                onblur="this.placeholder = 'Пароль'" required id="id_password">
     </p>

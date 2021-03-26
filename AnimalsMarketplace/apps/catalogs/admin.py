@@ -4,6 +4,8 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db import models
 from django.utils.safestring import mark_safe
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from .forms import ProductAdminForm
 from .models import Categories, Product, ProductImage, BreedType, ReportModel
@@ -48,8 +50,15 @@ class ProductImageInline(admin.TabularInline):
     get_image.short_description = 'Изображение'
 
 
+class ProductResource(resources.ModelResource):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'price', 'category')
+
+
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ImportExportModelAdmin):
+    resource_class = ProductResource
     list_display = ('id', 'name', 'pub_date', 'user', 'get_image', 'draft')
     readonly_fields = ('get_image',)
     list_display_links = ('name',)

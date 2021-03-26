@@ -31,9 +31,12 @@ class FilterForm(forms.ModelForm):
 class ReportForm(forms.ModelForm):
     """Form for report"""
     cause = forms.ChoiceField(widget=forms.Select(
-        attrs={'class': 'selectpicker select-input', 'title': 'Причина жалобы', 'data-style': 'select-input'}, ),
+        attrs={'class': 'selectpicker select-input border', 'title': 'Причина жалобы', 'data-style': 'select-input'}, ),
         choices=ReportModel.CauseChoices.choices, label='Причина жалобы')
 
     class Meta:
         model = ReportModel
         fields = ('cause', 'comment')
+        # widgets = {
+        #     'comment': forms.TextInput(attrs={'class': 'border'})
+        # }

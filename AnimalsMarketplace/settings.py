@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'ckeditor_uploader',
     'ckeditor',
+    'import_export',
     'allauth',
     'allauth.account',
     'crispy_forms',

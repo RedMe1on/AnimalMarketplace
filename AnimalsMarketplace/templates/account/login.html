@@ -32,8 +32,8 @@
         {% include "socialaccount/snippets/login_extra.html" %}
 
         {% else %}
-        <p>{% blocktrans %}Если у вас нет аккаунта, пожалуйста, сначала
-            <a href="{{ signup_url }}">зарегистрируйтесь</a>{% endblocktrans %}</p>
+        <p>Если у вас нет аккаунта, пожалуйста, сначала
+            <a href="{{ signup_url }}">зарегистрируйтесь</a></p>
         {% endif %}
         <form class="login auth-form form-container" method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
