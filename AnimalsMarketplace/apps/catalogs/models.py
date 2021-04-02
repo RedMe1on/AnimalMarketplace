@@ -90,7 +90,6 @@ class Product(models.Model):
     breed_type = models.ForeignKey(BreedType, on_delete=models.SET_NULL, null=True, verbose_name='Вид породы',
                                    blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
-    image = models.ImageField(verbose_name='Главная фотография', upload_to='catalogs/product/img', blank=True)
     draft = models.BooleanField(verbose_name='Черновик', help_text='Черновики не отображаются на сайте', default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
@@ -117,8 +116,8 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_img')
-    additional_image = models.ImageField(verbose_name='Дополнительная фотография', upload_to='catalogs/product/img',
-                                         blank=True, null=True)
+    image = models.ImageField(verbose_name='Дополнительная фотография', upload_to='catalogs/product/img', blank=True,
+                              null=True)
 
     class Meta:
         verbose_name = 'Дополнительные фотографии'

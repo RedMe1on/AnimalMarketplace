@@ -1,14 +1,14 @@
 {% extends 'lk/profile.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags lk_tags %}
 {% block title %}
 Create Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
 
 {% block profile_content %}
+
 <script>
  function change_field_breed_type_with_category_id() {
     let category = $("#id_category").val();
-    resp = fetch(`/api/v1/breedtype?category=${category}`);
     resp = fetch(`/api/v1/breedtype?category=${category}`)
       .then((response) => {
         return response.json();
@@ -26,17 +26,8 @@ Create Product {{ product.title|title }} - {{ block.super }}
         $("#id_breed_type").selectpicker("refresh");
       });
   }
-
-
-
-
-
-
-
-
-
-
 </script>
+
 <div class="container">
     <div class="row my-2">
         <div class="col-md-12">
@@ -46,11 +37,12 @@ Create Product {{ product.title|title }} - {{ block.super }}
     <form method="post" enctype="multipart/form-data" class="form-area">
         {% csrf_token %}
         {{ form.media }}
-        {% if form.errors %}
+        {% if form.errors or inlines.errors %}
         <div class="alert alert-danger">
             <strong>Исправьте ошибки ниже</strong>
         </div>
         {% endif %}
+
         <div class="form-group">
             {{ form.category|as_crispy_field }}
         </div>
@@ -106,35 +98,27 @@ Create Product {{ product.title|title }} - {{ block.super }}
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="id_image" class="">Главная фотография</label>
-                <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"
-                       id="id_image">
-                <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>
-            </div>
+            <!--            <div class="form-group col-md-6">-->
+            <!--                <label for="id_image" class="">Главная фотография</label>-->
+            <!--                <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"-->
+            <!--                       id="id_image">-->
+            <!--                <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>-->
+            <!--            </div>-->
             {% include 'lk/include/input_form_preview_with_delete_checkbox.html' %}
         </div>
+        {% block image %}
+
         <div class="form-group">
-            <div class="file-upload">
-                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add
-                    Image
-                </button>
-                <button type="button" onclick="removeUpload()" class="remove-image">Очистить</button>
-
-                <div class="image-upload-wrap">
-                    <input class="file-upload-input" multiple="multiple" type='file' onchange="readURL(this, 6);"
-                           accept="image/*"
-                           id="id_additional_image" name="additional_image"/>
-                    <div class="drag-text">
-                        <h3>Drag and drop a file or select add Image</h3>
-                    </div>
-                </div>
-                <div class="file-upload-content">
-
-
-                </div>
+            <label for="id_image">Фотографии</label>
+            {% if form_image.errors %}
+            <div class="alert alert-danger upload-image">
+                <strong>{{ form_image.image.errors }}</strong>
             </div>
+            {% endif %}
+            {% get_max_number_img max_number=6 %}
+            <small id="id_image" class="form-text text-muted">Первое изображение будет показываться в каталоге</small>
         </div>
+        {% endblock image %}
         <button type="submit" class="genric-btn success float-right my-2">{% block button_text_form %}Добавить
             {% endblock button_text_form %}
         </button>

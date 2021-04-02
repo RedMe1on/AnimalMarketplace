@@ -37,6 +37,7 @@ $(document).ready(function () {
     preloader: false,
     fixedContentPos: false,
   });
+
   //image preview uploaded
   function readURL_main(input) {
     if (input.files && input.files[0]) {
@@ -73,7 +74,7 @@ $(document).ready(function () {
     let slide_number = $(this).attr("number");
     $(".additional-detail-img").removeAttr("style");
     $(this).attr("style", "border: 2px solid #fab700;");
-    $("#carouselDetailAd").carousel(Number(slide_number));
+    $("#carouselDetailAd").carousel(Number(slide_number) - 1);
   });
 
   $("#carouselDetailAd").on("slid.bs.carousel", function () {
@@ -98,14 +99,8 @@ $(document).ready(function () {
     $(".dropdown-menu-custom").toggle("600");
   });
 
-  //animation for dropdown bootstrap
-  // $('.dropdown').on('show.bs.dropdown', function() {
-  // $(this).find('.dropdown-menu').first().stop(true, true).toggle('600');
-  // });
-
-  // $('.dropdown').on('hide.bs.dropdown', function() {
-  // $(this).find('.dropdown-menu').first().stop(true, true).toggle('600');
-  // });
+  //delete one li text for error in create_form
+  $('.alert .alert-danger .upload-image li').inn
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
@@ -562,42 +557,46 @@ $(document).ready(function () {
   });
 });
 
-function readURL(input, max_image) {
+function getPreview(input, max_image) {
   if (input.files && input.files[0]) {
-    let number_img = $('.file-upload-content').find('.preview-image').length
-    let available_img = max_image - number_img
+    let number_img = $(".file-upload-content").find(".preview-image").length;
+    let available_img = max_image - number_img;
     if (available_img > 0) {
       for (let i = 0; i < input.files.length; i++) {
         if (i < available_img) {
           var reader = new FileReader();
           reader.onload = function (e) {
-            $(".image-upload-wrap").hide();
-            $(".file-upload-content").show();
-            $(".file-upload-content").append(`<div class="col-md-4 preview-image">
+            $(".file-upload-content").css('display', 'flex');
+            $(".file-upload-content")
+              .append(`<div class="col-md-4 preview-image m-auto">
             <img class="file-upload-image" src="${e.target.result}" alt="your image"/>
-            <div class="image-title-wrap">    
-                <span class="image-title">${input.files[i].name}</span></div></div>`);
+            </div>`);
           };
           reader.readAsDataURL(input.files[i]);
         }
       }
+      if (number_img == 0) {
+        $(".file-upload-content").append(
+          `<button type="button" onclick="removeUpload()" class="genric-btn danger w-100 mt-2">Очистить</button>`
+        );
+      }
+    } else {
+      alert("Превышено допустимое значение загрузки изображений");
     }
-    else {
-      alert('Превышено допустимое значение загрузки изображений')
-    }
-  } else {
-    removeUpload();
   }
 }
 
 function removeUpload() {
   $(".file-upload-input").val("");
   $(".file-upload-content").empty();
-  $(".image-upload-wrap").show();
 }
+
 $(".image-upload-wrap").bind("dragover", function () {
   $(".image-upload-wrap").addClass("image-dropping");
 });
 $(".image-upload-wrap").bind("dragleave", function () {
+  $(".image-upload-wrap").removeClass("image-dropping");
+});
+$(".image-upload-wrap").bind("drop", function () {
   $(".image-upload-wrap").removeClass("image-dropping");
 });

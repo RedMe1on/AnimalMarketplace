@@ -1,0 +1,17 @@
+
+<div class="file-upload">
+<!--    <button class="genric-btn primary w-100 p" type="button" onclick="$('.file-upload-input').trigger( 'click' )">-->
+<!--        Загрузить изображение-->
+<!--    </button>-->
+    <div class="image-upload-wrap">
+        <input class="file-upload-input" multiple="multiple" type='file' onchange="getPreview(this, {{ max_number }});"
+               accept="image/*"
+               id="id_image" name="image"/>
+        <div class="drag-text m-4">
+            <p>Перетащите или загрузите изображения (Максимум - {{ max_number }} шт.)</p>
+        </div>
+    </div>
+    <div class="file-upload-content row">
+            </div>
+
+</div>

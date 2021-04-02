@@ -21,31 +21,17 @@
         <div class="row">
             <div class="col-md-8 mb-2">
                 {% if product.additional_img.count == 0 %}
-                {% if product.image %}
-                <div class="image-area-detail-ad">
-                    <a href="{{ product.image.url }}" class="img-pop-up">
-                        <img class="w-100 detail-img" src="{{ product.image.url }}">
-                    </a>
-                </div>
-                {% else %}
                 <div class="image-area-detail-ad">
                     <a href="/media/no_image.png" class="img-pop-up">
                         <img class="w-100 detail-img" src="/media/no_image.png">
                     </a>
                 </div>
-                {% endif %}
                 {% else %}
                 <div class="carousel-container">
                     <div id="carouselDetailAd" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <a href="{{ product.image.url }}" class="img-pop-up">
-                                    <img class="w-100 detail-img" src="{{ product.image.url }}" alt="First slide"
-                                         number="0">
-                                </a>
-                            </div>
                             {% for additional_img in product.additional_img.all %}
-                            <div class="carousel-item">
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <a href="{{ additional_img.image.url }}" class="img-pop-up">
                                     <img class="detail-img w-100" src="{{ additional_img.image.url }}"
                                          alt="Second slide"
@@ -65,14 +51,10 @@
                     </div>
                     <div class="gallery-item mt-4">
                         <div class="row px-3">
-                            <div class="col-2 my-auto padding-l-r-0">
-                                <img src="{{ product.image.url }}" class="additional-detail-img"
-                                     style="border: 2px solid #fab700;" number="0">
-                            </div>
                             {% for additional_img in product.additional_img.all %}
                             <div class="col-2 my-auto padding-l-r-0">
                                 <img src="{{ additional_img.image.url }}" class="additional-detail-img"
-                                     number="{{ forloop.counter }}">
+                                     number="{{ forloop.counter }}" {% if forloop.first %}style="border: 2px solid #fab700;"{% endif %}>
                             </div>
                             {% endfor %}
                         </div>

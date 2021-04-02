@@ -97,6 +97,7 @@ TEMPLATES = [
                 'catalog_tags': 'catalogs.template_tags.catalog_tags',
                 'mailing_tags': 'mailing.template_tags.mailing_tags',
                 'blog_tags': 'blog.template_tags.blog_tags',
+                'lk_tags': 'lk.template_tags.lk_tags',
             }
 
         },

@@ -1,6 +1,8 @@
 <div class="animal-image col-md-4">
-    {% if product.image %}
-    <img class="img-fluid" src="{{ product.image.url }}" alt="">
+    {% if product.additional_img.count != 0 %}
+    {% with product.additional_img.all|first as firs_obj %}
+    <img class="img-fluid" src="{{ firs_obj.image.url }}" alt="">
+    {% endwith %}
     {% else %}
     <img class="img-fluid" src="/media/no_image.png" alt="">
     {% endif %}

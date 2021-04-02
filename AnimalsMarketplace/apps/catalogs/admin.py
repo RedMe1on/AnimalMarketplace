@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from django.utils.safestring import mark_safe
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -45,7 +46,7 @@ class ProductImageInline(admin.TabularInline):
         if obj.image == '':
             return mark_safe('Нет изображения')
         elif obj.image.url:
-            return mark_safe(f'<img src={obj.image.url} width="50", height="50"')
+            return mark_safe(f'<img src={obj.additional_img[0].image.url} width="50", height="50"')
 
     get_image.short_description = 'Изображение'
 
@@ -61,6 +62,7 @@ class ProductAdmin(ImportExportModelAdmin):
     resource_class = ProductResource
     list_display = ('id', 'name', 'pub_date', 'user', 'get_image', 'draft')
     readonly_fields = ('get_image',)
+    list_per_page = 20
     list_display_links = ('name',)
     list_filter = ('user',)
     search_fields = ('name',)
@@ -75,17 +77,13 @@ class ProductAdmin(ImportExportModelAdmin):
         models.TextField: {'widget': CKEditorUploadingWidget()},
     }
 
-    # fieldsets = (
-    #     ('None', {
-    #         'fields': (('image', 'get_image'), )
-    #     }),
-    # )
-
     def get_image(self, obj):
-        if obj.image == '':
+        all_additional_img = obj.additional_img.all()
+        if len(all_additional_img) != 0 and all_additional_img[0].image != '':
+            if all_additional_img[0].image.url:
+                return mark_safe(f'<img src={all_additional_img[0].image.url} width="50", height="50"')
+        else:
             return mark_safe('Нет изображения')
-        elif obj.image.url:
-            return mark_safe(f'<img src={obj.image.url} width="50", height="50"')
 
     def unpublish(self, request, queryset):
         """Снять с публикации"""
@@ -106,6 +104,11 @@ class ProductAdmin(ImportExportModelAdmin):
         else:
             message_bit = f'{row_update} записей были обновлены'
         self.message_user(request, f'{message_bit}')
+
+    class Media:
+        css = {
+            "all": ("css/my_admin_styles.css",)
+        }
 
     publish.short_description = 'Опубликовать'
     publish.allowed_premissions = ('change',)

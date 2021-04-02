@@ -16,7 +16,7 @@ class ProductFilterMixin:
             if k == 'page':
                 continue
             if k == 'image':
-                filter_dict[str(k) + '__icontains'] = str('catalogs/product/')
+                filter_dict['additional_img' + '__image' + '__icontains'] = str('catalogs/product/')
                 continue
             if k == 'price_start':
                 if v[0] != '':

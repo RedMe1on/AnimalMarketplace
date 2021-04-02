@@ -1,6 +1,6 @@
 from django import template
 from django.db.models import QuerySet
-from ..models import Categories, Product
+from ..models import Categories, Product, ProductImage
 from blog.models import Categories as Categories_blog
 
 register = template.Library()
@@ -25,7 +25,8 @@ def get_phone_number(phone_number) -> str:
 @register.simple_tag()
 def get_last_product_with_img(count: int) -> QuerySet:
     """Получить последние n товаров с изображением"""
-    return Product.objects.order_by('-pub_date').exclude(image__contains='/no_image.png')[:count]
+    return Product.objects.order_by('-pub_date').filter(
+        additional_img__image__contains='catalogs/product/img').distinct()[:count]
 
 
 @register.simple_tag(takes_context=True)
@@ -90,4 +91,3 @@ def get_breed_select(context: dict) -> list:
                         Product.objects.all().order_by('breed').distinct(
                             'breed')]
     return breed_select
-

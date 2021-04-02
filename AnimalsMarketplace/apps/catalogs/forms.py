@@ -37,6 +37,4 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = ReportModel
         fields = ('cause', 'comment')
-        # widgets = {
-        #     'comment': forms.TextInput(attrs={'class': 'border'})
-        # }
+

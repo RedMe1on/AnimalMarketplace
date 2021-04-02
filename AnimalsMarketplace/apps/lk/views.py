@@ -60,7 +60,8 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
 
     def form_valid(self, form):
         ctx = self.get_context_data()
-        inlines = ctx['inlines']
+        inlines = ctx['formset']
+        print(inlines)
         if inlines.is_valid() and form.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
@@ -76,9 +77,9 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.POST:
-            ctx['inlines'] = ProductFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            ctx['formset'] = ProductFormSet(self.request.POST, self.request.FILES, instance=self.object)
         else:
-            ctx['inlines'] = ProductFormSet(instance=self.object)
+            ctx['formset'] = ProductFormSet(instance=self.object)
         return ctx
 
 
@@ -91,15 +92,15 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         ctx = self.get_context_data()
-        inlines = ctx['inlines']
+        inlines = ctx['form_image']
         if inlines.is_valid() and form.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
             new_product.save()
-            for f in self.request.FILES.getlist('additional_image')[:6]:
+            for f in self.request.FILES.getlist('image')[:6]:
                 data = f.read()
                 image = ProductImage(product=new_product)
-                image.additional_image.save(f.name, ContentFile(data))
+                image.image.save(f.name, ContentFile(data))
                 image.save()
             return redirect(self.success_url)
         else:
@@ -108,8 +109,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.POST:
-            ctx['inlines'] = AdditionalImagesProductForm(self.request.POST, self.request.FILES)
+            ctx['form_image'] = AdditionalImagesProductForm(self.request.POST, self.request.FILES)
         else:
-            ctx['inlines'] = AdditionalImagesProductForm()
+            ctx['form_image'] = AdditionalImagesProductForm()
         return ctx
 

@@ -64,7 +64,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = (
-            'name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'price', 'birthday', 'image')
+            'name', 'category', 'text', 'sex', 'breed', 'breed_type', 'age_type', 'age', 'price', 'birthday')
         widgets = {
             'breed': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
@@ -75,14 +75,23 @@ class ProductForm(forms.ModelForm):
 
 
 class AdditionalImagesProductForm(forms.ModelForm):
+    """Форма для загрузки изображений в объявление"""
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        max_size = 5 * 1024 * 1024
+        if image:
+            if image.size > max_size:
+                raise ValidationError("Допустимый размер изобржаения = 5 МБ")
+            return image
+        else:
+            raise ValidationError('Загруженные файлы имеют нечитаемый формат')
+
     class Meta:
         model = ProductImage
-        fields = ('additional_image',)
-        widgets = {
-            'additional_image': forms.FileInput(attrs={'multiple': 'multiple'})
-        }
+        fields = ('image',)
 
 
-ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalImagesProductForm, extra=5,
+ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalImagesProductForm, extra=0,
                                        can_delete=False,
                                        can_order=False)

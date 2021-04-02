@@ -1,4 +1,7 @@
 {% extends 'lk/product_create.html' %}
+
+{% load lk_tags crispy_forms_tags %}
+
 {% block title %}
 Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock %}
@@ -10,3 +13,53 @@ Edit Product {{ product.title|title }} - {{ block.super }}
 Сохранить
 {% endblock button_text_form %}
 
+{% block image %}
+{% with product.additional_img.all.count as number_img %}
+{% if number_img > 0 %}
+{{ formset.management_form }}
+<p>Дополнительные фотографии:</p>
+{% for form_img in formset %}
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-6">
+            <div>Изменить</div>
+            <input type="file" name="additional_img-{{ forloop.counter0 }}-image" accept="image/*"
+                   id="id_additional_img-{{ forloop.counter0 }}-image">
+        </div>
+        <div class="col-md-6">
+        <img src="/media/{{ form_img.instance.image }}" alt="" class="float-right">
+        </div>
+        {% for field in form_img %}
+        {% if forloop.first %}
+        {% elif forloop.last %}
+        <input type="hidden" name="additional_img-{{ forloop.parentloop.counter0 }}-product" value="{{ field.initial }}"
+               id="id_additional_img-{{ forloop.parentloop.counter0 }}-product">
+        {% else %}
+        <input type="hidden" name="additional_img-{{ forloop.parentloop.counter0 }}-id" value="{{ field.initial }}"
+               id="id_additional_img-{{ forloop.parentloop.counter0 }}-id">
+        {% endif %}
+        {% endfor %}
+        <div class="col-md-12 ">
+            <div class="form-group m-auto float-right">
+                <div class="switch-wrap d-flex mb-0">
+                    <div class="primary-checkbox m-2">
+                        <input type="checkbox" name="additional_img-{{ forloop.counter0 }}-image-clear"
+                               id="additional_img-{{ forloop.counter0 }}-image-clear_id">
+                        <label for="additional_img-{{ forloop.counter0 }}-image-clear_id"></label>
+                    </div>
+                    <p style="padding: 6px 0">Удалить фотографию</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% if number_img < 6 %}
+{% get_sub_max_number_and_current_number_img max_number=6 current_number=number_img as current_number_of_image %}
+{% get_max_number_img max_number=current_number_of_image %}
+{% endif %}
+{% else %}
+{% get_max_number_img max_number=6 %}
+{% endif %}
+{% endwith %}
+{% endblock image %}
