@@ -23,11 +23,23 @@ Edit Product {{ product.title|title }} - {{ block.super }}
     <div class="row">
         <div class="col-md-6">
             <div>Изменить</div>
-            <input type="file" name="additional_img-{{ forloop.counter0 }}-image" accept="image/*"
-                   id="id_additional_img-{{ forloop.counter0 }}-image">
+            <input type="file" class="" name="additional_img-{{ forloop.counter0 }}-image" accept="image/*"
+                   id="id_additional_img-{{ forloop.counter0 }}-image" onchange="get_preview_for_update_img(this, {{ forloop.counter0 }});">
+            <button type="button" id="reset-img-field" class="genric-btn default small mt-2 mb-2" onclick="reset_preview_for_update_img({{ forloop.counter0 }})">Очистить</button>
+
         </div>
-        <div class="col-md-6">
-        <img src="/media/{{ form_img.instance.image }}" alt="" class="float-right">
+        <div class="col-md-6 mb-4 additional-img">
+            <img src="/media/{{ form_img.instance.image }}" alt="" class="additional-img-{{ forloop.counter0 }}-image">
+            <div class="form-group m-auto">
+                <div class="switch-wrap d-flex mb-0 justify-content-center">
+                    <div class="primary-checkbox m-2">
+                        <input type="checkbox" name="additional_img-{{ forloop.counter0 }}-image-clear"
+                               id="additional_img-{{ forloop.counter0 }}-image-clear_id">
+                        <label for="additional_img-{{ forloop.counter0 }}-image-clear_id"></label>
+                    </div>
+                    <p style="padding: 6px 0">Удалить фотографию</p>
+                </div>
+            </div>
         </div>
         {% for field in form_img %}
         {% if forloop.first %}
@@ -39,18 +51,6 @@ Edit Product {{ product.title|title }} - {{ block.super }}
                id="id_additional_img-{{ forloop.parentloop.counter0 }}-id">
         {% endif %}
         {% endfor %}
-        <div class="col-md-12 ">
-            <div class="form-group m-auto float-right">
-                <div class="switch-wrap d-flex mb-0">
-                    <div class="primary-checkbox m-2">
-                        <input type="checkbox" name="additional_img-{{ forloop.counter0 }}-image-clear"
-                               id="additional_img-{{ forloop.counter0 }}-image-clear_id">
-                        <label for="additional_img-{{ forloop.counter0 }}-image-clear_id"></label>
-                    </div>
-                    <p style="padding: 6px 0">Удалить фотографию</p>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 {% endfor %}
@@ -63,3 +63,6 @@ Edit Product {{ product.title|title }} - {{ block.super }}
 {% endif %}
 {% endwith %}
 {% endblock image %}
+
+
+

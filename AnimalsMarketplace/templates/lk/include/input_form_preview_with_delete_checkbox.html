@@ -1,10 +1,8 @@
 {% if form.instance.image %}
 <div class="col-md-6">
-    <img id="preview" src="{{ form.instance.image.url }}" alt="your image" class="float-right"/>
-</div>
-<div class="col-md-12">
-    <div class="form-group m-auto float-right">
-        <div class="switch-wrap d-flex mb-0">
+    <img id="preview" src="{{ form.instance.image.url }}" alt="your image"/>
+    <div class="form-group m-auto">
+        <div class="switch-wrap d-flex mb-0 justify-content-center">
             <div class="primary-checkbox m-2">
                 <input type="checkbox" name="image-clear" id="image-clear_id">
                 <label for="image-clear_id"></label>
@@ -13,8 +11,9 @@
         </div>
     </div>
 </div>
+
 {% else %}
 <div class="col-md-6">
-    <img id="preview" src="/media/no_image.png" alt="your image" class="float-right"/>
+    <img id="preview" src="/media/no_image.png" alt="your image"/>
 </div>
 {% endif %}

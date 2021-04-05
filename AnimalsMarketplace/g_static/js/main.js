@@ -38,28 +38,25 @@ $(document).ready(function () {
     fixedContentPos: false,
   });
 
-  //image preview uploaded
-  function readURL_main(input) {
+  
+  //img profile preview
+  function get_preview_for_profile(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
         $("#preview").attr("src", e.target.result);
       };
-
       reader.readAsDataURL(input.files[0]); // convert to base64 string
     }
   }
-
-  var start_preview_src = $("#preview").attr("src");
-
   $("#id_image").change(function () {
-    readURL_main(this);
+    get_preview_for_profile(this);
   });
-
+  var start_preview_profile_src = $("#preview").attr("src");
   $("#reset-img-field").click(function () {
     $("#id_image").val("");
-    $("#preview").attr("src", start_preview_src);
+    $("#preview").attr("src", start_preview_profile_src);
   });
 
   // Initiate superfish on nav menu
@@ -100,7 +97,7 @@ $(document).ready(function () {
   });
 
   //delete one li text for error in create_form
-  $('.alert .alert-danger .upload-image li').inn
+  $(".alert .alert-danger .upload-image li").inn;
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
@@ -557,7 +554,7 @@ $(document).ready(function () {
   });
 });
 
-function getPreview(input, max_image) {
+function getPreviewUpload(input, max_image) {
   if (input.files && input.files[0]) {
     let number_img = $(".file-upload-content").find(".preview-image").length;
     let available_img = max_image - number_img;
@@ -566,7 +563,7 @@ function getPreview(input, max_image) {
         if (i < available_img) {
           var reader = new FileReader();
           reader.onload = function (e) {
-            $(".file-upload-content").css('display', 'flex');
+            $(".file-upload-content").css("display", "flex");
             $(".file-upload-content")
               .append(`<div class="col-md-4 preview-image m-auto">
             <img class="file-upload-image" src="${e.target.result}" alt="your image"/>
@@ -600,3 +597,27 @@ $(".image-upload-wrap").bind("dragleave", function () {
 $(".image-upload-wrap").bind("drop", function () {
   $(".image-upload-wrap").removeClass("image-dropping");
 });
+
+
+//image preview uploaded
+let start_preview_src = [];
+let number_of_img = $(".additional-img");
+
+for (let index = 0; index < number_of_img.length; index++) {
+  start_preview_src.push($(`.additional-img-${index}-image`).attr("src"));
+}
+console.log(start_preview_src);
+
+function get_preview_for_update_img(input, index) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $(`.additional-img-${index}-image`).attr("src", e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+function reset_preview_for_update_img(index) {
+  $(`id_additional_img-${index}-image`).val("");
+  $(`.additional-img-${index}-image`).attr("src", start_preview_src[index]);
+}
