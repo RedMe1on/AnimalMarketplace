@@ -25,7 +25,7 @@ Edit Product {{ product.title|title }} - {{ block.super }}
             <div>Изменить</div>
             <input type="file" class="" name="additional_img-{{ forloop.counter0 }}-image" accept="image/*"
                    id="id_additional_img-{{ forloop.counter0 }}-image" onchange="get_preview_for_update_img(this, {{ forloop.counter0 }});">
-            <button type="button" id="reset-img-field" class="genric-btn default small mt-2 mb-2" onclick="reset_preview_for_update_img({{ forloop.counter0 }})">Очистить</button>
+            <button type="button" id="reset-img-field" class="genric-btn default small mt-2 mb-3" onclick="reset_preview_for_update_img({{ forloop.counter0 }})">Очистить</button>
 
         </div>
         <div class="col-md-6 mb-4 additional-img">
