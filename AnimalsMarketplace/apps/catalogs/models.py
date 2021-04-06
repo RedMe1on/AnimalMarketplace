@@ -115,6 +115,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
+    """Модель для хранения изображений объявлений"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_img')
     image = models.ImageField(verbose_name='Дополнительная фотография', upload_to='catalogs/product/img', blank=True,
                               null=True)
@@ -122,6 +123,7 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Дополнительные фотографии'
         verbose_name_plural = 'Дополнительные фотографии'
+        ordering = ['id']
 
 
 class ReportModel(models.Model):

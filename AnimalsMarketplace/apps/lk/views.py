@@ -60,26 +60,52 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
 
     def form_valid(self, form):
         ctx = self.get_context_data()
-        inlines = ctx['formset']
-        print(inlines)
-        if inlines.is_valid() and form.is_valid():
+        formset = ctx['formset']
+        form_image = ctx['form_image']
+        print(formset.errors)
+        print(form.errors)
+        print(form_image.errors)
+        if formset.is_valid() and form.is_valid() and form_image.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
             new_product.save()
-            for inline in inlines:
-                new_formset = inline.save(commit=False)
-                new_formset.product = new_product
-                new_formset.save()
+
+            max_number = self.get_max_number()
+            if max_number:
+                for f in self.request.FILES.getlist('image')[:max_number]:
+                    data = f.read()
+                    image = ProductImage(product=new_product)
+                    image.image.save(f.name, ContentFile(data))
+                    image.save()
+
+            for form in formset:
+                form.save()
+            for form in formset.deleted_forms:
+                product_image = form.cleaned_data.get('id')
+                product_image.delete()
+
             return redirect(self.success_url)
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def get_max_number(self) -> int:
+        """Получает доступное количество загружаемых изображений"""
+        number_of_img = self.object.additional_img.all().count()
+        max_number = 6
+        sub = max_number - number_of_img
+        if sub < 0:
+            return False
+        else:
+            return sub
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         if self.request.POST:
             ctx['formset'] = ProductFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            ctx['form_image'] = AdditionalImagesProductForm(self.request.POST, self.request.FILES)
         else:
             ctx['formset'] = ProductFormSet(instance=self.object)
+            ctx['form_image'] = AdditionalImagesProductForm()
         return ctx
 
 
@@ -92,8 +118,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         ctx = self.get_context_data()
-        inlines = ctx['form_image']
-        if inlines.is_valid() and form.is_valid():
+        form_image = ctx['form_image']
+        if form_image.is_valid() and form.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
             new_product.save()
@@ -113,4 +139,3 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         else:
             ctx['form_image'] = AdditionalImagesProductForm()
         return ctx
-

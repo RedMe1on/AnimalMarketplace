@@ -84,8 +84,6 @@ class AdditionalImagesProductForm(forms.ModelForm):
             if image.size > max_size:
                 raise ValidationError("Допустимый размер изобржаения = 5 МБ")
             return image
-        else:
-            raise ValidationError('Загруженные файлы имеют нечитаемый формат')
 
     class Meta:
         model = ProductImage
@@ -93,5 +91,5 @@ class AdditionalImagesProductForm(forms.ModelForm):
 
 
 ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalImagesProductForm, extra=0,
-                                       can_delete=False,
+                                       can_delete=True,
                                        can_order=False)
