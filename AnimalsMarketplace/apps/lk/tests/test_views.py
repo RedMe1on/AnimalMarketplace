@@ -1,7 +1,8 @@
+from os import path
+
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
@@ -250,7 +251,7 @@ class ProductUpdateViewTestCase(TestCase):
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
-
+        self.product_with_image = None
         # category value in select input dynamically changing with each next request for +1
         self.form_data = {
             'name': 'Test',
@@ -258,7 +259,12 @@ class ProductUpdateViewTestCase(TestCase):
             'user': str(self.test_user_1),
             'sex': 'Мальчик',
             'breed': 'Метис',
+            'additional_img-TOTAL_FORMS': ['0'],
+            'additional_img-INITIAL_FORMS': ['0'],
+            'additional_img-MIN_NUM_FORMS': ['0'],
+            'additional_img-MAX_NUM_FORMS': ['1000']
         }
+        self.parent_dir = path.dirname(path.abspath(__file__))
 
     def test_redirect_if_not_logged_in(self):
         resp = self.client.get(reverse('lk:product_update', kwargs={'pk': self.product.pk}))
@@ -268,7 +274,6 @@ class ProductUpdateViewTestCase(TestCase):
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
         resp = self.client.get(reverse('lk:product_update', kwargs={'pk': self.product.pk}))
-
         # Checking that the user is logged in
         self.assertEqual(str(resp.context['user']), 'TestUser1')
         self.assertEqual(resp.status_code, 200)
@@ -294,6 +299,21 @@ class ProductUpdateViewTestCase(TestCase):
         self.product.refresh_from_db()
         self.assertEqual(self.product.name, 'ChangeName')
 
+    def test_upload_image_with_update(self):
+        self.client.login(username='TestUser1', password='TestUser1')
+        with open(path.join(self.parent_dir, 'image', '1.jpg'), 'rb') as one, \
+                open(path.join(self.parent_dir, 'image', '2.jpg'), 'rb') as two, \
+                open(path.join(self.parent_dir, 'image', '3.jpg'), 'rb') as three:
+            # SimpleUploadedFile вызывает загрузку в память трех открытых файлов - если загружать через него,
+            # то он ругается, что файл пустой, а если дать ему загрузить второй, а не первый файл, то не работает
+            # Если убрать, то не загрузит файлы в память
+            SimpleUploadedFile(one.name, one.read(), 'image/*')
+            form_data = self.form_data
+            form_data.update({'name': 'Test with images', 'image': [one, two, three]})
+            resp = self.client.post(reverse('lk:product_update', kwargs={'pk': self.product.pk}), form_data)
+        self.assertRedirects(resp, reverse('lk:product_list'))
+        self.assertEqual(self.product.additional_img.all().count(), 3)
+
 
 class ProductCreateViewTestCase(TestCase):
     """Test case for profile view"""
@@ -309,6 +329,7 @@ class ProductCreateViewTestCase(TestCase):
             'sex': 'Мальчик',
             'breed': 'Метис',
         }
+        self.parent_dir = path.dirname(path.abspath(__file__))
 
     def test_redirect_if_not_logged_in(self):
         resp = self.client.post(reverse('lk:product_create'))
@@ -336,3 +357,22 @@ class ProductCreateViewTestCase(TestCase):
         product = Product.objects.get(name='Test')
         self.assertTrue(product)
         self.assertEqual(product.user, self.test_user_1)
+
+    def test_upload_image(self):
+        self.client.login(username='TestUser1', password='TestUser1')
+        with open(path.join(self.parent_dir, 'image', '1.jpg'), 'rb') as one, \
+                open(path.join(self.parent_dir, 'image', '2.jpg'), 'rb') as two, \
+                open(path.join(self.parent_dir, 'image', '3.jpg'), 'rb') as three:
+            # SimpleUploadedFile вызывает загрузку в память трех открытых файлов - если загружать через него,
+            # то он ругается, что файл пустой, а если дать ему загрузить второй, а не первый файл, то не работает
+            # Если убрать, то не загрузит файлы в память
+            SimpleUploadedFile(one.name, one.read(), 'image/*')
+            image_list = [one, two, three]
+            resp = self.client.post(reverse('lk:product_create'), {'name': 'Test with images',
+                                                                   'category': 1,
+                                                                   'sex': 'Мальчик',
+                                                                   'breed': 'Метис',
+                                                                   'image': image_list})
+        product = Product.objects.get(name='Test with images')
+        self.assertRedirects(resp, reverse('lk:product_list'))
+        self.assertEqual(product.additional_img.all().count(), 3)

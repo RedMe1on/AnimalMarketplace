@@ -62,9 +62,6 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
         ctx = self.get_context_data()
         formset = ctx['formset']
         form_image = ctx['form_image']
-        print(formset.errors)
-        print(form.errors)
-        print(form_image.errors)
         if formset.is_valid() and form.is_valid() and form_image.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
@@ -119,6 +116,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         ctx = self.get_context_data()
         form_image = ctx['form_image']
+
         if form_image.is_valid() and form.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
