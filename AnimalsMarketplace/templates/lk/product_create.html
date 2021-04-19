@@ -97,15 +97,6 @@ Create Product {{ product.title|title }} - {{ block.super }}
                 <small id="priceHelp" class="form-text text-muted">Оставьте 0, если хотите отдать бесплатно</small>
             </div>
         </div>
-        <div class="form-row">
-            <!--            <div class="form-group col-md-6">-->
-            <!--                <label for="id_image" class="">Главная фотография</label>-->
-            <!--                <input type="file" name="image" accept="image/*" class="clearablefileinput form-control-file"-->
-            <!--                       id="id_image">-->
-            <!--                <button type="button" id="reset-img-field" class="genric-btn default small mt-2">Очистить</button>-->
-            <!--            </div>-->
-            {% include 'lk/include/input_form_preview_with_delete_checkbox.html' %}
-        </div>
         {% block image %}
 
         <div class="form-group">

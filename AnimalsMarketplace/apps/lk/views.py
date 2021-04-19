@@ -80,8 +80,9 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
             for form in formset.deleted_forms:
                 product_image = form.cleaned_data.get('id')
                 product_image.delete()
-
-            return redirect(self.success_url)
+            request = redirect(self.success_url)
+            request.set_cookie('moderate', 'yes', max_age=5)
+            return request
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
@@ -126,7 +127,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
                 image = ProductImage(product=new_product)
                 image.image.save(f.name, ContentFile(data))
                 image.save()
-            return redirect(self.success_url)
+            request = redirect(self.success_url)
+            request.set_cookie('moderate', 'yes', max_age=5)
+            return request
         else:
             return self.render_to_response(self.get_context_data(form=form))
 

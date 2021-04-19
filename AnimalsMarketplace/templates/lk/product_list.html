@@ -15,13 +15,18 @@
         <div class="row button-panel">
             <div class="col-md-12 d-flex justify-content-end mt-2">
                 <a href="{{ product.get_absolute_url }}" class="genric-btn info radius mx-1" data-toggle="tooltip"
-                   data-placement="top" title="Показать на сайте" data-trigger="hover" target="_blank" rel="noopener noreferrer"><i
+                   data-placement="top" title="Показать на сайте" data-trigger="hover" target="_blank"
+                   rel="noopener noreferrer"><i
                         class="lnr lnr-link format-lnr"></i></a>
                 <a href="{{ product.get_update_url }}" class="genric-btn primary radius mx-1" data-toggle="tooltip"
                    data-placement="top" title="Редактировать" data-trigger="hover"><i
                         class="lnr lnr-pencil format-lnr"></i></a>
-                <span data-target="#deleteModal" data-toggle="modal"><button type="button" class="genric-btn danger radius ml-1 mr-2" data-toggle="tooltip"
-                   data-placement="top" title="Удалить" OnClick="getId('{{ product.get_delete_url }}')" data-trigger="hover"><i
+                <span data-target="#deleteModal" data-toggle="modal"><button type="button"
+                                                                             class="genric-btn danger radius ml-1 mr-2"
+                                                                             data-toggle="tooltip"
+                                                                             data-placement="top" title="Удалить"
+                                                                             OnClick="getId('{{ product.get_delete_url }}')"
+                                                                             data-trigger="hover"><i
                         class="lnr lnr-trash format-lnr"></i></button></span>
             </div>
         </div>
@@ -35,11 +40,44 @@
     {% include 'include/pagination.html' %}
 </div>
 
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Уведомление о модерации</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Ваше объявение успешно отправлено на модерацию
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="genric-btn primary" data-dismiss="modal">Понятно</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock profile_content %}
+
+{% block script %}
 <script language="javascript">
             function getId(url) {
                 link = url;
                 delete_form.setAttribute('action', link);
             };
-</script>
-{% endblock profile_content %}
 
+
+</script>
+
+<script>
+$(document).ready(function () {
+if (Cookies.get('moderate') === 'yes') {
+    $('#myModal').modal()
+};
+});
+
+</script>
+{% endblock script %}

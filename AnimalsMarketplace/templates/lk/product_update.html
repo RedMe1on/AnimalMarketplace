@@ -17,7 +17,7 @@ Edit Product {{ product.title|title }} - {{ block.super }}
 {{ formset.management_form }}
 {% with product.additional_img.all.count as number_img %}
 {% if number_img > 0 %}
-<p>Дополнительные фотографии:</p>
+<p>Фотографии:</p>
 {% for form_img in formset %}
 <div class="form-group">
     <div class="row">

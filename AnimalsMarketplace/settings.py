@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'lk.apps.LkConfig',
     'blog.apps.BlogConfig',
     'seo',
+    'moderation',
     'rest_framework',
     'django_filters',
     'mptt',

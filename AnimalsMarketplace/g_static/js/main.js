@@ -606,8 +606,6 @@ let number_of_img = $(".additional-img");
 for (let index = 0; index < number_of_img.length; index++) {
   start_preview_src.push($(`.additional-img-${index}-image`).attr("src"));
 }
-console.log(start_preview_src);
-
 function get_preview_for_update_img(input, index) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
