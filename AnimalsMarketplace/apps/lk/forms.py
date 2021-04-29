@@ -82,7 +82,7 @@ class AdditionalImagesProductForm(forms.ModelForm):
         max_size = 5 * 1024 * 1024
         if image:
             if image.size > max_size:
-                raise ValidationError("Допустимый размер изобржаения = 5 МБ")
+                raise ValidationError("Слишком большой размер изображения. Допустимый размер изобржаения = 5 МБ")
             return image
 
     class Meta:
@@ -93,3 +93,4 @@ class AdditionalImagesProductForm(forms.ModelForm):
 ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalImagesProductForm, extra=0,
                                        can_delete=True,
                                        can_order=False)
+

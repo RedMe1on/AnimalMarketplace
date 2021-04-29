@@ -1,6 +1,6 @@
 {% extends 'lk/product_create.html' %}
 
-{% load lk_tags crispy_forms_tags %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Edit Product {{ product.title|title }} - {{ block.super }}
@@ -14,55 +14,7 @@ Edit Product {{ product.title|title }} - {{ block.super }}
 {% endblock button_text_form %}
 
 {% block image %}
-{{ formset.management_form }}
-{% with product.additional_img.all.count as number_img %}
-{% if number_img > 0 %}
-<p>Фотографии:</p>
-{% for form_img in formset %}
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-6">
-            <div>Изменить</div>
-            <input type="file" class="" name="additional_img-{{ forloop.counter0 }}-image" accept="image/*"
-                   id="id_additional_img-{{ forloop.counter0 }}-image"
-                   onchange="get_preview_for_update_img(this, {{ forloop.counter0 }});">
-            <input type="hidden" name="additional_img-{{ forloop.counter0 }}-product"
-                   value="{{ form_img.initial.product }}"
-                   id="id_additional_img-{{ forloop.counter0 }}-product">
-            {% for field in form_img %}
-            {% if forloop.counter == 2 %}
-            <input type="hidden" name="additional_img-{{ forloop.parentloop.counter0 }}-id" value="{{ field.initial }}"
-                   id="id_additional_img-{{ forloop.parentloop.counter0 }}-id">
-            {% endif %}
-            {% endfor %}
-            <button type="button" id="reset-img-field" class="genric-btn default small mt-2 mb-3"
-                    onclick="reset_preview_for_update_img({{ forloop.counter0 }})">Очистить
-            </button>
-        </div>
-        <div class="col-md-6 mb-4 additional-img">
-            <img src="/media/{{ form_img.instance.image }}" alt="" class="additional-img-{{ forloop.counter0 }}-image">
-            <div class="form-group m-auto">
-                <div class="switch-wrap d-flex mb-0 justify-content-center">
-                    <div class="primary-checkbox m-2">
-                        <input type="checkbox" name="additional_img-{{ forloop.counter0 }}-DELETE"
-                               id="id_additional_img-{{ forloop.counter0 }}-DELETE">
-                        <label for="id_additional_img-{{ forloop.counter0 }}-DELETE"></label>
-                    </div>
-                    <p style="padding: 6px 0">Удалить фотографию</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
-{% if number_img < 6 %}
-{% get_sub_max_number_and_current_number_img max_number=6 current_number=number_img as current_number_of_image %}
-{% get_max_number_img max_number=current_number_of_image %}
-{% endif %}
-{% else %}
-{% get_max_number_img max_number=6 %}
-{% endif %}
-{% endwith %}
+{% include 'lk/include/formset_image_update.html' %}
 {% endblock image %}
 
 

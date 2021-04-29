@@ -94,6 +94,7 @@ class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец', null=True)
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
                                  verbose_name='Родительская категория')
+    is_visible = models.BooleanField(verbose_name='Виден в каталоге', default=True)
     pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 

@@ -14,7 +14,6 @@ import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
-from django.urls import reverse
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -43,10 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'catalogs.apps.CatalogsConfig',
-    'mailing.apps.MailingConfig',
-    'lk.apps.LkConfig',
-    'blog.apps.BlogConfig',
+    'catalogs',
+    'mailing',
+    'lk',
+    'blog',
     'seo',
     'moderation',
     'rest_framework',
@@ -109,7 +108,7 @@ WSGI_APPLICATION = 'AnimalsMarketplace.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -160,7 +159,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 31457280
+
 # settings allauth
+
 
 LOGIN_REDIRECT_URL = '/lk/profile/'
 LOGIN_URL = '/accounts/login/'
