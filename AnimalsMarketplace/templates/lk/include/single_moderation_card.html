@@ -1,0 +1,57 @@
+<div class="single-animal-list">
+    <div class="row">
+        <div class="col-md-12 text-center ">
+            <p class="card-title mt-2">{{ product.name|truncatechars:50|safe }}</p>
+            <div class="card-date">
+                <p><b>Добавлено: </b> {{ product.pub_date|date }}</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="animal-image row">
+                {% if product.additional_img.count != 0 %}
+                {% with product.additional_img.all as images %}
+                {% for img in images %}
+                <div class="col-md-4 m-auto">
+                    <img class="moderation-image my-2" src="{{ img.image.url }}" alt="">
+                </div>
+                {% endfor %}
+                {% endwith %}
+                {% else %}
+                <img class="moderation-image" src="/media/no_image.png" alt="">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-price">
+                <p><b>{{ product.price }} Р</b></p>
+            </div>
+            {% if product.sex %}
+            <p><b>Пол: </b>{{ product.sex }}</p>
+            {% endif %}
+            {% if product.age %}
+            {% if product.age_type %}
+            <p><b>Возраст: </b>{{ product.age }} месяцев</p>
+            {% else %}
+            <p><b>Возраст: </b>{{ product.age }} лет</p>
+            {% endif %}
+            {% endif %}
+            <p><b>Возраст: </b>{{ product.age }}</p>
+            {% if product.breed %}
+            <p><b>Порода: </b>{{ product.breed }}</p>
+            {% endif %}
+            {% if product.breed %}
+            <p><b>Вид породы: </b>{{ product.breed_type }}</p>
+            {% endif %}
+            <p><b>Адрес: </b>Адресdddddddddddddddddd</p>
+        </div>
+        <div class="col-md-12 px-4">
+            <p class="card-text">{{ product.text|safe }}</p>
+        </div>
+        <div class="col-md-12">
+            {% include 'lk/include/form_for_moderation_card.html' %}
+        </div>
+    </div>
+</div>

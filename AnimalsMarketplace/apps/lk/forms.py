@@ -94,3 +94,9 @@ ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalIma
                                        can_delete=True,
                                        can_order=False)
 
+
+class ModerationApproveRejectForm(forms.Form):
+    reason = forms.CharField(widget=forms.Textarea)
+
+
+

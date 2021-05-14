@@ -11,7 +11,7 @@ class ProductFilterMixin:
 
     def get_filter_product(self, queryset: QuerySet) -> QuerySet:
         """Фильтрация текущих товаров по выбранному фильтру"""
-        filter_dict = {}
+        filter_dict = {'is_visible': True}
         for k, v in self.request.GET.lists():
             if k == 'page':
                 continue
@@ -30,7 +30,7 @@ class ProductFilterMixin:
                 filter_dict[str(k)] = str(v[0])
             else:
                 filter_dict[str(k) + '__in'] = v
-        queryset = queryset.filter(**filter_dict)
+        queryset = queryset.filter(**filter_dict).distinct()
         return queryset
 
 

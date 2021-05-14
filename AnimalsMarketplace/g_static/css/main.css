@@ -4585,10 +4585,6 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding-top: 20px;
 }
 
-.ad-detail-area .gallery-item {}
-
-.carousel-container {}
-
 .ad-detail-area .detail-img {
   height: 300px;
   object-fit: contain;
@@ -4704,4 +4700,12 @@ body.mobile-nav-active #mobile-nav-toggle {
   object-fit: cover;
 }
 
+.single-animal-list .moderation-image {
+  display: block;
+  margin: auto;
+  max-width: 150px!important;
+  max-height: 150px!important;
+  overflow: hidden;
+  object-fit: contain;
+}
 /* file uploader end style */

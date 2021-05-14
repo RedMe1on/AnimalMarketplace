@@ -41,11 +41,12 @@
     </div>
 </div>
 {% endfor %}
-{% if number_img < 6 %}
-{% get_sub_max_number_and_current_number_img max_number=6 current_number=number_img as current_number_of_image %}
-{% get_max_number_img max_number=current_number_of_image %}
+{% get_max_number_img as max_number %}
+{% if number_img < max_number %}
+{% get_sub_max_number_and_current_number_img current_number=number_img as current_number_of_image %}
+{% get_file_upload_with_max_number_img max_number=current_number_of_image %}
 {% endif %}
 {% else %}
-{% get_max_number_img max_number=6 %}
+{% get_file_upload_with_max_number_img %}
 {% endif %}
 {% endwith %}

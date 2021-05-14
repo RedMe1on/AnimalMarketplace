@@ -161,6 +161,8 @@ USE_TZ = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 31457280
 
+MAX_UPLOAD_PHOTO = 6
+
 # settings allauth
 
 

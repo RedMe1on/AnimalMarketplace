@@ -106,7 +106,7 @@ Create Product {{ product.title|title }} - {{ block.super }}
                 <strong>{{ form_image.image.errors }}</strong>
             </div>
             {% endif %}
-            {% get_max_number_img max_number=6 %}
+            {% get_file_upload_with_max_number_img max_number=6 %}
             <small id="id_image" class="form-text text-muted">Первое изображение будет показываться в каталоге</small>
         </div>
         {% endblock image %}

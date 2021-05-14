@@ -1,0 +1,14 @@
+{% extends 'lk/profile.html' %}
+
+{% block profile_content %}
+<section class="animal-list-area">
+
+    <form method="post" class="form-area" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Опубликовать <b>{{ product.name }}</b>?</h1>
+        <div class="single-animal-list row">
+            {% include 'lk/include/single_moderation_card.html' %}
+        </div>
+    </form>
+</section>
+{% endblock profile_content %}

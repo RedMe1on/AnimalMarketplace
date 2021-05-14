@@ -5,16 +5,18 @@ from django.core.files.base import ContentFile
 from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView
+from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView, FormView
 from django.shortcuts import get_object_or_404, redirect
 from moderation.helpers import automoderate
+from moderation.models import ModeratedObject
 
-from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, ProductFormSet
+from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, ProductFormSet, \
+    ModerationApproveRejectForm
 from .models import Profile
 from catalogs.models import Product, ProductImage
 from .permissions import AuthorPermissionsMixin
 from .utils import UnmoderatedObjectMixin
-
+from AnimalsMarketplace import settings
 
 
 class ProfileViews(LoginRequiredMixin, DetailView):
@@ -82,9 +84,8 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
                     data = f.read()
                     image = ProductImage(product=new_product)
                     image.image.save(f.name, ContentFile(data))
-                    image.save()
                     automoderate(image, user)
-                    image.save()
+                    image.image.save(f.name, ContentFile(data))
             for form in formset:
                 form.save()
             for form in formset.deleted_forms:
@@ -99,7 +100,7 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
     def get_max_number(self) -> int:
         """Получает доступное количество загружаемых изображений"""
         number_of_img = self.object.additional_img.all().count()
-        max_number = 6
+        max_number = settings.MAX_UPLOAD_PHOTO
         sub = max_number - number_of_img
         if sub < 0:
             return False
@@ -137,14 +138,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             automoderate(new_product, user)
             new_product.save()
 
-            for f in self.request.FILES.getlist('image')[:6]:
+            for f in self.request.FILES.getlist('image')[:settings.MAX_UPLOAD_PHOTO]:
                 data = f.read()
                 image = ProductImage(product=new_product)
-                image.image.save(f.name, ContentFile(data))
                 # double save product for create object and send to moderate, need to think about how to fix it
-                image.save()
+                image.image.save(f.name, ContentFile(data))
                 automoderate(image, user)
-                image.save()
+                image.image.save(f.name, ContentFile(data))
 
             request = redirect(self.success_url)
             request.set_cookie('moderate', 'yes', max_age=2)
@@ -159,3 +159,50 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         else:
             ctx['form_image'] = AdditionalImagesProductForm()
         return ctx
+
+
+class ModerationListViews(LoginRequiredMixin, ListView, FormView):
+    model = Product
+    template_name = 'lk/moderation_list.html'
+    form_class = ModerationApproveRejectForm
+    paginate_by = 10
+    ordering = ['pub_date']
+
+    def get_queryset(self):
+        # queryset_image = ProductImage.
+        queryset = self.model.unmoderated_objects.all()
+        # qs1.union(qs2, qs3)
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        print(context)
+        return context
+
+
+class ModerationDecisionViews(LoginRequiredMixin, FormView):
+    form_class = ModerationApproveRejectForm
+    template_name = 'lk/moderation_decision.html'
+    success_url = reverse_lazy('lk:moderation')
+
+    def form_valid(self, form):
+        user = self.request.user
+        unmoderated_product = Product.unmoderated_objects.get(pk=self.kwargs.get('pk'))
+        additional_images = unmoderated_product.additional_img.all()
+
+        if self.request.POST.get('approve'):
+            unmoderated_product.moderated_object.approve(by=user, reason=self.request.POST['reason'])
+            for additional_image in additional_images:
+                additional_image.moderated_object.approve(by=user, reason=self.request.POST['reason'])
+        elif self.request.POST.get('reject'):
+            unmoderated_product.moderated_object.reject(by=user, reason=self.request.POST['reason'])
+            for additional_image in additional_images:
+                additional_image.moderated_object.reject(by=user, reason=self.request.POST['reason'])
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        unmoderated_product = Product.unmoderated_objects.get(pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['product'] = unmoderated_product
+        print(context)
+        return context

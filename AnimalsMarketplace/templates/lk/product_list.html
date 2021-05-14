@@ -13,6 +13,19 @@
     {% for product in product_list %}
     <div class="single-animal-list">
         <div class="row button-panel">
+            {% if not product.is_visible and product.moderated_object.status == 0 %}
+            <div class="col-md-12 mt-2">
+                <div class="m-2">
+                    <p>Объявление заблокировано модератором и не показывается на сайте. Исправьте причину или оно будет
+                        автоматически удалено через 3 дня после блокировки.</p>
+                    {% if product.moderated_object.reason %}
+                    <span><b>Причина:</b> {{ product.moderated_object.reason }}</span>
+                    {% else %}
+                    <span><b>Причина:</b> Нет информации о причине блокировки. Для подробной информации напишите нам на почту: example@chiken.ru</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
             <div class="col-md-12 d-flex justify-content-end mt-2">
                 {% if product.is_visible %}
                 <a href="{{ product.get_absolute_url }}" class="genric-btn info radius mx-1" data-toggle="tooltip"
@@ -22,7 +35,11 @@
                 {% else %}
                 <button class="genric-btn disable radius mx-1" data-toggle="tooltip"
                         data-placement="top"
-                        title="Объявление заблокировано модератором. Исправьте причину или оно будет автоматически удалено через 3 дня"
+                        {% if product.moderated_object.status == 0 %}
+                        title="Объявление заблокировано модератором и не показывается на сайте. Исправьте причину или оно будет автоматически удалено через 3 дня"
+                        {% else %}
+                        title="Объявление на модерации после блокировки и не показывается на сайт. Ожидайте модерации."
+                        {% endif %}
                         data-trigger="hover"
                 ><i
                         class="lnr lnr-link format-lnr"></i></button>
@@ -50,12 +67,12 @@
 </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="ModerationModal" tabindex="-1" role="dialog" aria-labelledby="ModerationModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Уведомление о модерации</h5>
+                <h5 class="modal-title" id="ModerationModalLongTitle">Уведомление о модерации</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -78,17 +95,16 @@
                 link = url;
                 delete_form.setAttribute('action', link);
             };
-
-
-
 </script>
 
 <script>
 $(document).ready(function () {
 if (Cookies.get('moderate') === 'yes') {
-    $('#myModal').modal()
+    $('#ModerationModal').modal()
 };
 });
+
+
 
 
 </script>
