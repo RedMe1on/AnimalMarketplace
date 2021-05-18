@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from moderation.helpers import automoderate
 from rest_framework.test import APIClient
 from catalogs.models import Product, Categories, BreedType, ReportModel
 from django.urls import reverse
+from django.test import override_settings
 
 
 class ProductListTestCase(TestCase):
@@ -11,6 +13,7 @@ class ProductListTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         breed_type_1 = BreedType.objects.create(id=1, name='Породистый 1', category=category)
         breed_type_2 = BreedType.objects.create(id=2, name='Породистый 2', category=category)
@@ -25,8 +28,10 @@ class ProductListTestCase(TestCase):
                 breed = 'Породистый'
                 sex = 'Мальчик'
                 breed_type = breed_type_2
-            Product.objects.create(name=f'Product {product_number}', user=user, category=category, sex=sex,
-                                   price=f'{product_number}', breed=breed, breed_type=breed_type)
+            product = Product.objects.create(name=f'Product {product_number}', user=user, category=category, sex=sex,
+                                             price=f'{product_number}', breed=breed, breed_type=breed_type,
+                                             is_visible=True)
+            automoderate(product, my_admin)
 
     def setUp(self) -> None:
         self.breed_type = BreedType.objects.get(id=1)
@@ -138,11 +143,13 @@ class CategoriesDetailTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         # create 15 product for pagination test
         number_of_product = 15
         for product_number in range(number_of_product):
-            Product.objects.create(name=f'Product {product_number}', user=user, category=category)
+            product = Product.objects.create(name=f'Product {product_number}', user=user, category=category)
+            automoderate(product, my_admin)
 
     def setUp(self) -> None:
         self.category = Categories.objects.get(name='Category 1')
@@ -193,9 +200,11 @@ class ProductDetailTestCase(TestCase):
     """Test case for product detail view"""
 
     def setUp(self) -> None:
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         self.product = Product.objects.create(name=f'Product detail', user=user, category=category)
+        automoderate(self.product, my_admin)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get(f'/product/{self.product.pk}/')
@@ -264,8 +273,10 @@ class ReportViewTestCase(TestCase):
 
     def setUp(self) -> None:
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         self.product = Product.objects.create(id=1, name=f'Product Test', user=user, category=category)
+        automoderate(self.product, my_admin)
         self.form_data = {
             'cause': 'Указан чужой номер телефона',
         }

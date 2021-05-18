@@ -1,9 +1,9 @@
 {% load crispy_forms_tags %}
 
-<form method="post" class="form-area" enctype="multipart/form-data"
+<form method="post" class="form-area mt-4 mx-2" enctype="multipart/form-data"
       action="{% url 'lk:moderation_decision' product.pk %}">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Опубликовать" name="approve" class="genric-btn success float-right my-4">
-    <input type="submit" value="Заблокировать" name="reject" class="genric-btn danger float-right my-4">
+    <input type="submit" value="Опубликовать" name="approve" class="genric-btn success float-right mb-3">
+    <input type="submit" value="Заблокировать" name="reject" class="genric-btn danger float-right mb-3">
 </form>

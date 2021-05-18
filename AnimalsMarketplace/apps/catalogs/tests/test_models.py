@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from moderation.helpers import automoderate
 from pytils.translit import slugify
 from catalogs.models import Categories, Product, BreedType
 
@@ -56,7 +57,9 @@ class ProductModelTestCase(TestCase):
     def setUpTestData(cls):
         category = Categories.objects.create(name='Category 1', h1='Category 1', )
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
-        Product.objects.create(name='Product 1', user=user, category=category)
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
+        product = Product.objects.create(name='Product 1', user=user, category=category)
+        automoderate(product, my_admin)
 
     def setUp(self) -> None:
         self.product = Product.objects.get(id=1)

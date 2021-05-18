@@ -7,8 +7,15 @@
     </div>
 </div>
 <section class="animal-list-area mt-4">
+    {% if object_list %}
     {% for product in object_list %}
     {% include 'lk/include/single_moderation_card.html' %}
     {% endfor %}
+    {% else %}
+    <div class="text-center">Нет объявлений для модерации</div>
+    {% endif %}
+    <div class="profile-pagination mb-4">
+        {% include 'include/pagination.html' %}
+    </div>
 </section>
 {% endblock profile_content %}

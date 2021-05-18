@@ -3768,7 +3768,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .text-content {
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .single-post-area .text-content ul {
@@ -4703,8 +4703,6 @@ body.mobile-nav-active #mobile-nav-toggle {
 .single-animal-list .moderation-image {
   display: block;
   margin: auto;
-  max-width: 150px!important;
-  max-height: 150px!important;
   overflow: hidden;
   object-fit: contain;
 }

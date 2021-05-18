@@ -48,9 +48,13 @@
             <p><b>Адрес: </b>Адресdddddddddddddddddd</p>
         </div>
         <div class="col-md-12 px-4">
-            <p class="card-text">{{ product.text|safe }}</p>
+            <p class="text-center"><b>Описание</b></p>
+            <div class="text-content">
+                <p class="card-text">{{ product.text|safe }}</p>
+            </div>
         </div>
         <div class="col-md-12">
+            <p class="text-center"><b>Решение по модерации</b></p>
             {% include 'lk/include/form_for_moderation_card.html' %}
         </div>
     </div>

@@ -96,7 +96,6 @@ ProductFormSet = inlineformset_factory(Product, ProductImage, form=AdditionalIma
 
 
 class ModerationApproveRejectForm(forms.Form):
-    reason = forms.CharField(widget=forms.Textarea)
-
-
-
+    reason = forms.CharField(
+        widget=forms.TextInput(attrs={'style': 'margin: auto;border: 1px solid #fab700;'}),
+        label='Укажите причину блокировки', required=False)

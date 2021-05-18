@@ -6,9 +6,11 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
-from catalogs.models import Product, Categories
+from catalogs.models import Product, Categories, ProductImage
 
 from lk.models import Profile
+from moderation.helpers import automoderate
+
 
 
 class ProfileViewsTestCase(TestCase):
@@ -120,17 +122,19 @@ class ProductListViewTestCase(TestCase):
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
         for product_number in range(number_product):
             if product_number < 15:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                                 category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                                 category=self.category)
+            automoderate(product, my_admin)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
@@ -178,17 +182,19 @@ class ProductDeleteViewTestCase(TestCase):
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
         for product_number in range(number_product):
             if product_number < 15:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                                 category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                                 category=self.category)
+            automoderate(product, my_admin)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
@@ -237,17 +243,19 @@ class ProductUpdateViewTestCase(TestCase):
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
 
         number_product = 30
         for product_number in range(number_product):
             if product_number < 15:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                                 category=self.category)
             else:
-                Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
-                                       category=self.category)
+                product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_2,
+                                                 category=self.category)
+            automoderate(product, self.my_admin)
 
         self.product = Product.objects.get(name='TestProduct1')
         self.product_user_2 = Product.objects.get(name='TestProduct20')
@@ -321,6 +329,7 @@ class ProductCreateViewTestCase(TestCase):
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
         self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
+        self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         # category value in select input dynamically changing with each next request for +1
         self.form_data = {
@@ -348,12 +357,14 @@ class ProductCreateViewTestCase(TestCase):
     def test_success_url_form_valid_create_product(self):
         self.client.login(username='TestUser1', password='TestUser1')
         resp = self.client.post(reverse('lk:product_create'), self.form_data)
+        automoderate(Product.unmoderated_objects.get(name='Test'), self.my_admin)
         self.assertEqual(resp.status_code, 302)
         self.assertRedirects(resp, reverse('lk:product_list'))
 
     def test_create_product_with_user_creator(self):
         self.client.login(username='TestUser1', password='TestUser1')
         self.client.post(reverse('lk:product_create'), self.form_data)
+        automoderate(Product.unmoderated_objects.get(name='Test'), self.my_admin)
         product = Product.objects.get(name='Test')
         self.assertTrue(product)
         self.assertEqual(product.user, self.test_user_1)
@@ -373,6 +384,10 @@ class ProductCreateViewTestCase(TestCase):
                                                                    'sex': 'Мальчик',
                                                                    'breed': 'Метис',
                                                                    'image': image_list})
+            automoderate(Product.unmoderated_objects.get(name='Test with images'), self.my_admin)
+            for image in ProductImage.unmoderated_objects.all():
+                automoderate(image, self.my_admin)
         product = Product.objects.get(name='Test with images')
+
         self.assertRedirects(resp, reverse('lk:product_list'))
         self.assertEqual(product.additional_img.all().count(), 3)

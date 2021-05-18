@@ -1,21 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.base import ContentFile
-from django.db.models import QuerySet
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView, FormView
 from django.shortcuts import get_object_or_404, redirect
 from moderation.helpers import automoderate
-from moderation.models import ModeratedObject
 
 from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, ProductFormSet, \
     ModerationApproveRejectForm
 from .models import Profile
 from catalogs.models import Product, ProductImage
 from .permissions import AuthorPermissionsMixin
-from .utils import UnmoderatedObjectMixin
 from AnimalsMarketplace import settings
 
 
@@ -72,7 +67,7 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
         ctx = self.get_context_data()
         formset = ctx['formset']
         form_image = ctx['form_image']
-        user = User.objects.get_by_natural_key('admin')
+        user = User.objects.filter(is_superuser=True)[0]
         if formset.is_valid() and form.is_valid() and form_image.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
@@ -129,7 +124,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         ctx = self.get_context_data()
         form_image = ctx['form_image']
-        user = User.objects.get_by_natural_key('admin')
+        user = User.objects.filter(is_superuser=True)[0]
+
         if form_image.is_valid() and form.is_valid():
             new_product = form.save(commit=False)
             new_product.user = self.request.user
@@ -173,11 +169,6 @@ class ModerationListViews(LoginRequiredMixin, ListView, FormView):
         queryset = self.model.unmoderated_objects.all()
         # qs1.union(qs2, qs3)
         return queryset
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        print(context)
-        return context
 
 
 class ModerationDecisionViews(LoginRequiredMixin, FormView):
