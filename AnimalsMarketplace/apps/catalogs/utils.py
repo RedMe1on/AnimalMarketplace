@@ -1,6 +1,10 @@
+from django.contrib.auth.models import User
+from django.core.files.base import ContentFile
 from django.db.models import QuerySet, ObjectDoesNotExist
+from moderation.helpers import automoderate
 
-from .models import Product
+from .models import Product, ProductImage
+from AnimalsMarketplace import settings
 
 
 class ProductFilterMixin:
@@ -34,3 +38,40 @@ class ProductFilterMixin:
         return queryset
 
 
+class ProductAutomodereteCUMixin:
+    """Миксин, сочетающий в себе функции сохранения объявления и его картинок с автоматической модерацией"""
+    superuser_moderation = User.objects.filter(is_superuser=True)[0]
+
+    def check_permission_for_automoderate(self):
+        """Проверяет, является ли пользователь суперпользователем или модератором"""
+        return self.request.user.is_superuser or self.request.user.groups.all().filter(name='Модераторы')
+
+    def save_product(self, form, update=False) -> Product:
+        """Сохранение объявления с модерацией"""
+        new_product = form.save(commit=False)
+        new_product.user = self.request.user
+        if self.check_permission_for_automoderate():
+            new_product.save()
+            automoderate(new_product, self.request.user)
+        elif update:
+            new_product.save()
+        else:
+            # double save product for create object and send to moderate, need to think about how to fix it
+            new_product.save()
+            automoderate(new_product, self.superuser_moderation)
+            new_product.save()
+        return new_product
+
+    def save_photo(self, product: Product, max_number_photo: int):
+        """Сохранение изображений объявления с модерацией"""
+        for photo in self.request.FILES.getlist('image')[:max_number_photo]:
+            data = photo.read()
+            image = ProductImage(product=product)
+            if self.check_permission_for_automoderate():
+                image.image.save(photo.name, ContentFile(data))
+                automoderate(image, self.request.user)
+            else:
+                # double save product for create object and send to moderate, need to think about how to fix it
+                image.image.save(photo.name, ContentFile(data))
+                automoderate(image, self.superuser_moderation)
+                image.image.save(photo.name, ContentFile(data))

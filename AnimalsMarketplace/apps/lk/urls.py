@@ -1,6 +1,6 @@
 from django.urls import path, reverse
 from .views import ProfileViews, ProfileEditViews, ProductEditView, ProductCreateView, ProductListView, \
-    ProductDeleteView, ModerationListViews, ModerationDecisionViews
+    ProductDeleteView, ModerationListViews, ModerationDecisionViews, ModerationUpdateViews
 from django.views.generic import RedirectView
 
 app_name = 'lk'
@@ -15,5 +15,6 @@ urlpatterns = [
     path('product/<int:pk>/update/', ProductEditView.as_view(), name='product_update'),
     path('moderation/', ModerationListViews.as_view(), name='moderation'),
     path('moderation/<int:pk>/decision', ModerationDecisionViews.as_view(), name='moderation_decision'),
+    path('moderation/<int:pk>/update', ModerationUpdateViews.as_view(), name='moderation_update'),
 
 ]

@@ -10,8 +10,9 @@ from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, Pr
     ModerationApproveRejectForm
 from .models import Profile
 from catalogs.models import Product, ProductImage
-from .permissions import AuthorPermissionsMixin
+from .permissions import AuthorPermissionsMixin, ModeratePermissionsMixin
 from AnimalsMarketplace import settings
+from catalogs.utils import ProductAutomodereteCUMixin
 
 
 class ProfileViews(LoginRequiredMixin, DetailView):
@@ -56,7 +57,7 @@ class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
     template_name = 'lk/product_delete.html'
 
 
-class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
+class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, ProductAutomodereteCUMixin, UpdateView):
     """Редактирование объявления"""
     model = Product
     template_name = 'lk/product_update.html'
@@ -68,24 +69,21 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
         formset = ctx['formset']
         form_image = ctx['form_image']
         user = User.objects.filter(is_superuser=True)[0]
+
         if formset.is_valid() and form.is_valid() and form_image.is_valid():
-            new_product = form.save(commit=False)
-            new_product.user = self.request.user
-            new_product.save()
+            new_product = self.save_product(form, update=True)
 
             max_number = self.get_max_number()
             if max_number:
-                for f in self.request.FILES.getlist('image')[:max_number]:
-                    data = f.read()
-                    image = ProductImage(product=new_product)
-                    image.image.save(f.name, ContentFile(data))
-                    automoderate(image, user)
-                    image.image.save(f.name, ContentFile(data))
+                self.save_photo(new_product, max_number)
+
             for form in formset:
                 form.save()
+
             for form in formset.deleted_forms:
                 product_image = form.cleaned_data.get('id')
                 product_image.delete()
+
             request = redirect(self.success_url)
             request.set_cookie('moderate', 'yes', max_age=2)
             return request
@@ -114,33 +112,21 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, UpdateView):
         return ctx
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, ProductAutomodereteCUMixin, CreateView):
     """Создание объявления"""
     model = Product
     template_name = 'lk/product_create.html'
     form_class = ProductForm
     success_url = reverse_lazy('lk:product_list')
+    superuser_moderation = User.objects.filter(is_superuser=True)[0]
 
     def form_valid(self, form):
         ctx = self.get_context_data()
         form_image = ctx['form_image']
-        user = User.objects.filter(is_superuser=True)[0]
 
         if form_image.is_valid() and form.is_valid():
-            new_product = form.save(commit=False)
-            new_product.user = self.request.user
-            # double save product for create object and send to moderate, need to think about how to fix it
-            new_product.save()
-            automoderate(new_product, user)
-            new_product.save()
-
-            for f in self.request.FILES.getlist('image')[:settings.MAX_UPLOAD_PHOTO]:
-                data = f.read()
-                image = ProductImage(product=new_product)
-                # double save product for create object and send to moderate, need to think about how to fix it
-                image.image.save(f.name, ContentFile(data))
-                automoderate(image, user)
-                image.image.save(f.name, ContentFile(data))
+            new_product = self.save_product(form)
+            self.save_photo(new_product, settings.MAX_UPLOAD_PHOTO)
 
             request = redirect(self.success_url)
             request.set_cookie('moderate', 'yes', max_age=2)
@@ -157,21 +143,30 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return ctx
 
 
-class ModerationListViews(LoginRequiredMixin, ListView, FormView):
+class ModerationListViews(LoginRequiredMixin, ModeratePermissionsMixin, ListView, FormView):
     model = Product
     template_name = 'lk/moderation_list.html'
     form_class = ModerationApproveRejectForm
     paginate_by = 10
-    ordering = ['pub_date']
 
     def get_queryset(self):
-        # queryset_image = ProductImage.
-        queryset = self.model.unmoderated_objects.all()
-        # qs1.union(qs2, qs3)
-        return queryset
+        queryset = super().get_queryset()
+        # TODO улучшить производительность этой херни, а то долго загружается
+        id_product_for_filter = []
+        for product in queryset:
+            try:
+                if product.moderated_object.status == 2:
+                    id_product_for_filter.append(product.pk)
+            except Exception:
+                continue
+        return queryset.filter(pk__in=id_product_for_filter).order_by('-pub_date')
 
 
-class ModerationDecisionViews(LoginRequiredMixin, FormView):
+class ModerationUpdateViews(ModeratePermissionsMixin, ProductEditView):
+    success_url = reverse_lazy('lk:moderation')
+
+
+class ModerationDecisionViews(LoginRequiredMixin, ModeratePermissionsMixin, FormView):
     form_class = ModerationApproveRejectForm
     template_name = 'lk/moderation_decision.html'
     success_url = reverse_lazy('lk:moderation')
@@ -190,10 +185,3 @@ class ModerationDecisionViews(LoginRequiredMixin, FormView):
             for additional_image in additional_images:
                 additional_image.moderated_object.reject(by=user, reason=self.request.POST['reason'])
         return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        unmoderated_product = Product.unmoderated_objects.get(pk=self.kwargs.get('pk'))
-        context = super().get_context_data(**kwargs)
-        context['product'] = unmoderated_product
-        print(context)
-        return context

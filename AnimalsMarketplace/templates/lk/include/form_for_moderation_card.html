@@ -5,5 +5,6 @@
     {% csrf_token %}
     {{ form|crispy }}
     <input type="submit" value="Опубликовать" name="approve" class="genric-btn success float-right mb-3">
+    <a href="{% url 'lk:moderation_update' product.pk %}" class="genric-btn primary float-right mb-3">Редактировать</a>
     <input type="submit" value="Заблокировать" name="reject" class="genric-btn danger float-right mb-3">
 </form>

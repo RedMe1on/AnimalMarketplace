@@ -12,7 +12,6 @@ from lk.models import Profile
 from moderation.helpers import automoderate
 
 
-
 class ProfileViewsTestCase(TestCase):
     """Test case for profile view"""
 
