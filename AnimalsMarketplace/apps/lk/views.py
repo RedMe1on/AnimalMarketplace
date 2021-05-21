@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, UpdateView, DeleteView, CreateView, FormView
 from django.shortcuts import get_object_or_404, redirect
 from moderation.helpers import automoderate
+from moderation.models import ModeratedObject
 
 from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, ProductFormSet, \
     ModerationApproveRejectForm
@@ -151,15 +152,9 @@ class ModerationListViews(LoginRequiredMixin, ModeratePermissionsMixin, ListView
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # TODO улучшить производительность этой херни, а то долго загружается
-        id_product_for_filter = []
-        for product in queryset:
-            try:
-                if product.moderated_object.status == 2:
-                    id_product_for_filter.append(product.pk)
-            except Exception:
-                continue
-        return queryset.filter(pk__in=id_product_for_filter).order_by('-pub_date')
+        # content_type_id = catalogs | Карточка питомца, status = Pending
+        queryset_moderation = ModeratedObject.objects.filter(status=2, content_type_id=3)
+        return queryset.filter(pk__in=[product.object_pk for product in queryset_moderation]).order_by('-pub_date')
 
 
 class ModerationUpdateViews(ModeratePermissionsMixin, ProductEditView):
