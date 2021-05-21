@@ -10,12 +10,20 @@
         <h1>{% trans "Sign Up" %}</h1>
 
         <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-        <form class="signup auth-form form-container" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        <form class="signup auth-form form-container" id="signup_form" method="post"
+              action="{% url 'account_signup' %}">
             {% csrf_token %}
             {{ form|crispy }}
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
             {% endif %}
+            <div class="switch-wrap d-flex">
+                <div class="confirm-checkbox">
+                    <input type="checkbox" id="confirm-checkbox" required>
+                    <label for="confirm-checkbox"></label>
+                </div>
+                {% include 'account/terms_of_use.html' %}
+            </div>
             <button class="genric-btn primary w-100" type="submit">{% trans "Sign Up" %} &raquo;</button>
         </form>
     </div>

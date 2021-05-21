@@ -42,18 +42,17 @@
               id="id_password2"
               class="form-control">
     </p>
-
+    <div class="switch-wrap d-flex">
+        <div class="confirm-checkbox">
+            <input type="checkbox" id="confirm-checkbox_modal" required>
+            <label for="confirm-checkbox_modal"></label>
+        </div>
+        {% include 'account/terms_of_use.html' %}
+    </div>
     <button class="genric-btn primary" type="submit">Зарегистрироваться</button>
     <button class="genric-btn info-border arrow" data-toggle="modal"
             data-target="#loginModal"
             data-dismiss="modal" type="submit">Уже есть аккаунт? Войдите <span class="lnr lnr-arrow-right"></span>
     </button>
-    <hr>
-    <div class="switch-wrap d-flex">
-        <div class="confirm-checkbox">
-            <input type="checkbox" id="confirm-checkbox">
-            <label for="confirm-checkbox"></label>
-        </div>
-        <p style="margin-left:10px;">Я принимаю пользовательское соглашение</p>
-    </div>
+
 </form>

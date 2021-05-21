@@ -1,4 +1,4 @@
-{% load catalog_tags %}
+{% load catalog_tags lk_tags %}
 {% load static %}
 
 <header id="header" id="home">
@@ -64,7 +64,9 @@
                 <div class="dropdown-menu-custom">
                     <a class="genric-btn primary" href="{% url 'lk:profile' %}">Мой профиль</a>
                     <a class="genric-btn primary" href="{% url 'lk:product_list' %}">Мои объявления</a>
-                    <a class="genric-btn primary" href="#">Something else here</a>
+                    {% if user.is_superuser or user|has_group:"Модераторы" %}
+                    <a class="genric-btn primary" href="{% url 'lk:moderation' %}">Модерация</a>
+                    {% endif %}
                     <a class="genric-btn danger" href="{% url 'account_logout' %}">Выйти</a>
                 </div>
                 {% else %}

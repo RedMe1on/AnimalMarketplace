@@ -163,11 +163,13 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 31457280
 
 MAX_UPLOAD_PHOTO = 6
 
+MODERATOR_GROUP_NAME = 'Модераторы'
+
 # settings allauth
-
-
 LOGIN_REDIRECT_URL = '/lk/profile/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/lk/profile/edit/'
 LOGIN_URL = '/accounts/login/'
+
 # ACCOUNT_FORMS = {
 #     'login': 'catalogs.forms.OwnerLoginForm',
 #     'signup': 'catalogs.forms.OwnerSignupForm',

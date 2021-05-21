@@ -5,10 +5,12 @@ from django.dispatch import receiver
 
 from catalogs.models import Product, ProductImage
 
+from AnimalsMarketplace import settings
+
 
 class ProductModerator(GenericModerator):
     notify_user = False
-    auto_approve_for_groups = ['Модераторы']
+    auto_approve_for_groups = [settings.MODERATOR_GROUP_NAME]
     visible_until_rejected = True
 
 
