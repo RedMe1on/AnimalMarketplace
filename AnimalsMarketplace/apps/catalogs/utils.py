@@ -44,7 +44,7 @@ class ProductAutomodereteCUMixin:
 
     def check_permission_for_automoderate(self):
         """Проверяет, является ли пользователь суперпользователем или модератором"""
-        return self.request.user.is_superuser or self.request.user.groups.all().filter(name='Модераторы')
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='Модераторы').exists()
 
     def save_product(self, form, update=False) -> Product:
         """Сохранение объявления с модерацией"""

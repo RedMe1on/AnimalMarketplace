@@ -21,3 +21,9 @@ def get_sub_max_number_and_current_number_img(current_number: int):
 def get_max_number_img():
     """Получить максимальное количество загружаемых изображений"""
     return settings.MAX_UPLOAD_PHOTO
+
+
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    """Принадлежит ли пользователь группе"""
+    return user.groups.filter(name=group_name).exists()

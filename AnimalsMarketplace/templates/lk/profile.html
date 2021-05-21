@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load catalog_tags %}
+{% load catalog_tags lk_tags %}
 {% block h1 %}
 Личный кабинет
 {% endblock h1 %}
@@ -14,11 +14,13 @@
                     <li class="nav-item mb-2" style="margin-top: 76px;">
                         <a class="genric-btn default w-100" href="{% url 'lk:profile' %}">Мой профиль</a>
                     </li>
+                    {% if user.is_superuser or user|has_group:"Модераторы" %}
+                    <li class="nav-item my-2">
+                        <a class="genric-btn default w-100" href="{% url 'lk:moderation' %}">Модерация</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item my-2">
                         <a class="genric-btn default w-100" href="{% url 'lk:product_list' %}">Мои объявления</a>
-                    </li>
-                    <li class="nav-item my-2">
-                        <a class="genric-btn default w-100" href="#">Link</a>
                     </li>
                     <li class="nav-item my-2">
                         <a class="genric-btn disable w-100" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
