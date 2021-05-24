@@ -11,12 +11,12 @@ from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, Pr
     ModerationApproveRejectForm
 from .models import Profile
 from catalogs.models import Product, ProductImage
-from .permissions import AuthorPermissionsMixin, ModeratePermissionsMixin
+from .permissions import AuthorPermissionsMixin, ModeratePermissionsMixin, PhoneNumberPermissionsMixin
 from AnimalsMarketplace import settings
 from catalogs.utils import ProductAutomodereteCUMixin
 
 
-class ProfileViews(LoginRequiredMixin, DetailView):
+class ProfileViews(LoginRequiredMixin, PhoneNumberPermissionsMixin, DetailView):
     """Профиль"""
     model = Profile
     template_name = 'lk/profile.html'
@@ -39,7 +39,7 @@ class ProfileEditViews(LoginRequiredMixin, UpdateView):
         return profile
 
 
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(LoginRequiredMixin, PhoneNumberPermissionsMixin, ListView):
     """Список объявлений профиля"""
     model = Product
     template_name = 'lk/product_list.html'
@@ -51,14 +51,14 @@ class ProductListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PhoneNumberPermissionsMixin, AuthorPermissionsMixin, DeleteView):
     """Удалить объявление"""
     model = Product
     success_url = reverse_lazy('lk:product_list')
     template_name = 'lk/product_delete.html'
 
 
-class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, ProductAutomodereteCUMixin, UpdateView):
+class ProductEditView(LoginRequiredMixin, PhoneNumberPermissionsMixin, AuthorPermissionsMixin, ProductAutomodereteCUMixin, UpdateView):
     """Редактирование объявления"""
     model = Product
     template_name = 'lk/product_update.html'
@@ -69,7 +69,6 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, ProductAutomod
         ctx = self.get_context_data()
         formset = ctx['formset']
         form_image = ctx['form_image']
-        user = User.objects.filter(is_superuser=True)[0]
 
         if formset.is_valid() and form.is_valid() and form_image.is_valid():
             new_product = self.save_product(form, update=True)
@@ -113,13 +112,12 @@ class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, ProductAutomod
         return ctx
 
 
-class ProductCreateView(LoginRequiredMixin, ProductAutomodereteCUMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PhoneNumberPermissionsMixin, ProductAutomodereteCUMixin, CreateView):
     """Создание объявления"""
     model = Product
     template_name = 'lk/product_create.html'
     form_class = ProductForm
     success_url = reverse_lazy('lk:product_list')
-    superuser_moderation = User.objects.filter(is_superuser=True)[0]
 
     def form_valid(self, form):
         ctx = self.get_context_data()

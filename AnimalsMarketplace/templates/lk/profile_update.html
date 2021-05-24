@@ -3,17 +3,16 @@
 
 
 {% block profile_content %}
-<script>
-    $(document).ready(function () {
-
-
-</script>
 <div class="row my-2">
     <div class="col-md-12">
         <h1>Редактирование профиля</h1>
     </div>
 </div>
-
+{% if not profile.phone_number_ads %}
+<blockquote class="generic-blockquote">
+    Личный кабинет заблокирован. Заполните профиль и укажите номер телефона для объявлений.
+</blockquote>
+{% endif %}
 <form method="post" enctype="multipart/form-data" class="form-area my-4">
     {% csrf_token %}
 
