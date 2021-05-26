@@ -1,6 +1,6 @@
 from os import path
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -10,6 +10,9 @@ from catalogs.models import Product, Categories, ProductImage
 
 from lk.models import Profile
 from moderation.helpers import automoderate
+from moderation.models import ModeratedObject
+
+from AnimalsMarketplace import settings
 
 
 class ProfileViewsTestCase(TestCase):
@@ -17,11 +20,20 @@ class ProfileViewsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        User.objects.create_user(username='TestUser1', password='TestUser1')
+        user = User.objects.create_user(username='TestUser1', password='TestUser1')
+        profile_test_user = Profile.objects.get(user=user)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
 
     def test_redirect_if_not_logged_in(self):
         resp = self.client.get(reverse('lk:profile'))
         self.assertRedirects(resp, f'/accounts/login/?next={reverse("lk:profile")}')
+
+    def test_redirect_if_not_phone_number_ads(self):
+        User.objects.create_user(username='without_phone_ads', password='without_phone_ads')
+        self.client.login(username='without_phone_ads', password='without_phone_ads')
+        resp = self.client.get(reverse('lk:product_create'))
+        self.assertRedirects(resp, reverse("lk:edit_profile"))
 
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
@@ -35,7 +47,7 @@ class ProfileViewsTestCase(TestCase):
 
 
 class ProfileEditViewsTestCase(TestCase):
-    """Test case for profile view"""
+    """Test case for profile edit view"""
 
     @classmethod
     def setUpTestData(cls):
@@ -116,11 +128,17 @@ class ProfileEditViewsTestCase(TestCase):
 
 
 class ProductListViewTestCase(TestCase):
-    """Test case for profile view"""
+    """Test case for product list view"""
 
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
+        profile_test_user = Profile.objects.get(user=self.test_user_1)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        profile_test_user = Profile.objects.get(user=self.test_user_2)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
@@ -142,6 +160,12 @@ class ProductListViewTestCase(TestCase):
         resp = self.client.post(reverse('lk:product_list'))
         self.assertRedirects(resp,
                              f'/accounts/login/?next={reverse("lk:product_list")}')
+
+    def test_redirect_if_not_phone_number_ads(self):
+        User.objects.create_user(username='without_phone_ads', password='without_phone_ads')
+        self.client.login(username='without_phone_ads', password='without_phone_ads')
+        resp = self.client.get(reverse('lk:product_create'))
+        self.assertRedirects(resp, reverse("lk:edit_profile"))
 
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
@@ -176,11 +200,17 @@ class ProductListViewTestCase(TestCase):
 
 
 class ProductDeleteViewTestCase(TestCase):
-    """Test case for profile view"""
+    """Test case for product delete view"""
 
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
+        profile_test_user = Profile.objects.get(user=self.test_user_1)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        profile_test_user = Profile.objects.get(user=self.test_user_2)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
@@ -202,6 +232,12 @@ class ProductDeleteViewTestCase(TestCase):
         resp = self.client.get(reverse('lk:product_delete', kwargs={'pk': self.product.pk}))
         self.assertRedirects(resp,
                              f'/accounts/login/?next={reverse("lk:product_delete", kwargs={"pk": self.product.pk})}')
+
+    def test_redirect_if_not_phone_number_ads(self):
+        User.objects.create_user(username='without_phone_ads', password='without_phone_ads')
+        self.client.login(username='without_phone_ads', password='without_phone_ads')
+        resp = self.client.get(reverse('lk:product_create'))
+        self.assertRedirects(resp, reverse("lk:edit_profile"))
 
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
@@ -237,11 +273,18 @@ class ProductDeleteViewTestCase(TestCase):
 
 
 class ProductUpdateViewTestCase(TestCase):
-    """Test case for profile view"""
+    """Test case for product update view"""
 
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
+        profile_test_user = Profile.objects.get(user=self.test_user_1)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
         self.test_user_2 = User.objects.create_user(username='TestUser2', password='TestUser2')
+        profile_test_user = Profile.objects.get(user=self.test_user_2)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
+
         self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
@@ -277,6 +320,12 @@ class ProductUpdateViewTestCase(TestCase):
         resp = self.client.get(reverse('lk:product_update', kwargs={'pk': self.product.pk}))
         self.assertRedirects(resp,
                              f'/accounts/login/?next={reverse("lk:product_update", kwargs={"pk": self.product.pk})}')
+
+    def test_redirect_if_not_phone_number_ads(self):
+        User.objects.create_user(username='without_phone_ads', password='without_phone_ads')
+        self.client.login(username='without_phone_ads', password='without_phone_ads')
+        resp = self.client.get(reverse('lk:product_create'))
+        self.assertRedirects(resp, reverse("lk:edit_profile"))
 
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
@@ -323,10 +372,15 @@ class ProductUpdateViewTestCase(TestCase):
 
 
 class ProductCreateViewTestCase(TestCase):
-    """Test case for profile view"""
+    """Test case for product create view"""
 
     def setUp(self) -> None:
         self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
+
+        profile_test_user = Profile.objects.get(user=self.test_user_1)
+        profile_test_user.phone_number_ads = '+79999999999'
+        profile_test_user.save()
+
         self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
         self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
@@ -343,6 +397,12 @@ class ProductCreateViewTestCase(TestCase):
         resp = self.client.post(reverse('lk:product_create'))
         self.assertRedirects(resp,
                              f'/accounts/login/?next={reverse("lk:product_create")}')
+
+    def test_redirect_if_not_phone_number_ads(self):
+        User.objects.create_user(username='without_phone_ads', password='without_phone_ads')
+        self.client.login(username='without_phone_ads', password='without_phone_ads')
+        resp = self.client.get(reverse('lk:product_create'))
+        self.assertRedirects(resp, reverse("lk:edit_profile"))
 
     def test_logged_in_uses_correct_template(self):
         self.client.login(username='TestUser1', password='TestUser1')
@@ -390,3 +450,178 @@ class ProductCreateViewTestCase(TestCase):
 
         self.assertRedirects(resp, reverse('lk:product_list'))
         self.assertEqual(product.additional_img.all().count(), 3)
+
+
+class ModerationListViewTestCase(TestCase):
+    """Test case for Moderation List view"""
+
+    def setUp(self) -> None:
+        self.test_user = User.objects.create_user(username='TestUser1', password='TestUser1')
+        self.test_user_moderator = User.objects.create_user(username='Moderator', password='Moderator')
+        group, create_group = Group.objects.get_or_create(name=settings.MODERATOR_GROUP_NAME)
+
+        self.test_user_moderator.groups.add(group)
+        self.superuser = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
+
+        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+
+        number_product = 15
+        for product_number in range(number_product):
+            product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user,
+                                             category=self.category)
+            automoderate(product, self.superuser)
+            product.save()
+
+    def test_redirect_if_not_logged_in(self):
+        resp = self.client.post(reverse('lk:moderation'))
+        self.assertRedirects(resp,
+                             f'/accounts/login/?next={reverse("lk:moderation")}')
+
+    def test_logged_in_uses_correct_template_no_moderator(self):
+        self.client.login(username='TestUser1', password='TestUser1')
+        resp = self.client.get(reverse('lk:moderation'))
+
+        # Checking that the user is logged in
+        self.assertEqual(resp.status_code, 404)
+
+    def test_logged_in_uses_correct_template_moderator(self):
+        self.client.login(username='Moderator', password='Moderator')
+        resp = self.client.get(reverse('lk:moderation'))
+
+        # Checking that the user is logged in
+        self.assertEqual(str(resp.context['user']), 'Moderator')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'lk/moderation_list.html')
+
+    def test_pagination_is_ten(self):
+        self.client.login(username='myuser', password='password')
+        resp = self.client.get(reverse('lk:moderation'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue('is_paginated' in resp.context)
+        self.assertTrue(resp.context['is_paginated'])
+        self.assertTrue(len(resp.context['object_list']) == 10)
+
+    def test_lists_all_product(self):
+        self.client.login(username='Moderator', password='Moderator')
+        resp = self.client.get(reverse('lk:moderation') + '?page=2')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue('is_paginated' in resp.context)
+        self.assertTrue(resp.context['is_paginated'])
+        self.assertTrue(len(resp.context['object_list']) == 5)
+
+
+class ModerationUpdateViewTestCase(TestCase):
+    """Test case for Moderation update view"""
+
+    def setUp(self) -> None:
+        self.test_user_1 = User.objects.create_user(username='TestUser1', password='TestUser1')
+        self.test_user_moderator = User.objects.create_user(username='Moderator', password='Moderator')
+        group, create_group = Group.objects.get_or_create(name=settings.MODERATOR_GROUP_NAME)
+        self.test_user_moderator.groups.add(group)
+        self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
+
+        self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
+
+        number_product = 1
+        for product_number in range(number_product):
+            product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user_1,
+                                             category=self.category)
+            automoderate(product, self.my_admin)
+
+        self.product = Product.objects.get(name='TestProduct0')
+        # category value in select input dynamically changing with each next request for +1
+        self.form_data = {
+            'name': 'Test',
+            'category': 1,
+            'user': str(self.test_user_moderator),
+            'sex': 'Мальчик',
+            'breed': 'Метис',
+            'additional_img-TOTAL_FORMS': ['0'],
+            'additional_img-INITIAL_FORMS': ['0'],
+            'additional_img-MIN_NUM_FORMS': ['0'],
+            'additional_img-MAX_NUM_FORMS': ['1000']
+        }
+        self.parent_dir = path.dirname(path.abspath(__file__))
+
+    def test_logged_in_uses_correct_template_no_moderator(self):
+        self.client.login(username='TestUser1', password='TestUser1')
+        resp = self.client.post(reverse('lk:moderation_update', kwargs={'pk': self.product.pk}), self.form_data)
+
+        # Checking that the user is logged in
+        self.assertEqual(resp.status_code, 404)
+
+    def test_success_url_form_valid_update_product(self):
+        self.client.login(username='Moderator', password='Moderator')
+        resp = self.client.post(reverse('lk:moderation_update', kwargs={'pk': self.product.pk}), self.form_data)
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, reverse('lk:moderation'))
+
+
+class ModerationDecisionViewsTestCase(TestCase):
+    """Test case for Moderation Decision view"""
+
+    def setUp(self) -> None:
+        self.test_user = User.objects.create_user(username='TestUser1', password='TestUser1')
+        self.test_user_moderator = User.objects.create_user(username='Moderator', password='Moderator')
+        group, create_group = Group.objects.get_or_create(name=settings.MODERATOR_GROUP_NAME)
+
+        self.test_user_moderator.groups.add(group)
+        self.superuser = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
+
+        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+
+        number_product = 15
+        for product_number in range(number_product):
+            product = Product.objects.create(name=f'TestProduct{product_number}', user=self.test_user,
+                                             category=self.category)
+            automoderate(product, self.superuser)
+            product.save()
+        self.product = Product.objects.get(name='TestProduct3')
+        self.product_approve = Product.objects.get(name='TestProduct1')
+        self.product_reject = Product.objects.get(name='TestProduct2')
+
+    def test_redirect_if_not_logged_in(self):
+        resp = self.client.post(reverse('lk:moderation_decision', kwargs={'pk': self.product.pk}))
+        self.assertRedirects(resp,
+                             f'/accounts/login/?next={reverse("lk:moderation_decision", kwargs={"pk": self.product.pk})}')
+
+    def test_logged_in_uses_correct_template_no_moderator(self):
+        self.client.login(username='TestUser1', password='TestUser1')
+        resp = self.client.get(reverse('lk:moderation_decision', kwargs={'pk': self.product.pk}))
+
+        # Checking that the user is logged in
+        self.assertEqual(resp.status_code, 404)
+
+    def test_logged_in_uses_correct_template_moderator(self):
+        self.client.login(username='Moderator', password='Moderator')
+        resp = self.client.get(reverse('lk:moderation_decision', kwargs={'pk': self.product.pk}))
+
+        # Checking that the user is logged in
+        self.assertEqual(str(resp.context['user']), 'Moderator')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed(resp, 'lk/moderation_decision.html')
+
+    def test_success_url_form_valid_approve_and_reject_product(self):
+        self.client.login(username='Moderator', password='Moderator')
+
+        form_data_approve = {
+            'reason': 'Test reason',
+            'approve': 'approve'
+        }
+        resp = self.client.post(reverse('lk:moderation_decision', kwargs={'pk': self.product_approve.pk}),
+                                form_data_approve)
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, reverse('lk:moderation'))
+        self.assertEqual(self.product_approve.moderated_object.status, 1)
+
+        form_data_reject = {
+            'reason': 'Test reason',
+            'reject': 'reject'
+        }
+        resp = self.client.post(reverse('lk:moderation_decision', kwargs={'pk': self.product_reject.pk}),
+                                form_data_reject)
+
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, reverse('lk:moderation'))
+        self.assertEqual(self.product_reject.moderated_object.status, 0)

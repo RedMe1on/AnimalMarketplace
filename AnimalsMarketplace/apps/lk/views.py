@@ -6,6 +6,7 @@ from django.views.generic import DetailView, ListView, UpdateView, DeleteView, C
 from django.shortcuts import get_object_or_404, redirect
 from moderation.helpers import automoderate
 from moderation.models import ModeratedObject
+from django.contrib.contenttypes.models import ContentType
 
 from .forms import ProfileEditForm, ProductForm, AdditionalImagesProductForm, ProductFormSet, \
     ModerationApproveRejectForm
@@ -51,14 +52,15 @@ class ProductListView(LoginRequiredMixin, PhoneNumberPermissionsMixin, ListView)
         return queryset
 
 
-class ProductDeleteView(LoginRequiredMixin, PhoneNumberPermissionsMixin, AuthorPermissionsMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, AuthorPermissionsMixin, PhoneNumberPermissionsMixin, DeleteView):
     """Удалить объявление"""
     model = Product
     success_url = reverse_lazy('lk:product_list')
     template_name = 'lk/product_delete.html'
 
 
-class ProductEditView(LoginRequiredMixin, PhoneNumberPermissionsMixin, AuthorPermissionsMixin, ProductAutomodereteCUMixin, UpdateView):
+class ProductEditView(LoginRequiredMixin, AuthorPermissionsMixin, PhoneNumberPermissionsMixin,
+                      ProductAutomodereteCUMixin, UpdateView):
     """Редактирование объявления"""
     model = Product
     template_name = 'lk/product_update.html'
@@ -150,8 +152,8 @@ class ModerationListViews(LoginRequiredMixin, ModeratePermissionsMixin, ListView
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # content_type_id = catalogs | Карточка питомца, status = Pending
-        queryset_moderation = ModeratedObject.objects.filter(status=2, content_type_id=3)
+        # status = Pending
+        queryset_moderation = ModeratedObject.objects.filter(status=2, content_type__model='product')
         return queryset.filter(pk__in=[product.object_pk for product in queryset_moderation]).order_by('-pub_date')
 
 
@@ -178,3 +180,8 @@ class ModerationDecisionViews(LoginRequiredMixin, ModeratePermissionsMixin, Form
             for additional_image in additional_images:
                 additional_image.moderated_object.reject(by=user, reason=self.request.POST['reason'])
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['product'] = Product.objects.get(pk=self.kwargs.get('pk'))
+        return ctx
