@@ -4,11 +4,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
-
 # Create your models here.
+from blog.models import PublicationModel
 
 
-class Profile(models.Model):
+class Profile(PublicationModel):
     """Профиль владельцев"""
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, verbose_name='Пользователь')
     name = models.CharField(verbose_name='Имя', max_length=50)
@@ -18,8 +18,6 @@ class Profile(models.Model):
     phone_number = PhoneNumberField(verbose_name='Номер телефона для связи', null=True, blank=True)
     phone_number_ads = PhoneNumberField(verbose_name='Номер телефона для обявлений',
                                         help_text='Этот номер телефона будет отображаться на ваших объявлениях')
-    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
-    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.name
@@ -36,4 +34,3 @@ def update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance, name=instance.username)
         group, create_group = Group.objects.get_or_create(name='Новые')
         instance.groups.add(group)
-

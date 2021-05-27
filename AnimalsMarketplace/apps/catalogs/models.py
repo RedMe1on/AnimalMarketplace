@@ -6,37 +6,20 @@ from django.shortcuts import reverse
 from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
 
+from blog.models import SlugModel, PublicationModel
+from seo.models import SeoModel
 
-class Categories(MPTTModel):
+
+class Categories(MPTTModel, SeoModel, SlugModel, PublicationModel):
     """Модель для хранения категорий"""
     name = models.CharField(verbose_name='Название категории', max_length=150)
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
-    slug = models.SlugField(verbose_name='URL', max_length=150, unique=True, blank=True, allow_unicode=True)
-    h1 = models.CharField(verbose_name='Заголовок h1', max_length=300, db_index=True)
-    description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     image = models.ImageField(upload_to='catalogs/categories/img', verbose_name='Фотография', blank=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE,
                             verbose_name='Родительская категория')
-    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
-    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = slugify(self.h1)
-        else:
-            self.slug = slugify(self.slug)
-        # обработка неуникального slug
-        while True:
-            try:
-                self.validate_unique()
-                break
-            except ValidationError:
-                self.slug += '-copy'
-        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('catalogs:categories_detail', kwargs={'slug': self.slug})
@@ -46,7 +29,7 @@ class Categories(MPTTModel):
         verbose_name_plural = 'Категории'
 
     class MPTTMeta:
-        order_insertion_by = ['h1']
+        order_insertion_by = ['name']
 
 
 class BreedType(models.Model):
@@ -63,7 +46,7 @@ class BreedType(models.Model):
         verbose_name_plural = 'Виды пород'
 
 
-class Product(models.Model):
+class Product(SeoModel, PublicationModel):
     """Модель для хранения объявлений"""
 
     class SexChoices(models.TextChoices):
@@ -78,8 +61,6 @@ class Product(models.Model):
         PUREBRED = 'Беспородный', _('Беспородный')
 
     name = models.CharField(verbose_name='Заголовок объявления', max_length=150, db_index=True)
-    title = models.CharField(verbose_name='Мета-тег Title', max_length=300, db_index=True, blank=True)
-    description = models.CharField(verbose_name='Мета-тег description', max_length=300, blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
@@ -95,8 +76,6 @@ class Product(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True,
                                  verbose_name='Родительская категория')
     is_visible = models.BooleanField(verbose_name='Виден в каталоге', default=True)
-    pub_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
-    pub_update = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
 
     def __str__(self):
         return self.name

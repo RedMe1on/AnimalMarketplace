@@ -15,8 +15,9 @@ from django.contrib.admin.actions import delete_selected
 
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'h1', 'pub_date', 'parent')
-    list_display_links = ('h1',)
+    list_display = ('id', 'seo_title', 'name', 'pub_date', 'parent')
+    list_display_links = ('name',)
+    fields = ('name', 'slug', 'seo_title', 'seo_description', 'image', 'parent', 'text',)
     ordering = ('id',)
     formfield_overrides = {
         models.TextField: {'widget': CKEditorUploadingWidget()},
@@ -43,10 +44,11 @@ class ProductImageInline(admin.TabularInline):
     extra = 3
 
     def get_image(self, obj):
+        print(obj, obj.image.url)
         if obj.image == '':
             return mark_safe('Нет изображения')
         elif obj.image.url:
-            return mark_safe(f'<img src={obj.additional_img[0].image.url} width="50", height="50"')
+            return mark_safe(f'<img src={obj.image.url} width="50", height="50"')
 
     get_image.short_description = 'Изображение'
 
@@ -66,6 +68,10 @@ class ProductAdmin(ImportExportModelAdmin):
     list_display_links = ('name',)
     list_filter = ('user',)
     search_fields = ('name',)
+    fields = (
+        'name', 'seo_title', 'seo_description', 'user', 'category', 'sex', 'birthday', ('age', 'age_type'),
+        ('breed', 'breed_type'), 'price', 'get_image', 'is_visible', 'draft')
+
     ordering = ('id',)
     form = ProductAdminForm
     save_on_top = True

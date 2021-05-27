@@ -7,16 +7,38 @@ from seo.models import SeoModel
 
 
 class PublicationModel(models.Model):
-    pub_update = models.DateField(auto_now=True, verbose_name='Дата обновления публикации')
-    pub_date = models.DateField(auto_now_add=True, verbose_name='Дата создания публикации')
+    """Абстрактная модель для полей даты создания и даты обновления"""
+    pub_update = models.DateField(auto_now=True, verbose_name='Дата обновления')
+    pub_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
         abstract = True
 
 
-class Categories(SeoModel, PublicationModel):
-    name = models.CharField(max_length=200, verbose_name='Название категории')
+class SlugModel(models.Model):
+    """Абстрактная модель для поля слаг с его сохранением и валидацией"""
     slug = models.SlugField(allow_unicode=True, unique=True, blank=True, verbose_name='URL', max_length=150)
+
+    def save(self, *args, **kwargs):
+        if self.slug == '':
+            self.slug = slugify(self.name)
+        else:
+            self.slug = slugify(self.slug)
+        # обработка неуникального slug
+        while True:
+            try:
+                self.validate_unique()
+                break
+            except ValidationError:
+                self.slug += '-copy'
+        super().save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
+class Categories(SeoModel, SlugModel, PublicationModel):
+    name = models.CharField(max_length=200, verbose_name='Название категории')
     image = models.ImageField(upload_to='blog/categories/img', blank=True, verbose_name='Изображение')
     short_text = models.CharField(max_length=40, verbose_name='Короткое описание', blank=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
@@ -27,20 +49,6 @@ class Categories(SeoModel, PublicationModel):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = slugify(self.name)
-        else:
-            self.slug = slugify(self.slug)
-        # обработка неуникального slug
-        while True:
-            try:
-                self.validate_unique()
-                break
-            except ValidationError:
-                self.slug += '-copy'
-        super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('blog:categories_detail', kwargs={'slug': self.slug})
 
@@ -49,26 +57,11 @@ class Categories(SeoModel, PublicationModel):
         verbose_name_plural = 'Категории'
 
 
-class BlogTags(models.Model):
+class BlogTags(SlugModel):
     name = models.CharField(max_length=20, verbose_name='Название тега')
-    slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = slugify(self.name)
-        else:
-            self.slug = slugify(self.slug)
-        # обработка неуникального slug
-        while True:
-            try:
-                self.validate_unique()
-                break
-            except ValidationError:
-                self.slug += '-copy'
-        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('blog:tag_detail', kwargs={'slug': self.slug})
@@ -78,9 +71,8 @@ class BlogTags(models.Model):
         verbose_name_plural = 'Теги'
 
 
-class Post(SeoModel, PublicationModel):
+class Post(SeoModel, SlugModel, PublicationModel):
     name = models.CharField(max_length=200, verbose_name='Название публикации')
-    slug = models.SlugField(verbose_name='URL', max_length=150, allow_unicode=True, blank=True, unique=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
     image = models.ImageField(verbose_name='Изображение', upload_to='blog/post/img', blank=True)
     views = models.PositiveIntegerField(verbose_name='Количество просмотров', default=0, blank=True)
@@ -93,25 +85,9 @@ class Post(SeoModel, PublicationModel):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if self.slug == '':
-            self.slug = slugify(self.name)
-        else:
-            self.slug = slugify(self.slug)
-        # обработка неуникального slug
-        while True:
-            try:
-                self.validate_unique()
-                break
-            except ValidationError:
-                self.slug += '-copy'
-        super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('blog:post_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Публикация'
         verbose_name_plural = 'Публикации'
-
-
