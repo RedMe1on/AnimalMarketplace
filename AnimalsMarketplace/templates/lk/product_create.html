@@ -1,8 +1,15 @@
 {% extends 'lk/profile.html' %}
 {% load crispy_forms_tags lk_tags %}
-{% block title %}
-Create Product {{ product.title|title }} - {{ block.super }}
+
+{% block seo_title %}
+Добавить объявление {{ product.name }}
 {% endblock %}
+{% block seo_description %}
+Добавить объявление {{ product.name }}
+{% endblock %}
+
+
+
 
 {% block profile_content %}
 

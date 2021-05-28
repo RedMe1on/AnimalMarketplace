@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
 {% load catalog_tags blog_tags %}
 
+{% block seo_title %}
+{% if post.seo_title %}
+{{ post.seo_title }}
+{% else %}
+Блог: {{ post.name }}
+{% endif %}
+{% endblock %}
+{% block seo_description %}
+{% if post.seo_description %}
+{{ post.seo_description }}
+{% else %}
+Блог: {{ post.name }}
+{% endif %}
+{% endblock %}
+
 {% block h1 %}
 {{ post.name }}
 {% endblock h1 %}

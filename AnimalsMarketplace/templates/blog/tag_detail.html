@@ -1,6 +1,20 @@
 {% extends 'blog/categories_detail.html' %}
 {% load catalog_tags %}
 
+{% block seo_title %}
+{% if blogtags.seo_title %}
+{{ blogtags.seo_title }}
+{% else %}
+Категория блога: {{ blogtags.name }}
+{% endif %}
+{% endblock %}
+{% block seo_description %}
+{% if blogtags.seo_description %}
+{{ blogtags.seo_description }}
+{% else %}
+Категория блога: {{ blogtags.name }}
+{% endif %}
+{% endblock %}
 
 {% block h1 %}
 {{ blogtags.name }}

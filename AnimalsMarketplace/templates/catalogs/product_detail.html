@@ -2,6 +2,20 @@
 {% load catalog_tags %}
 {% block title %} {{ product.title }} {% endblock %}
 
+{% block seo_title %}
+{% if product.seo_title %}
+{{ product.seo_title }}
+{% else %}
+{{ product.name }}. {% if product.price == 0 %}Бесплатно{% else %}{{ product.price }} Р.{% endif %}
+{% endif %}
+{% endblock %}
+{% block seo_description %}
+{% if product.seo_description %}
+{{ product.seo_description }}
+{% else %}
+{{ product.name }}. {% if product.price == 0 %}Бесплатно{% else %}{{ product.price }} Р.{% endif %}
+{% endif %}
+{% endblock %}
 
 {% block breadcrumb %}
 {% catalog_breadcrumb product %}

@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 {% load catalog_tags %}
-{% block title %} {{ categories.title }} {% endblock %}
+
+{% block seo_title %}
+{% if categories.seo_title %}
+{{ categories.seo_title }}
+{% else %}
+{{ categories.name }}. {{ block.super }}
+{% endif %}
+{% endblock %}
+{% block seo_description %}
+{% if categories.seo_description %}
+{{ categories.seo_description }}
+{% else %}
+{{ categories.name }}. {{ block.super }}
+{% endif %}
+{% endblock %}
 
 {% block h1 %}
 {{ categories.name }}

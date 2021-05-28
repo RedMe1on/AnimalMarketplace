@@ -1,6 +1,12 @@
 {% extends 'lk/profile.html' %}
 {% load crispy_forms_tags %}
 
+{% block seo_title %}
+Редактировать профиль - {{ user.username }}
+{% endblock %}
+{% block seo_description %}
+Редактировать профиль - {{ user.username }}
+{% endblock %}
 
 {% block profile_content %}
 <div class="row my-2">

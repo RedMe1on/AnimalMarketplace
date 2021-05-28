@@ -2901,7 +2901,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #1e1c27;
 }
 
-.footer-area .single-footer-widget h6 {
+.footer-area .single-footer-widget .footer-header {
   font-size: 18px;
   color: #fff;
   margin-bottom: 40px;
@@ -2928,7 +2928,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 18px;
 }
 
-.footer-area .single-footer-widget .list-contact .detail h4 {
+.footer-area .single-footer-widget .list-contact .detail .footer-header-low {
   font-size: 14px;
   font-weight: 400;
   margin-left: 20px;

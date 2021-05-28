@@ -1,10 +1,13 @@
 {% extends 'lk/product_create.html' %}
-
 {% load crispy_forms_tags %}
 
-{% block title %}
-Edit Product {{ product.title|title }} - {{ block.super }}
+{% block seo_title %}
+Редактировать объявление {{ product.name }}
 {% endblock %}
+{% block seo_description %}
+Редактировать объявление {{ product.name }}
+{% endblock %}
+
 {% block name_form %}
 Редактировать объявление
 {% endblock name_form %}

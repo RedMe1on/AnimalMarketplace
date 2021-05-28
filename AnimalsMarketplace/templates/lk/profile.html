@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% load catalog_tags lk_tags %}
+
+
+{% block seo_title %}
+Мой профиль - {{ user.username }}
+{% endblock %}
+{% block seo_description %}
+Мой профиль - {{ user.username }}
+{% endblock %}
+
 {% block h1 %}
 Личный кабинет
 {% endblock h1 %}

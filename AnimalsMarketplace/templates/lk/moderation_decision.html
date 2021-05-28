@@ -1,5 +1,12 @@
 {% extends 'lk/profile.html' %}
 
+{% block seo_title %}
+Опубликовать {{ product.name }}?
+{% endblock %}
+{% block seo_description %}
+Опубликовать {{ product.name }}?
+{% endblock %}
+
 {% block profile_content %}
 <section class="animal-list-area">
     <form method="post" class="form-area" enctype="multipart/form-data">
