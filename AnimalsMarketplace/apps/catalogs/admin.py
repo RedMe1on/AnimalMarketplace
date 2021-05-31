@@ -7,6 +7,7 @@ from django.template.defaultfilters import truncatechars
 from django.utils.safestring import mark_safe
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from moderation.admin import ModerationAdmin
 
 from .forms import ProductAdminForm
 from .models import Categories, Product, ProductImage, BreedType, ReportModel
@@ -60,7 +61,7 @@ class ProductResource(resources.ModelResource):
 
 
 @admin.register(Product)
-class ProductAdmin(ImportExportModelAdmin):
+class ProductAdmin(ImportExportModelAdmin, ModerationAdmin):
     resource_class = ProductResource
     list_display = ('id', 'name', 'pub_date', 'user', 'get_image', 'draft')
     readonly_fields = ('get_image',)

@@ -12,7 +12,7 @@ class ProductListTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         breed_type_1 = BreedType.objects.create(id=1, name='Породистый 1', category=category)
@@ -125,7 +125,7 @@ class CategoriesListTestCase(TestCase):
     def setUpTestData(cls):
         categories_number = 5
         for category in range(categories_number):
-            Categories.objects.create(name=f'Category {category}', h1=f'Category {category}', )
+            Categories.objects.create(name=f'Category {category}')
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/categories/')
@@ -142,7 +142,7 @@ class CategoriesDetailTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         # create 15 product for pagination test
@@ -180,13 +180,12 @@ class CategoriesDetailTestCase(TestCase):
 
     def test_product_list_for_category(self):
 
-        parent_category = Categories.objects.create(name=f'Parent', h1=f'Parent')
+        parent_category = Categories.objects.create(name=f'Parent')
         Product.objects.create(name=f'Product parent', user=self.user, category=parent_category)
 
         amount_of_children = 3
         for child_number in range(amount_of_children):
-            category = Categories.objects.create(name=f'Child {child_number}', h1=f'Child {child_number}',
-                                                 parent=parent_category)
+            category = Categories.objects.create(name=f'Child {child_number}', parent=parent_category)
             Product.objects.create(name=f'Product {child_number}', user=self.user, category=category)
 
         resp = self.client.get(f'/{parent_category.slug}/')
@@ -201,7 +200,7 @@ class ProductDetailTestCase(TestCase):
 
     def setUp(self) -> None:
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         self.product = Product.objects.create(name=f'Product detail', user=user, category=category)
         automoderate(self.product, my_admin)
@@ -221,8 +220,8 @@ class BreedTypeListAPIViewTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        category = Categories.objects.create(id=1, name='Category 1', h1='Category 1', )
-        category_2 = Categories.objects.create(id=2, name='Category 2', h1='Category 1', )
+        category = Categories.objects.create(id=1, name='Category 1')
+        category_2 = Categories.objects.create(id=2, name='Category 2')
         number_breed_type = 5
         for number in range(number_breed_type):
             if number < 3:
@@ -272,7 +271,7 @@ class ReportViewTestCase(TestCase):
     """Test case for view Report"""
 
     def setUp(self) -> None:
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         self.product = Product.objects.create(id=1, name=f'Product Test', user=user, category=category)

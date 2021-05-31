@@ -141,7 +141,7 @@ class ProductListViewTestCase(TestCase):
         profile_test_user.save()
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(name='TestCategory1')
 
         number_product = 30
         for product_number in range(number_product):
@@ -213,7 +213,7 @@ class ProductDeleteViewTestCase(TestCase):
         profile_test_user.save()
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(name='TestCategory1')
 
         number_product = 30
         for product_number in range(number_product):
@@ -287,7 +287,7 @@ class ProductUpdateViewTestCase(TestCase):
 
         self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(id=1, name='TestCategory1')
 
         number_product = 30
         for product_number in range(number_product):
@@ -381,7 +381,7 @@ class ProductCreateViewTestCase(TestCase):
         profile_test_user.phone_number_ads = '+79999999999'
         profile_test_user.save()
 
-        self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(id=1, name='TestCategory1')
         self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
         # category value in select input dynamically changing with each next request for +1
@@ -463,7 +463,7 @@ class ModerationListViewTestCase(TestCase):
         self.test_user_moderator.groups.add(group)
         self.superuser = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(name='TestCategory1')
 
         number_product = 15
         for product_number in range(number_product):
@@ -520,7 +520,7 @@ class ModerationUpdateViewTestCase(TestCase):
         self.test_user_moderator.groups.add(group)
         self.my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(id=1, name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(id=1, name='TestCategory1')
 
         number_product = 1
         for product_number in range(number_product):
@@ -568,7 +568,7 @@ class ModerationDecisionViewsTestCase(TestCase):
         self.test_user_moderator.groups.add(group)
         self.superuser = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
 
-        self.category = Categories.objects.create(name='TestCategory1', h1='TestCategory1_H1')
+        self.category = Categories.objects.create(name='TestCategory1')
 
         number_product = 15
         for product_number in range(number_product):

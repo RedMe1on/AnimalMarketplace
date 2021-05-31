@@ -10,29 +10,28 @@ class CategoriesModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        Categories.objects.create(id=1, name='Category 1', h1='Category 1', )
+        Categories.objects.create(id=1, name='Category 1')
 
     def test_get_absolute_url(self):
         category = Categories.objects.get(id=1)
         self.assertEqual(category.get_absolute_url(), f'/{category.slug}/')
 
     def test_save_without_slug(self):
-        category_without_slug = Categories(name='Category 2', h1='Category 2')
+        category_without_slug = Categories(name='Category 2')
         category_without_slug.save()
-        self.assertEqual(category_without_slug.slug, slugify(category_without_slug.h1))
+        self.assertEqual(category_without_slug.slug, slugify(category_without_slug.name))
 
     def test_save_with_slug(self):
-        category_with_slug = Categories(name='Category 2', h1='Category 2',
-                                        slug='teSt slug with space-and_other символы')
+        category_with_slug = Categories(name='Category 2', slug='teSt slug with space-and_other символы')
         start_slug = category_with_slug.slug
         category_with_slug.save()
         self.assertEqual(category_with_slug.slug, slugify(start_slug))
 
     def test_save_with_none_unique_slug(self):
-        category_1 = Categories(name='Category 2', h1='Category 2', slug='Unique')
-        category_2 = Categories(name='Category 2', h1='Category 2', slug='Unique')
-        category_3 = Categories(name='Category 2', h1='Category 2', slug='Unique')
-        category_4 = Categories(name='Category 2', h1='Category 2', slug='Unique')
+        category_1 = Categories(name='Category 2', slug='Unique')
+        category_2 = Categories(name='Category 2', slug='Unique')
+        category_3 = Categories(name='Category 2', slug='Unique')
+        category_4 = Categories(name='Category 2', slug='Unique')
         start_slug_category_2 = category_2.slug
         start_slug_category_3 = category_3.slug
         start_slug_category_4 = category_4.slug
@@ -55,7 +54,7 @@ class ProductModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         user = User.objects.create_user(username='Test User', email='test@test.ru', password='Test')
         my_admin = User.objects.create_superuser(username='myuser', email='myemail@test.com', password='password')
         product = Product.objects.create(name='Product 1', user=user, category=category)
@@ -83,7 +82,7 @@ class BreedTypeModelTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        category = Categories.objects.create(name='Category 1', h1='Category 1', )
+        category = Categories.objects.create(name='Category 1')
         BreedType.objects.create(id=1, name='BreedType 1', category=category)
 
     def setUp(self) -> None:

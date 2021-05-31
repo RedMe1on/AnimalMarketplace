@@ -8,8 +8,8 @@ from seo.models import SeoModel
 
 class PublicationModel(models.Model):
     """Абстрактная модель для полей даты создания и даты обновления"""
-    pub_update = models.DateField(auto_now=True, verbose_name='Дата обновления')
-    pub_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    pub_update = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     class Meta:
         abstract = True
