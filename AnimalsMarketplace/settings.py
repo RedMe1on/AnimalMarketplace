@@ -47,8 +47,10 @@ INSTALLED_APPS = [
     'lk',
     'blog',
     'seo',
+    'search',
     'moderation',
     'rest_framework',
+    'django_elasticsearch_dsl',
     'django_filters',
     'mptt',
     'phonenumber_field',
@@ -61,6 +63,13 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'silk',
 ]
+
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

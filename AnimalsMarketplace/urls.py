@@ -19,11 +19,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from search.views import SearchViews
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('allauth.urls')),
+    path('search/', SearchViews.as_view()),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('mailing/', include('mailing.urls')),
     path('lk/', include('lk.urls')),
