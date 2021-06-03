@@ -1,9 +1,8 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.shortcuts import reverse
-from pytils.translit import slugify
 from django.utils.translation import gettext_lazy as _
 
 from blog.models import SlugModel, PublicationModel
@@ -92,6 +91,7 @@ class Product(SeoModel, PublicationModel):
     class Meta:
         verbose_name = 'Карточка питомца'
         verbose_name_plural = 'Карточки питомца'
+        indexes = [GinIndex(fields=('name', 'text'))]
 
 
 class ProductImage(models.Model):

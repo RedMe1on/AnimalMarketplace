@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<form action="" method="get">
+        <input type="text" name="q" id="q" placeholder="Test search">
+    </form>
+{% for item in object_list %}
+<li>{{ item.id }}
+{{ item.name }}
+{{ item.text }}
+{{ item.sex }}</li>
+{% endfor %}
+</body>
+</html>
