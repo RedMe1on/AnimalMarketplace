@@ -10,10 +10,13 @@
         <input type="text" name="q" id="q" placeholder="Test search">
     </form>
 {% for item in object_list %}
-{{ item.id }}
+<li>
+    {{ item.id }}
 {{ item.name }}
 {{ item.text }}
 {{ item.sex }}
+</li>
+
 {% endfor %}
 </body>
 </html>
