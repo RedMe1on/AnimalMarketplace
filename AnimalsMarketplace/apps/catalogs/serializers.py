@@ -9,3 +9,4 @@ class BreedTypeSerializers(serializers.ModelSerializer):
     class Meta:
         model = BreedType
         fields = '__all__'
+

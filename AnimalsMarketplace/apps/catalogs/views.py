@@ -47,7 +47,6 @@ class CategoriesDetail(ProductFilterMixin, DetailView, FormView, MultipleObjectM
     def get_context_data(self, **kwargs):
         object_list = self.get_filter_product(self.get_product_list_for_category())
         context = super().get_context_data(object_list=object_list.order_by('-pub_date'), **kwargs)
-        context['product_list'] = context['object_list']
         return context
 
     def get_product_list_for_category(self) -> QuerySet:

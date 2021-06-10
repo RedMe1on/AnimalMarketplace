@@ -1,22 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block h1 %}
+Поиск
+{% endblock %}
+{% block breadcrumb %}
+<p class="text-white link-nav">
+    <a href="/">Главная</a><span class="lnr lnr-arrow-right"></span>
+    <span>Поиск</span>
+</p>
+{% endblock breadcrumb %}
 
-</head>
-<body>
-<form action="" method="get">
-        <input type="text" name="q" id="q" placeholder="Test search">
-    </form>
-{% for item in object_list %}
-<li>
-    {{ item.id }}
-{{ item.name }}
-{{ item.text }}
-{{ item.sex }}
-</li>
+{% block content %}
+<section class="animal-list-area section-gap">
+{% include 'search/include/form_search.html' %}
+{% include 'include/catalog_area.html' %}
+</section>
+{% endblock content%}
 
-{% endfor %}
-</body>
-</html>
+{% block script %}
+
+<script type="text/javascript">
+  $(function () {
+    window.autocomplete = new Autocomplete({
+      form_selector: '.autocomplete-form',
+      url: '{% url 'search:autocomplete' %}'
+    });
+    window.autocomplete.setup()
+  });
+
+
+</script>
+{% endblock script %}
+
+

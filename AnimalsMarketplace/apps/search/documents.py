@@ -10,25 +10,25 @@ html_strip = analyzer(
     char_filter=["html_strip"]
 )
 
-ngram = analyzer('custom_ngram',
-                 tokenizer=tokenizer('custom_ngram_tokenizer', 'ngram', min_gram=1, max_gram=4),
-                 filter=["lowercase", "stop", "snowball"],
-                 char_filter=["html_strip"])
+custom_ngram = analyzer('custom_ngram',
+                        tokenizer=tokenizer('custom_ngram_tokenizer', 'ngram', min_gram=1, max_gram=5),
+                        filter=["lowercase"], char_filter=["html_strip"])
 
-ngram_text = analyzer('custom_ngram',
-                      tokenizer=tokenizer('custom_ngram_tokenizer', 'ngram', min_gram=4, max_gram=10),
-                      filter=["lowercase", "stop", "snowball"],
-                      char_filter=["html_strip"])
+custom_ngram_text = analyzer('custom_ngram_text',
+                             tokenizer=tokenizer('custom_ngram_tokenizer_text', 'edge_ngram', min_gram=4, max_gram=10),
+                             filter=["lowercase"], char_filter=["html_strip"])
 
 
 @registry.register_document
 class ProductDocument(Document):
     name = fields.TextField(
-        analyzer=ngram,
-        fields={'raw': fields.KeywordField()}
+        attr='name',
+        analyzer=custom_ngram,
+        fields={'raw': fields.KeywordField(),
+                'suggest': fields.CompletionField()}
     )
     text = fields.TextField(
-        analyzer=ngram_text,
+        analyzer=custom_ngram_text,
         fields={'raw': fields.KeywordField()}
     )
 
@@ -43,3 +43,5 @@ class ProductDocument(Document):
     class Django:
         model = Product
         fields = ('id', 'sex',)
+
+

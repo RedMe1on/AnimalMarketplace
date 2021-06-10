@@ -1,26 +1,5 @@
 <!-- Start cat-list Area -->
 <section class="animal-list-area section-gap">
     {% include 'include/filter.html' %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9">
-                {% if product_list %}
-                {% for product in product_list %}
-                <div class="single-animal-list row">
-                    {% include 'include/single_animal_card.html' %}
-                    <a class="overlay"
-                       href="{{ product.get_absolute_url }}">
-                    </a>
-                </div>
-                {% endfor %}
-                {% else %}
-                <div class="text-center">Нет объявлений</div>
-                {% endif %}
-                {% include 'include/pagination.html' %}
-            </div>
-            <div class="col-lg-3">
-                Баннерная реклама
-            </div>
-        </div>
-    </div>
+    {% include 'include/catalog_area.html' %}
 </section>

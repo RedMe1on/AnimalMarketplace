@@ -2344,7 +2344,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .section-gap {
-  padding: 120px 0;
+  padding: 40px 0 120px 0;
 }
 
 .section-title {
@@ -3241,10 +3241,6 @@ body.mobile-nav-active #mobile-nav-toggle {
   outline: 0 !important;
 }
 
-.filter-area .filter-form {
-  margin: 0 -15px 0 -15px;
-}
-
 .form-control {
   border-radius: 0%;
   border: 1px solid transparent;
@@ -3322,8 +3318,6 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding-top: 30px;
   padding-bottom: 30px;
   background-color: white;
-  margin-left: -15px;
-  margin-right: -15px;
 }
 
 .post-content-area .animal-pagination {
@@ -4707,3 +4701,18 @@ body.mobile-nav-active #mobile-nav-toggle {
   object-fit: contain;
 }
 /* file uploader end style */
+
+
+/* search style */
+.search-area {
+margin-bottom: 20px;
+}
+
+.ac-results {
+  background-color: white;
+  position: absolute;
+  z-index: 2;
+  width: auto;
+
+}
+/* search style end */

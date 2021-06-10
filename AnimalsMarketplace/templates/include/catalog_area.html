@@ -1,0 +1,24 @@
+<div class="container catalog-area">
+    <div class="row">
+        <div class="col-lg-9">
+            {% if object_list %}
+            {% for product in object_list %}
+            <div class="single-animal-list">
+                <div class="row">
+                    {% include 'include/single_animal_card.html' %}
+                    <a class="overlay"
+                       href="{{ product.get_absolute_url }}">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="text-center">Нет объявлений</div>
+            {% endif %}
+            {% include 'include/pagination.html' %}
+        </div>
+        <div class="col-lg-3">
+            Баннерная реклама
+        </div>
+    </div>
+</div>

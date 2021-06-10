@@ -1,0 +1,13 @@
+<div class="container search-area">
+    <form action="{% url 'search:search_url' %}" class="autocomplete-form">
+        <label for="autoComplete">Введите запрос для поиска</label>
+        <div class="row">
+            <div class="col-md-9">
+                    <input id="autoComplete" name="q" type="text" autocomplete="off" class="form-control" style="height:42px;">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="genric-btn primary" style="width: 100%;">Найти</button>
+            </div>
+        </div>
+    </form>
+</div>

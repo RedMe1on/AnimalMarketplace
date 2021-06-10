@@ -18,10 +18,10 @@
     </div>
 </div>
 <section class="animal-list-area mt-4">
-    {% if not product_list %}
+    {% if not object_list %}
     <p>У вас еще нет ни одного объявления.</p>
     {% endif %}
-    {% for product in product_list %}
+    {% for product in object_list %}
     <div class="single-animal-list">
         <div class="row button-panel">
             {% if not product.is_visible and product.moderated_object.status == 0 %}
