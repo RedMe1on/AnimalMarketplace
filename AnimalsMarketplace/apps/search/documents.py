@@ -1,7 +1,10 @@
+from django.utils.safestring import mark_safe
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 from catalogs.models import Product
 from elasticsearch_dsl import analyzer, tokenizer
+
+from blog.models import Post
 
 html_strip = analyzer(
     'html_strip',
@@ -42,6 +45,11 @@ class ProductDocument(Document):
 
     class Django:
         model = Product
-        fields = ('id', 'sex',)
+        fields = ('id',)
 
 
+# @registry.register_document
+# class BlogDocument(ProductDocument):
+#     class Django:
+#         model = Post
+#         fields = ('id',)

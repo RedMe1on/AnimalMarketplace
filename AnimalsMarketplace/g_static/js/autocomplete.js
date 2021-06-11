@@ -25,12 +25,13 @@ Autocomplete.prototype.setup = function () {
   });
 
   // On selecting a result, populate the search field.
-  // this.form_elem.on("click", ".ac-result", function (ev) {
-  //   self.query_box.val($(this).text());
-  //   $(".ac-results").remove();
-  //   return false;
-  // });
+  this.form_elem.on("click", ".ac-result", function (ev) {
+    self.query_box.val($(this).text());
+    $(".ac-results").remove();
+  });
 };
+
+
 
 Autocomplete.prototype.fetch = function (query) {
   var self = this;
@@ -51,16 +52,21 @@ Autocomplete.prototype.show_results = function (data) {
   $(".ac-results").remove();
 
   var results = data.results || [];
-  var results_wrapper = $('<ul class="ac-results"></ul>');
+  var results_wrapper = $('<div class="ac-results"></div>');
   var base_elem = $(
-    '<li class="result-wrapper"><a href="#" class="ac-result"></a></li>'
+    '<div class="result-wrapper"><a href="#" class="ac-result"><div class="ac-result-text"></div></a></div>'
   );
 
   if (results.length > 0) {
     for (var res_offset in results) {
       var elem = base_elem.clone();
-      elem.find(".ac-result").text(results[res_offset]['name']);
+      text_name = results[res_offset]['name']
+      if (results[res_offset]['name'].length > 80) {
+        text_name = text_name.substring(0, 80)
+        text_name += "..."
+      }
       elem.find(".ac-result").attr("href", `/product/${results[res_offset]['id']}/`)
+      elem.find(".ac-result-text").text(text_name);
       results_wrapper.append(elem);
     }
   } else {

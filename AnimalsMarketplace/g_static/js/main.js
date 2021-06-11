@@ -152,6 +152,16 @@ $(document).ready(function () {
     }
     e.stopPropagation();
   });
+  $(document).on("click", function (e) {
+    if (
+      !(
+        $(e.target).closest("#autoComplete").length
+      )
+    ) {
+      $(".ac-results").remove();
+    }
+    e.stopPropagation();
+  });
   // Mobile Navigation
   if ($("#nav-menu-container").length) {
     var $mobile_nav = $("#nav-menu-container").clone().prop({
@@ -619,3 +629,4 @@ function reset_preview_for_update_img(index) {
   $(`id_additional_img-${index}-image`).val("");
   $(`.additional-img-${index}-image`).attr("src", start_preview_src[index]);
 }
+

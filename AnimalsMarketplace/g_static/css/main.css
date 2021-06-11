@@ -4712,7 +4712,17 @@ margin-bottom: 20px;
   background-color: white;
   position: absolute;
   z-index: 2;
-  width: auto;
+  width: 96.5%;
+  border: 1px solid #fab700;
+}
 
+.ac-result-text {
+  padding: 0.1rem 0.75rem;
+  word-break: break-all;
+  color: #495057;
+}
+
+.result-wrapper:hover {
+  background-color: #fab700;
 }
 /* search style end */
