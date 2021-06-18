@@ -14,6 +14,10 @@
 <section class="animal-list-area section-gap">
 {% include 'search/include/form_search.html' %}
 {% include 'include/catalog_area.html' %}
+    {% for i in posts %}
+    {{i.name}}
+    {{i.text}}
+    {% endfor %}
 </section>
 {% endblock content%}
 

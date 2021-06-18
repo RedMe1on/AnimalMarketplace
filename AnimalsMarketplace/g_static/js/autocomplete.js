@@ -3,6 +3,7 @@ var Autocomplete = function (options) {
   this.url = options.url || "/search/autocomplete/";
   this.delay = parseInt(options.delay || 300);
   this.minimum_length = parseInt(options.minimum_length || 2);
+  this.name_search_limit = options.name_search_limit || 5
   this.form_elem = null;
   this.query_box = null;
 };
@@ -31,8 +32,6 @@ Autocomplete.prototype.setup = function () {
   });
 };
 
-
-
 Autocomplete.prototype.fetch = function (query) {
   var self = this;
 
@@ -58,17 +57,28 @@ Autocomplete.prototype.show_results = function (data) {
   );
 
   if (results.length > 0) {
-    for (var res_offset in results) {
-      var elem = base_elem.clone();
-      text_name = results[res_offset]['name']
-      if (results[res_offset]['name'].length > 80) {
-        text_name = text_name.substring(0, 80)
-        text_name += "..."
+    for (var name_search in results[0]) {
+        for (var object in results[0][name_search]) {
+          if (object > this.name_search_limit - 1) {
+              break
+          }
+          var elem = base_elem.clone();
+          text_name = results[0][name_search][object]["name"];
+          if (text_name.length > 80) {
+            text_name = text_name.substring(0, 80);
+            text_name += "...";
+          }
+          elem
+            .find(".ac-result")
+            .attr(
+              "href",
+              `/product/${results[0][name_search][object]["id"]}/`
+            );
+          elem.find(".ac-result-text").text(text_name);
+          results_wrapper.append(elem);
+        }
+        
       }
-      elem.find(".ac-result").attr("href", `/product/${results[res_offset]['id']}/`)
-      elem.find(".ac-result-text").text(text_name);
-      results_wrapper.append(elem);
-    }
   } else {
     var elem = base_elem.clone();
     elem.text("No results found.");
@@ -77,5 +87,3 @@ Autocomplete.prototype.show_results = function (data) {
 
   this.query_box.after(results_wrapper);
 };
-
-

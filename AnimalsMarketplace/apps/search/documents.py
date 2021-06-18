@@ -48,8 +48,27 @@ class ProductDocument(Document):
         fields = ('id',)
 
 
-# @registry.register_document
-# class BlogDocument(ProductDocument):
-#     class Django:
-#         model = Post
-#         fields = ('id',)
+@registry.register_document
+class PostDocument(Document):
+    name = fields.TextField(
+        attr='name',
+        analyzer=custom_ngram,
+        fields={'raw': fields.KeywordField(),
+                'suggest': fields.CompletionField()}
+    )
+    text = fields.TextField(
+        analyzer=custom_ngram_text,
+        fields={'raw': fields.KeywordField()}
+    )
+
+    class Index:
+        name = 'blogs'
+        settings = {
+            'number_of_shards': 1,
+            'number_of_replicas': 0,
+            'max_ngram_diff': 10
+        }
+
+    class Django:
+        model = Post
+        fields = ('id',)
