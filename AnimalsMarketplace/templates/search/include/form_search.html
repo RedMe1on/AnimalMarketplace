@@ -1,13 +1,15 @@
-<div class="container search-area">
-    <form action="{% url 'search:search' %}" class="autocomplete-form">
-        <label for="autoComplete">Введите запрос для поиска</label>
-        <div class="row">
-            <div class="col-md-9">
-                {{ form.q }}
+<div class="widget-wrap">
+    <div class="single-sidebar-widget search-widget">
+        <form class="search-form autocomplete-form" action="{% url 'search:search' %}">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form.q }}
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <button type="submit" class="genric-btn primary" style="width: 100%;">Найти</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
+
+
+

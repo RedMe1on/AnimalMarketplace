@@ -53,7 +53,7 @@ class ListSearchMixin(FormView, ListView):
 
 
 class SearchSuggestMixin(View):
-    dict_model_documents = {}  # key=name_search, value={document:Document, field: str}
+    dict_model_documents = {}  # key=name_search (Выводит так, как называется поиск), value={document:Document, field: str}
 
     def get(self, request, *args, **kwargs):
         input_text = request.GET.get('q')
@@ -62,13 +62,19 @@ class SearchSuggestMixin(View):
             for name_search in self.dict_model_documents:
                 name_search_value = self.dict_model_documents[name_search]
                 field = name_search_value.get('field')
+
                 dict_for_query = {field: input_text}
 
                 query = Q("match", **dict_for_query)
                 queryset = name_search_value.get('document').search().query(query).suggest(
                     'search_suggestion', input_text, completion={'field': f'{field}.suggest'})
+                if name_search_value.get('slug'):
+                    results = [{'id': result.id, f'{field}': result.name,
+                                'url': f'{name_search_value.get("url")}{result.slug}/'} for result in queryset]
+                else:
+                    results = [{'id': result.id, f'{field}': result.name,
+                                'url': f'{name_search_value.get("url")}{result.id}/'} for result in queryset]
 
-                results = [{'id': result.id, f'{field}': result.name} for result in queryset]
                 model_results_dict[f'{name_search}'] = results
             model_results = [model_results_dict]
         else:

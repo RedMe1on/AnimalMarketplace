@@ -3,7 +3,7 @@ var Autocomplete = function (options) {
   this.url = options.url || "/search/autocomplete/";
   this.delay = parseInt(options.delay || 300);
   this.minimum_length = parseInt(options.minimum_length || 2);
-  this.name_search_limit = options.name_search_limit || 5
+  this.name_search_limit = options.name_search_limit || 5;
   this.form_elem = null;
   this.query_box = null;
 };
@@ -52,16 +52,30 @@ Autocomplete.prototype.show_results = function (data) {
 
   var results = data.results || [];
   var results_wrapper = $('<div class="ac-results"></div>');
+  var category_elem = $(
+    '<div class="category-wrapper"><div class="category-name"></div></div>'
+  );
   var base_elem = $(
     '<div class="result-wrapper"><a href="#" class="ac-result"><div class="ac-result-text"></div></a></div>'
   );
 
   if (results.length > 0) {
     for (var name_search in results[0]) {
+      // text_name = results[0][name_search][object]["name"];
+      if (results[0][name_search].length > 0) {
+        var category_element = category_elem.clone();
+        category_element.find(".category-name").text(name_search);
+        results_wrapper.append(category_element);
+
         for (var object in results[0][name_search]) {
-          if (object > this.name_search_limit - 1) {
-              break
+          console.log()
+          console.log(results[0])
+          if (Object.keys(results[0]).length != 1) {
+            if (object > this.name_search_limit - 1) {
+              break;
+            }
           }
+          
           var elem = base_elem.clone();
           text_name = results[0][name_search][object]["name"];
           if (text_name.length > 80) {
@@ -70,15 +84,12 @@ Autocomplete.prototype.show_results = function (data) {
           }
           elem
             .find(".ac-result")
-            .attr(
-              "href",
-              `/product/${results[0][name_search][object]["id"]}/`
-            );
+            .attr("href", `${results[0][name_search][object]["url"]}`);
           elem.find(".ac-result-text").text(text_name);
           results_wrapper.append(elem);
         }
-        
       }
+    }
   } else {
     var elem = base_elem.clone();
     elem.text("No results found.");

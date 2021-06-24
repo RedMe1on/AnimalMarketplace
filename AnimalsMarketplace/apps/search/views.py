@@ -10,18 +10,23 @@ class SearchViews(ListSearchMixin):
     additional_dict_model_documents = {'posts': {
         'model': Post,
         'document': PostDocument,
-        'fields': ['name', 'text']
+        'fields': ['name', 'text'],
+        'url': '/product/',
     }
     }
 
 
 class SearchSuggestViews(SearchSuggestMixin):
-    dict_model_documents = {'products': {
-        'document': ProductDocument,
-        'field': 'name'
+    dict_model_documents = {
+        'Объявления': {
+            'document': ProductDocument,
+            'field': 'name',
+            'url': '/product/',
     },
-        'blog': {
+        'Статьи': {
             'document': PostDocument,
-            'field': 'name'
+            'field': 'name',
+            'url': '/blog/post/',
+            'slug': True
         }
     }

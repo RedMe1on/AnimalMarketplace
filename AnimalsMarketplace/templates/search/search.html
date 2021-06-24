@@ -12,12 +12,11 @@
 
 {% block content %}
 <section class="animal-list-area section-gap">
-{% include 'search/include/form_search.html' %}
-{% include 'include/catalog_area.html' %}
-    {% for i in posts %}
-    {{i.name}}
-    {{i.text}}
-    {% endfor %}
+    <div class="container search-area">
+        {% include 'search/include/form_search.html' %}
+    </div>
+    {% include 'include/catalog_area.html' %}
+
 </section>
 {% endblock content%}
 
@@ -31,6 +30,7 @@
     });
     window.autocomplete.setup()
   });
+
 
 
 </script>
