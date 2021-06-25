@@ -140,6 +140,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"
         integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.1.3/dist/autoComplete.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    window.autocomplete = new Autocomplete({
+      form_selector: '.autocomplete-form',
+      url: '{% url 'search:autocomplete' %}'
+    });
+    window.autocomplete.setup()
+  });
+</script>
 {% block script %}
 {% endblock script %}
 </body>

@@ -2,6 +2,7 @@ from django import template
 from django.db.models import QuerySet
 from django.core.exceptions import ObjectDoesNotExist
 from ..models import Post, Categories, BlogTags
+from search.forms import SearchForm
 
 register = template.Library()
 
@@ -46,3 +47,10 @@ def topic_posts_widget(post: QuerySet) -> dict:
     """topic posts block for blog"""
     topic_posts = Post.objects.filter(category=post.category)
     return {'topic_posts': topic_posts}
+
+
+@register.inclusion_tag('search/include/form_search.html')
+def search_form_widget() -> dict:
+    """topic posts block for blog"""
+    form = SearchForm()
+    return {'form': form}
