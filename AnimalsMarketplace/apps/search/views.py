@@ -7,7 +7,7 @@ from search.utils import ListSearchMixin, SearchSuggestMixin
 class SearchViews(ListSearchMixin):
     model = Product
     search_document = ProductDocument
-    additional_dict_model_documents = {'posts': {
+    additional_dict_model_documents = {'post_list': {
         'model': Post,
         'document': PostDocument,
         'fields': ['name', 'text'],

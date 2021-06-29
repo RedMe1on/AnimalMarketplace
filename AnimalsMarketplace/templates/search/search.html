@@ -15,10 +15,48 @@
     <div class="container search-area">
         {% include 'search/include/wrap_search_form.html' %}
     </div>
-    {% include 'include/catalog_area.html' %}
+    <div class="container">
+        <h1>Поиск по объявлениям</h1>
+    </div>
 
+    <div class="container catalog-area">
+        {% include 'include/pagination.html' %}
+        <div class="row">
+            <div class="col-lg-12">
+                {% if object_list %}
+                {% for product in object_list %}
+                <div class="single-animal-list">
+                    <div class="row">
+                        {% include 'include/single_animal_card.html' %}
+                        <a class="overlay"
+                           href="{{ product.get_absolute_url }}">
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="text-center">Нет объявлений</div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <!-- Start post-content Area -->
+
+    <section class="post-content-area pt-90">
+        <div class="container">
+            <h1>Поиск по статьям</h1>
+            <div class="row">
+                <div class="col-lg-12 posts-list">
+                    {% include 'blog/include/post_catalog.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End post-content Area -->
 </section>
 {% endblock content%}
+
 
 
 
