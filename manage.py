@@ -5,7 +5,6 @@ import sys
 
 
 def main():
-    # settings = 'AnimalsMarketplace.settings_test' if 'test' in sys.argv else 'AnimalsMarketplace.settings'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AnimalsMarketplace.settings')
     try:
         from django.core.management import execute_from_command_line
