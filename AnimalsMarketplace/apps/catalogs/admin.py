@@ -71,7 +71,7 @@ class ProductAdmin(ImportExportModelAdmin, ModerationAdmin):
     search_fields = ('name',)
     fields = (
         'name', 'seo_title', 'seo_description', 'user', 'category', 'sex', 'birthday', ('age', 'age_type'),
-        ('breed', 'breed_type'), 'price', 'get_image', 'is_visible', 'draft')
+        ('breed', 'breed_type'), 'price', 'get_image', 'is_visible', 'draft', 'text')
 
     ordering = ('id',)
     form = ProductAdminForm

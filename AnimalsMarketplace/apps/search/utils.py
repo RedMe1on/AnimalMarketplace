@@ -23,7 +23,7 @@ class ListSearchMixin(FormView, ListView):
 
             search_id_list = [obj.id for obj in queryset[:100]]
             queryset_dict = self.model.objects.in_bulk(id_list=search_id_list)
-            queryset = [queryset_dict[id] for id in search_id_list]
+            queryset = [queryset_dict.get(id_) for id_ in search_id_list if queryset_dict.get(id_)]
         else:
             queryset = []
         return queryset
@@ -37,7 +37,7 @@ class ListSearchMixin(FormView, ListView):
 
             search_id_list = [obj.id for obj in queryset[:100]]
             queryset_dict = search_config.get('model').objects.in_bulk(id_list=search_id_list)
-            additional_queryset = [queryset_dict[id] for id in search_id_list]
+            additional_queryset = [queryset_dict.get(id_) for id_ in search_id_list if queryset_dict.get(id_)]
         else:
             additional_queryset = []
         return additional_queryset
@@ -53,7 +53,7 @@ class ListSearchMixin(FormView, ListView):
 
 
 class SearchSuggestMixin(View):
-    dict_model_documents = {}  # key=name_search (Выводит так, как называется поиск), value={document:Document, field: str}
+    dict_model_documents = {}  # key=name_search (Выводит так, как называется поиск), value={document:Document, field: str}, 'url':url, slug: True or False
 
     def get(self, request, *args, **kwargs):
         input_text = request.GET.get('q')

@@ -11,7 +11,6 @@ class SearchViews(ListSearchMixin):
         'model': Post,
         'document': PostDocument,
         'fields': ['name', 'text'],
-        'url': '/product/',
     }
     }
 

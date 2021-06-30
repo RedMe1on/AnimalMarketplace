@@ -58,14 +58,14 @@ class CategoriesDetailTestCase(TestCase):
         self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['post_list']) == 10)
 
-    def test_lists_all_product(self):
+    def test_lists_all_posts(self):
         resp = self.client.get(self.path + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['post_list']) == 5)
 
-    def test_product_list_for_category(self):
+    def test_post_list_for_category(self):
         resp = self.client.get(f'/blog/{self.category_2.slug}/')
         for post in resp.context['post_list']:
             self.assertEqual(post.category, self.category_2)
@@ -105,7 +105,7 @@ class CategoriesListTestCase(TestCase):
         self.assertTrue(resp.context['is_paginated'])
         self.assertTrue(len(resp.context['post_list']) == 10)
 
-    def test_lists_all_product(self):
+    def test_lists_all_posts(self):
         resp = self.client.get(self.path + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
