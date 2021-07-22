@@ -45,7 +45,7 @@ class ProductForm(forms.ModelForm):
     """Форма редактирования объявления"""
     sex = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'selectpicker select-input', 'title': 'Пол', 'data-style': 'select-input'}, ),
-        choices=Product.SexChoices.choices, label='Пол питомца')
+        choices=Product.SEX_CHOICES, label='Пол питомца')
     category = forms.ModelChoiceField(queryset=Categories.objects.all(), empty_label=None,
                                       label='Родительская категория',
                                       widget=forms.Select(
@@ -68,7 +68,7 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'breed': forms.Select(
                 attrs={'class': 'selectpicker select-input', 'title': 'Порода', 'data-style': 'select-input'},
-                choices=Product.BreedChoices.choices),
+                choices=Product.BREED_CHOICES),
             'birthday': forms.DateInput(attrs={'autocomplete': 'off', 'placeholder': 'дд.мм.гггг'}, ),
             'text': CKEditorUploadingWidget(config_name='form-editor'),
         }

@@ -4,7 +4,7 @@ from .models import Product, ReportModel
 
 class ProductAdminForm(forms.ModelForm):
     """Форма вывода в ряд с виджетом единственного выбора в админке"""
-    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=Product.SexChoices.choices,
+    sex = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'inline'}), choices=Product.SEX_CHOICES,
                             label='Пол питомца')
 
     class Meta:
@@ -32,7 +32,7 @@ class ReportForm(forms.ModelForm):
     """Form for report"""
     cause = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'selectpicker select-input border', 'title': 'Причина жалобы', 'data-style': 'select-input'}, ),
-        choices=ReportModel.CauseChoices.choices, label='Причина жалобы')
+        choices=ReportModel.BREED_CHOICES, label='Причина жалобы')
 
     class Meta:
         model = ReportModel

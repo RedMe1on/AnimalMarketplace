@@ -48,26 +48,37 @@ class BreedType(models.Model):
 
 class Product(SeoModel, PublicationModel):
     """Модель для хранения объявлений"""
+    SEX_CHOICES = [
+        ('UNKNOWN', 'Неизвество'),
+        ('BOY', 'Мальчик'),
+        ('GIRL', 'Девочка'),
+    ]
 
-    class SexChoices(models.TextChoices):
-        UNKNOWN = 'Неизвество', _('Неизвество')
-        BOY = 'Мальчик', _('Мальчик')
-        GIRL = 'Девочка', _('Девочка')
-
-    class BreedChoices(models.TextChoices):
-        UNKNOWN = 'Неизвество', _('Неизвество')
-        THOROUGHBRED = 'Породистый', _('Породистый')
-        CROSSBRED = 'Метис', _('Метис')
-        PUREBRED = 'Беспородный', _('Беспородный')
+    BREED_CHOICES = [
+        ('UNKNOWN', 'Неизвество'),
+        ('THOROUGHBRED', 'Породистый'),
+        ('CROSSBRED', 'Метис'),
+        ('PUREBRED', 'Беспородный'),
+    ]
+    # class SexChoices(models.TextChoices):
+    #     UNKNOWN = 'Неизвество', _('Неизвество')
+    #     BOY = 'Мальчик', _('Мальчик')
+    #     GIRL = 'Девочка', _('Девочка')
+    #
+    # class BreedChoices(models.TextChoices):
+    #     UNKNOWN = 'Неизвество', _('Неизвество')
+    #     THOROUGHBRED = 'Породистый', _('Породистый')
+    #     CROSSBRED = 'Метис', _('Метис')
+    #     PUREBRED = 'Беспородный', _('Беспородный')
 
     name = models.CharField(verbose_name='Заголовок объявления', max_length=150, db_index=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SexChoices.choices)
+    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SEX_CHOICES)
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     age_type = models.BooleanField(verbose_name='Указать возраст в месяцах', default=False, blank=True)
     age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
-    breed = models.CharField(verbose_name='Порода', max_length=12, choices=BreedChoices.choices,
-                             default=BreedChoices.UNKNOWN, blank=True)
+    breed = models.CharField(verbose_name='Порода', max_length=12, choices=BREED_CHOICES,
+                             default=BREED_CHOICES[0], blank=True)
     breed_type = models.ForeignKey(BreedType, on_delete=models.SET_NULL, null=True, verbose_name='Вид породы',
                                    blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
@@ -109,15 +120,22 @@ class ProductImage(models.Model):
 class ReportModel(models.Model):
     """Модель для хранения жалоб"""
 
-    class CauseChoices(models.TextChoices):
-        STRANGER = 'Указан чужой номер телефона', _('Указан чужой номер телефона')
-        DISABLED = 'Номер отключен', _('Номер отключен')
-        NOT_RELEVANT = 'Неактуально', _('Неактуально')
-        OTHER = 'Другая причина (укажите в комментарии)', _('Другая причина (укажите в комментарии)')
+    BREED_CHOICES = [
+        ('STRANGER', 'Указан чужой номер телефона'),
+        ('DISABLED', 'Номер отключен'),
+        ('NOT_RELEVANT', 'Неактуально'),
+        ('OTHER', 'Другая причина (укажите в комментарии)'),
+    ]
+
+    # class CauseChoices(models.TextChoices):
+    #     STRANGER = 'Указан чужой номер телефона', _('Указан чужой номер телефона')
+    #     DISABLED = 'Номер отключен', _('Номер отключен')
+    #     NOT_RELEVANT = 'Неактуально', _('Неактуально')
+    #     OTHER = 'Другая причина (укажите в комментарии)', _('Другая причина (укажите в комментарии)')
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Объявление')
     comment = models.CharField(max_length=300, verbose_name='Комментарий', blank=True)
-    cause = models.CharField(max_length=100, verbose_name='Причина', choices=CauseChoices.choices)
+    cause = models.CharField(max_length=100, verbose_name='Причина', choices=BREED_CHOICES)
 
     class Meta:
         verbose_name = 'Жалоба'
