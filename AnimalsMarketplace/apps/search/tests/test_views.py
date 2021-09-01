@@ -1,12 +1,12 @@
 from moderation.helpers import automoderate
 from catalogs.models import Product, Categories, BreedType, ReportModel
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from blog.models import Categories as Categories_blog, BlogTags, Post
 from django.urls import reverse
 
 
-class ProductSearchListTestCase(TestCase):
+class ProductSearchListTestCase(TransactionTestCase):
     """Test Case for Product list view"""
 
     @classmethod

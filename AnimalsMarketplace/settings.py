@@ -24,13 +24,16 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j_fo!_kp8l2t*+sb94u9oir$^5glguukgw+*jy4u=k2fk@al%n'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'j_fo!_kp8l2t*+sb94u9oir$^5glguukgw+*jy4u=k2fk@al%n')
+# SECRET_KEY = 'j_fo!_kp8l2t*+sb94u9oir$^5glguukgw+*jy4u=k2fk@al%n'
 #
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 1
+DEBUG = int(os.environ.get("DEBUG", default=0))
+# DEBUG = False
 
-ALLOWED_HOSTS =['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '*').split(" ")
+# ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -119,22 +122,22 @@ WSGI_APPLICATION = 'AnimalsMarketplace.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': os.environ.get('SQL_ENGINE', "django.db.backends.sqlite3"),
-    #     'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-    #     'USER': os.environ.get("SQL_USER", "user"),
-    #     "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-    #     "HOST": os.environ.get("SQL_HOST", "localhost"),
-    #     "PORT": os.environ.get("SQL_PORT", "5432"),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'animals_marketplace',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'ENGINE': os.environ.get('SQL_ENGINE', "django.db.backends.sqlite3"),
+        'NAME': os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        'USER': os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'animals_marketplace',
+    #     'USER': 'admin',
+    #     'PASSWORD': 'admin',
+    #     'HOST': 'localhost',
+    #     'PORT': '5433',
+    # }
 }
 
 # Heroku: Update database configuration from $DATABASE_URL.
@@ -204,14 +207,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'g_static')
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (

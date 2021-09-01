@@ -25,10 +25,6 @@ class PostDetailTestCase(TestCase):
 class CategoriesDetailTestCase(TestCase):
     """Test case for categories detail view"""
 
-    @classmethod
-    def setUpTestData(cls):
-        pass
-
     def setUp(self) -> None:
         self.category = Categories.objects.create(name='Category 1')
         self.category_2 = Categories.objects.create(name='Category 2')

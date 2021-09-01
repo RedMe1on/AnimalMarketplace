@@ -4560,7 +4560,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #edeef0;
   padding-bottom: 1rem;
   padding-top: 1rem;
-  height: 68vh;
+  min-height: 68vh;
 }
 
 .form-container {

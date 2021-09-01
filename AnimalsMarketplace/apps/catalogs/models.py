@@ -1,11 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.shortcuts import reverse
-from pytils.translit import slugify
-from django.utils.translation import gettext_lazy as _
-
 from blog.models import SlugModel, PublicationModel
 from seo.models import SeoModel
 
@@ -60,24 +56,14 @@ class Product(SeoModel, PublicationModel):
         ('CROSSBRED', 'Метис'),
         ('PUREBRED', 'Беспородный'),
     ]
-    # class SexChoices(models.TextChoices):
-    #     UNKNOWN = 'Неизвество', _('Неизвество')
-    #     BOY = 'Мальчик', _('Мальчик')
-    #     GIRL = 'Девочка', _('Девочка')
-    #
-    # class BreedChoices(models.TextChoices):
-    #     UNKNOWN = 'Неизвество', _('Неизвество')
-    #     THOROUGHBRED = 'Породистый', _('Породистый')
-    #     CROSSBRED = 'Метис', _('Метис')
-    #     PUREBRED = 'Беспородный', _('Беспородный')
 
     name = models.CharField(verbose_name='Заголовок объявления', max_length=150, db_index=True)
     text = models.TextField(verbose_name='Описание', blank=True, db_index=True)
-    sex = models.CharField(verbose_name='Пол питомца', max_length=10, choices=SEX_CHOICES)
+    sex = models.CharField(verbose_name='Пол питомца', max_length=40, choices=SEX_CHOICES)
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     age_type = models.BooleanField(verbose_name='Указать возраст в месяцах', default=False, blank=True)
     age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
-    breed = models.CharField(verbose_name='Порода', max_length=12, choices=BREED_CHOICES,
+    breed = models.CharField(verbose_name='Порода', max_length=40, choices=BREED_CHOICES,
                              default=BREED_CHOICES[0], blank=True)
     breed_type = models.ForeignKey(BreedType, on_delete=models.SET_NULL, null=True, verbose_name='Вид породы',
                                    blank=True)
@@ -126,12 +112,6 @@ class ReportModel(models.Model):
         ('NOT_RELEVANT', 'Неактуально'),
         ('OTHER', 'Другая причина (укажите в комментарии)'),
     ]
-
-    # class CauseChoices(models.TextChoices):
-    #     STRANGER = 'Указан чужой номер телефона', _('Указан чужой номер телефона')
-    #     DISABLED = 'Номер отключен', _('Номер отключен')
-    #     NOT_RELEVANT = 'Неактуально', _('Неактуально')
-    #     OTHER = 'Другая причина (укажите в комментарии)', _('Другая причина (укажите в комментарии)')
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Объявление')
     comment = models.CharField(max_length=300, verbose_name='Комментарий', blank=True)
