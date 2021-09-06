@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", 'j_fo!_kp8l2t*+sb94u9oir$^5glguukgw+*j
 #
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 # DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", '*').split(" ")
@@ -70,7 +70,7 @@ INSTALLED_APPS = [
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': 'node01:9200'
     },
 }
 
@@ -223,7 +223,7 @@ REST_FRAMEWORK = {
 
 }
 # settings CKEDITOR
-CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_ROOT, 'uploads/')
+CKEDITOR_UPLOAD_PATH = os.path.join(MEDIA_ROOT, 'uploads/')
 CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono',

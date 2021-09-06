@@ -1,6 +1,24 @@
 version: '3.7'
 
 services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0
+    container_name: node01
+    environment:
+      - node.name=node01
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
   web:
     build: ./
     command: python manage.py runserver 0.0.0.0:8000
@@ -12,14 +30,15 @@ services:
       - ./.env.dev
     depends_on:
       - db
+      - elasticsearch
   db:
     image: postgres:12.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=hello_django
-      - POSTGRES_PASSWORD=hello_django
-      - POSTGRES_DB=hello_django_dev
+    env_file:
+      - ./.env.dev.db
+
 
 volumes:
   postgres_data:
+  es-data01:

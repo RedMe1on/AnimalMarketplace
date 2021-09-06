@@ -46,6 +46,8 @@ class ProductDocument(Document):
     class Django:
         model = Product
         fields = ('id',)
+        # auto_refresh = False
+        # ignore_signals = True
 
 
 @registry.register_document
@@ -72,3 +74,5 @@ class PostDocument(Document):
     class Django:
         model = Post
         fields = ('id', 'slug')
+        # auto_refresh = False
+        # ignore_signals = True

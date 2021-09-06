@@ -169,14 +169,14 @@ class CategoriesDetailTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'])
-        self.assertTrue(len(resp.context['product_list']) == 10)
+        self.assertTrue(len(resp.context['object_list']) == 10)
 
     def test_lists_all_product(self):
         resp = self.client.get(f'/{self.category.slug}/' + '?page=2')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'])
-        self.assertTrue(len(resp.context['product_list']) == 5)
+        self.assertTrue(len(resp.context['object_list']) == 5)
 
     def test_product_list_for_category(self):
 
@@ -191,7 +191,7 @@ class CategoriesDetailTestCase(TestCase):
         resp = self.client.get(f'/{parent_category.slug}/')
         self.assertEqual(resp.status_code, 200)
 
-        for product in resp.context['product_list']:
+        for product in resp.context['object_list']:
             self.assertIn(product.category, parent_category.get_descendants(include_self=True))
 
 

@@ -44,17 +44,23 @@ class BreedType(models.Model):
 
 class Product(SeoModel, PublicationModel):
     """Модель для хранения объявлений"""
+    UNKNOWN = 'Неизвество'
+    BOY = 'Мальчик'
+    GIRL = 'Девочка'
     SEX_CHOICES = [
-        ('UNKNOWN', 'Неизвество'),
-        ('BOY', 'Мальчик'),
-        ('GIRL', 'Девочка'),
+        (UNKNOWN, 'Неизвество'),
+        (BOY, 'Мальчик'),
+        (GIRL, 'Девочка'),
     ]
 
+    THOROUGHBRED = 'Породистый'
+    CROSSBRED = 'Метис'
+    PUREBRED = 'Беспородный'
     BREED_CHOICES = [
-        ('UNKNOWN', 'Неизвество'),
-        ('THOROUGHBRED', 'Породистый'),
-        ('CROSSBRED', 'Метис'),
-        ('PUREBRED', 'Беспородный'),
+        (None, 'Неизвество'),
+        (THOROUGHBRED, 'Породистый'),
+        (CROSSBRED, 'Метис'),
+        (PUREBRED, 'Беспородный'),
     ]
 
     name = models.CharField(verbose_name='Заголовок объявления', max_length=150, db_index=True)
@@ -63,8 +69,7 @@ class Product(SeoModel, PublicationModel):
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     age_type = models.BooleanField(verbose_name='Указать возраст в месяцах', default=False, blank=True)
     age = models.IntegerField(verbose_name='Возраст', blank=True, null=True)
-    breed = models.CharField(verbose_name='Порода', max_length=40, choices=BREED_CHOICES,
-                             default=BREED_CHOICES[0], blank=True)
+    breed = models.CharField(verbose_name='Порода', max_length=40, choices=BREED_CHOICES, blank=True)
     breed_type = models.ForeignKey(BreedType, on_delete=models.SET_NULL, null=True, verbose_name='Вид породы',
                                    blank=True)
     price = models.PositiveIntegerField(verbose_name='Цена', blank=True, default=0)
@@ -105,12 +110,15 @@ class ProductImage(models.Model):
 
 class ReportModel(models.Model):
     """Модель для хранения жалоб"""
-
+    STRANGER = 'Указан чужой номер телефона'
+    DISABLED = 'Номер отключен'
+    NOT_RELEVANT = 'Неактуально'
+    OTHER = 'Другая причина (укажите в комментарии)'
     BREED_CHOICES = [
-        ('STRANGER', 'Указан чужой номер телефона'),
-        ('DISABLED', 'Номер отключен'),
-        ('NOT_RELEVANT', 'Неактуально'),
-        ('OTHER', 'Другая причина (укажите в комментарии)'),
+        (STRANGER, 'Указан чужой номер телефона'),
+        (DISABLED, 'Номер отключен'),
+        (NOT_RELEVANT, 'Неактуально'),
+        (OTHER, 'Другая причина (укажите в комментарии)'),
     ]
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Объявление')
