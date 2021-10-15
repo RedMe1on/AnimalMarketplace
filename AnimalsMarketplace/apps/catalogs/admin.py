@@ -45,7 +45,6 @@ class ProductImageInline(admin.TabularInline):
     extra = 3
 
     def get_image(self, obj):
-        print(obj, obj.image.url)
         if obj.image == '':
             return mark_safe('Нет изображения')
         elif obj.image.url:
